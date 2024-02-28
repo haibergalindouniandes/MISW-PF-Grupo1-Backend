@@ -1,16 +1,19 @@
 # Importación de dependencias
+import traceback
 from commands.base_command import BaseCommannd
 from validators.validators import validateSchema, alertaSchema
 from sqlalchemy.exc import SQLAlchemyError
+from utilities.utilities import publicar_pub_sub
 from errors.errors import ApiError
 from flask.json import jsonify
 
-import traceback
 
 # Clase que contiene la logica de creción de Alerta
 class CrearAlerta(BaseCommannd):
     def __init__(self, data):
         self.validateRequest(data)
+        #TODO: Email de prueba para el experimento
+        self.email = "s.salazarc@uniandes.edu.co"
 
     # Función que valida el request del servicio
     def validateRequest(self, alertaJSON):
@@ -26,8 +29,19 @@ class CrearAlerta(BaseCommannd):
     def execute(self):
         try:
             #TODO: Consulta de Email de contacto de emergencia a Gestor de Consultas
-            #TODO: Encolar peticion a Pub/Sub
+            #TODO: Consulta de Nombre de Usuario contacto de emergencia a Gestor de Consultas
+            alerta_msg = {
+                "email": self.email,
+                "name":  self.id_trigger,
+                "latitud": self.latitud,
+                "longitud": self.longitud,
+                "descripcion": self.descripcion,
+            }
+            publicar_pub_sub(alerta_msg)
             return jsonify({'msg': 'Alerta enviada a cola de mensajes'}), 200  
         except SQLAlchemyError as e:# pragma: no cover
             traceback.print_exc()
             raise ApiError(e)
+        
+
+        
