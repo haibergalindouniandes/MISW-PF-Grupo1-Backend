@@ -31,6 +31,7 @@ class CrearAlerta(BaseCommannd):
             #TODO: Consulta de Email de contacto de emergencia a Gestor de Consultas
             #TODO: Consulta de Nombre de Usuario contacto de emergencia a Gestor de Consultas
             alerta_msg = {
+                "tipo": "Alerta",
                 "email": self.email,
                 "name":  self.id_trigger,
                 "latitud": self.latitud,

@@ -14,7 +14,7 @@ notificacionSchema = {
         "longitud": {"type": "string", "minimum": 6, "maximum": 64},
         "descripcion":  {"type": "string", "minimum": 3, "maximum": 64},
     },
-    "required": ["id_trigger", "latitud", "longitud", "descripcion"]
+    "required": ["id_trigger", "descripcion"]
 }
 
 # Función que valida los Schemad de las peticiones

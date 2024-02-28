@@ -32,13 +32,12 @@ class CrearNotificaiconMasiva(BaseCommannd):
     def execute(self):
         try:
             #TODO: Consulta de Emails de usuarios a Gestor de Consultas
-            #TODO: Consulta de Nombre de Servicio contacto de emergencia a Gestor de Consultas
+            #TODO: Consulta de Nombre del Servicio a Gestor de Consultas
             for email in self.emails:
                 notificaciones_msg = {
+                   "tipo": "Noti_Masiva",
                     "email": email,
                     "name":  self.id_trigger,
-                    "latitud": self.latitud,
-                    "longitud": self.longitud,
                     "descripcion": self.descripcion,
                 }
                 publicar_pub_sub(notificaciones_msg)
