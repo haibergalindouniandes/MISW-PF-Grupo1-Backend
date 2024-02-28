@@ -3,6 +3,48 @@ import functions_framework
 # import necessary packages
 from email.message import EmailMessage
 import smtplib
+from google.cloud import pubsub_v1
+
+
+subscriber = pubsub_v1.SubscriberClient()
+subscription_path = "projects/misw4501/topics/notificaciones_alertas"
+timeout = 5.0
+
+def callback(message: pubsub_v1.subscriber.message.Message) -> None:
+    print(f"Received {message}.")
+    name = ""
+    if message.attributes.get("tipo") == "Alerta":
+        alerta(
+            message.attributes.get("name"),
+            message.attributes.get("latitud"),
+            message.attributes.get("longitud"),
+            message.attributes.get("descripcion")
+        )
+        message.ack()
+        return "Succes!".format(name)
+    elif message.attributes.get("tipo") == "Noti_Masiva":
+        notificacion_masiva(
+            message.attributes.get("name"),
+            message.attributes.get("descripcion")
+        )
+        message.ack()
+        return "Succes!".format(name)
+    else:
+        message.ack()
+        return "Error!".format(name), 500
+    
+
+streaming_pull_future = subscriber.subscribe(subscription_path, callback=callback)
+print(f"Listening for messages on {subscription_path}..\n")
+
+with subscriber:
+    try:
+        # When `timeout` is not set, result() will block indefinitely,
+        # unless an exception is encountered first.
+        streaming_pull_future.result(timeout=timeout)
+    except TimeoutError:
+        streaming_pull_future.cancel()  # Trigger the shutdown.
+        streaming_pull_future.result()  # Block until the shutdown is complete.
 
 
 @functions_framework.http
@@ -68,27 +110,3 @@ def notificacion_masiva(email,name,descripcion):
     server.sendmail(msg["From"], msg["To"], msg.as_string())
     server.quit()
     print("successfully sent email to %s:" % (msg["To"]))
-
-
-@functions_framework.http
-def hello_http(request):
-    request_json = request.get_json(silent=True)
-    data = request.headers
-    name = ""
-
-    if data["tipo"] == "Alerta":
-        alerta(
-            request_json["name"],
-            request_json["latitud"],
-            request_json["longitud"],
-            request_json["descripcion"]
-        )
-        return "Succes!".format(name)
-    elif data["tipo"] == "Noti_Masiva":
-        notificacion_masiva(
-            request_json["name"],
-            request_json["descripcion"]
-        )
-        return "Succes!".format(name)
-    else:
-        return "Error!".format(name), 500
