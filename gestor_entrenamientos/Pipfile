@@ -1,28 +1,32 @@
 [[source]]
 url = "https://pypi.org/simple"
 verify_ssl = true
-name = "entrenamientos"
+name = "pypi"
 
 [packages]
-wheel = "*"
-Faker = "*"
-flask = "~=2.3.2"
-flask_cors = "==3.*"
+Flask = "*"
+flask_cors = "*"
 flask_restful = "*"
-flask_sqlalchemy = "==3.*"
+flask_sqlalchemy = "*"
 gunicorn = "*"
 jsonschema = "*"
 marshmallow = "*"
 marshmallow_sqlalchemy = "*"
-psycopg2-binary = "==2.*"
-psycopg2 = "==2.*"
 python-abc = "*"
 python-dotenv = "*"
 sqlalchemy = "*"
 exceptiongroup = "*"
 requests = "*"
-
+google-api-core = "2.11.0"
+google-auth = "2.17.3"
+google-cloud-core = "2.3.2"
+google-cloud-storage = "2.8.0"
+google-cloud-pubsub = "2.16.1"
 pytest = "~=7.2.0"
 pytest-cov = "~=4.0.0"
 pytest-mock = "~=3.10.0"
 pytest-env = "~=0.8.1"
+flask-restful = "*"
+
+[requires]
+python_version = "3.12"
