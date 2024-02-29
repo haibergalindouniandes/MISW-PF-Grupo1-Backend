@@ -1,19 +1,25 @@
 from flask import request, Blueprint
 from commands.alertas import CrearAlerta
+from commands.plan_entrenamiento import DarPlanEntrenamiento
 from flask.json import jsonify
 
 from utilities.utilities import formatDateTimeToUTC
 
-entrenamientos_blueprint = Blueprint('entrenamientos', __name__)
+entrenamientos_blueprint = Blueprint(name='entrenamientos', import_name=__name__, url_prefix='/entrenamientos')
 
 # Recurso que expone la funcionalidad healthcheck
-@entrenamientos_blueprint.route('/entrenamientos/ping', methods=['GET'])
+@entrenamientos_blueprint.route('/ping', methods=['GET'])
 def health():
     return "pong"
 
 # Recurso que expone la funcionalidad notificacion de Alerta
-@entrenamientos_blueprint.route('/entrenamientos/alerta', methods=['POST'])
+@entrenamientos_blueprint.route('/alerta', methods=['POST'])
 def notifiacion_alerta():
     #TODO: Agregar validacion de Token
     data = request.get_json()
     return CrearAlerta(data).execute()
+
+@entrenamientos_blueprint.route('/plan-entrenamiento', methods=['POST'])
+def dar_plan_entrenamiento():
+    data = request.json()
+    return DarPlanEntrenamiento(data)

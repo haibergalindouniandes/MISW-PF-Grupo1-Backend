@@ -17,7 +17,20 @@ alertaSchema = {
     "required": ["id_trigger", "latitud", "longitud", "descripcion"]
 }
 
-# Función que valida los Schemad de las peticiones
+planEntrenamientoEsquema = {
+    "type": "object",
+    "properties": {
+        "sexo": {"type": "string", "enum" : ["MASCULINO", "FEMENINO"]},
+        "peso": {"type": "integer", "minimum": 40, "maximum": 200},  #kilogramos
+        "estatura": {"type": "integer", "minimum": 140, "maximum": 200},  #centimetros
+        "enfermedades_cardiovasculares": {"type": "string", "enum" : ["SI", "NO"]},
+        "practica_deporte": {"type": "string", "enum" : ["SI", "NO"]},
+        "proposito": {"type": "string", "enum" : ["GANAR MASA MUSCULAR", "PERDER PESO"]}
+    },
+    "required": ["sexo", "peso", "estatura", "enfermedades_cardiovasculares", "practica_deporte", "proposito"]
+}
+
+# Función que valida los esquemas de las peticiones
 def validateSchema(jsonData, schema):
     try:
         validate(instance=jsonData, schema=schema)
