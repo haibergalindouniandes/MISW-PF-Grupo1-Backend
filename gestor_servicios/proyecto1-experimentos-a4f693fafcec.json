@@ -1,0 +1,13 @@
+{
+  "type": "service_account",
+  "project_id": "proyecto1-experimentos",
+  "private_key_id": "a4f693fafcecdadff5dc88fd2a19bedbe382247d",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCzx5rTocEJeTcO\nMgb7cDteYXvRv2KQl0ybvIQoHWYncgo8/RYOvh9flmQxPVJ99xRICf5dnpYcF5Ix\nOFr/Me7ZNcE/3SLnS6rkQS6DMf3Xjpz32OBlGrlYcG9EzZSBQ4u5tSBS7btDFaEV\n/FEinJFpyuvqhRQJWxdBJE83nugWU2WK9omgf86DLQDaHhu4CZTwbQ0QSpexoy+0\n1h91WA2TkSwjjgjDUfGV8liwKlcsVMOHJ8/CYkFTeFhAXnwDkVBvTITgem/wkf5h\ndMkrgItu1XM509A+X3ecsGp4lWcF2v9w2tgzOUNlX/NdGOSuhHIVTqku78/bp04U\nscF5u03bAgMBAAECggEAEtORTB5BR8uwz0S/5G7RWMXeoI1pNfkSJbDtKgJCI1lW\n5yIdwDd6s5jdLybbz6MjNZQOViF4WMLDJXJgXR8OgyKU9SokMJKE99g3lbeTfJJL\nr8y/Wvccd712eX8J0SuQo0brdqO8m37VWqcMnBJHTAva/rkm6v/mBIVX4lw6s7Ok\neTnfN0OXSX6LiorwYj+BiDf1pqWef0Fj3XmXbnLOGWgFShLuxi/DRrUd3dnzYVPq\nHtzQP1ChwOOq87NURDb5W48zLM/EYy13zlkGRCL0Ht+kqF0yYjixZ4xvjQzdP8by\ngG3vkgZYiOxTWpnQqLRnQTcToShdLTdmA4IkzLrwoQKBgQD960JxFM1FgGn65+dE\n37UHY0Sq0HMIHzH2zmbY3AzS1eQ938qnjhv0hhJi0PLOsx2NfRp5ZyqbfDBFtcBR\nRR99YHJ2JkF3DYTpw9/XXurXgTF6VLMjAOEBIecyLY/xspH2NUO6GtoJzOGu//f5\n/UkNfK97VQ+PLPt+9BhHfUjG8QKBgQC1QMuw9FXSCzxJ+xL1PR97LAsufVeS+J1+\nnyJwMD59PdbBzD2yaKEs+hN9WiHQpDaY+Jjz4CoRSXuhBPTIP2yUtRVqAPLDb5vC\nX2gV041M6Hbkao94tEJPOr7PH0BPEUEeJRTJReuRzbpGV+/3sO5ne400oZabakat\nHKPCneXZiwKBgAwCwNXQghUzic/QgGQFoO6Eh4785TQRJa/i+4JuhjzC2VUD7PYY\nBsJ+RQhfkdytJEy5CjOL6bwJF890VXCCsIahtUhZbudOwGa+WSw61Sj0d36t2vtg\n40PGcsUw2oo4RCc9RcLb2kx0YIiCmxw8GuSEbViMIXxISG0s5qkbCAJBAoGAUcqp\noHLB/4T+ccwRJAWvHSAk85ewWyxBthANtF6w9EdhkBagiM/aW7eF7/0qYUKZOLKG\nIxc3JJHqbiEUbQDh+ME2pp1C75p/yVjQWXkbvGbyr+S+VZPSkHpL/J93n7aDkhzd\nom4g/ay+sFuieD2pd50zfVql4gA1YI0aAQrL3D0CgYEA2reTdMEHUTIRaxi0fsGn\nK2GYotUs40vxRB6E6vHSAnZvOd/eHwqrypviEs9wFF0Zkz8zYjGppWieIAo5tcWu\njRf+GJNvI800DSI3rx4NtUCXmSb14l58BHa8Yy1BBgR37nA7cQilL0n/QTTv6whJ\n30d8Xj238zsuOU1gpf8AE2M=\n-----END PRIVATE KEY-----\n",
+  "client_email": "misw-experimento-pub-sub@proyecto1-experimentos.iam.gserviceaccount.com",
+  "client_id": "115112632897373161598",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/misw-experimento-pub-sub%40proyecto1-experimentos.iam.gserviceaccount.com",
+  "universe_domain": "googleapis.com"
+}

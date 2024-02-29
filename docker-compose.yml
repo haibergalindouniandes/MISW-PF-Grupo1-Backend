@@ -1,0 +1,28 @@
+version: '3'
+networks:
+  sportapp:
+    driver: bridge
+
+services: 
+  # Servicios de sportapp
+  gestorentrenamientos:
+    container_name: gentrenamientos
+    hostname: gentrenamientos
+    restart: on-failure
+    build:
+      context: .
+      dockerfile: ./gestor_entrenamientos/Dockerfile
+    environment:
+      - GESTORENTRENAMIENTOS_ADDRESS=gentrenamientos
+      - PATH_PUBSUB_KEY=proyecto1-experimentos-a4f693fafcec.json
+      - PATH_TOPIC=projects/proyecto1-experimentos/topics/notifications
+      - DB_USER=postgres
+      - DB_PASSWORD=postgres
+      - DB_HOST=postgres
+      - DB_PORT:5432
+      - DB_NAME:postgres
+      - APP_PORT:3000
+    ports:
+      - "3000:3000"
+    networks:
+      - sportapp
