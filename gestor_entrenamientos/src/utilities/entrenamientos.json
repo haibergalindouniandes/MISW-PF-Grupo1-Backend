@@ -1,0 +1,81 @@
+{
+    "rutina 1":{
+                    "ejercicios":{                 
+                        "ejercicio 1": {
+                                        "nombre":"swings con pesa rusa",
+                                        "numero de series":"3",
+                                        "numero de repeticiones":"15",
+                                        "descanso entre ejercicios": "10 segundos"
+                                        },
+                        "ejercicio 2": {
+                                        "nombre":"peso muerto con barra",
+                                        "numero de series":"3",
+                                        "numero de repeticiones":"10",
+                                        "descanso entre ejercicios": "10 segundos"
+                                        }
+                    },
+                    "tipo de entrenamiento":"circuito por carga",
+                    "proposito":"GANAR MASA MUSCULAR",
+                    "clasificacion":"PESO BAJO|PESO NORMAL|SOBREPESO|OBESIDAD"
+                },
+
+    "rutina 2":{
+                    "ejercicios":{        
+                        "ejercicio 1": {
+                                        "nombre":"sentadillas con pesa rusa",
+                                        "numero de series":"3",
+                                        "numero de repeticiones":"15",
+                                        "descanso entre ejercicios": "10 segundos"
+                                        },
+                        "ejercicio 2": {
+                                        "nombre":"press de banca",
+                                        "numero de series":"3",
+                                        "numero de repeticiones":"10",
+                                        "descanso entre ejercicios": "10 segundos"
+                                        }
+                    },
+                    "tipo de entrenamiento":"circuito por carga",
+                    "proposito":"GANAR MASA MUSCULAR",
+                    "clasificacion":"PESO BAJO|PESO NORMAL|SOBREPESO|OBESIDAD"
+                },
+
+    "rutina 3":{
+                    "ejercicios":{        
+                        "ejercicio 1": {
+                                        "nombre":"jumping jacks",
+                                        "numero de series":"2",
+                                        "duracion del ejercicio":"20 segundos",
+                                        "descanso entre ejercicios": "20 segundos"
+                                        },
+                        "ejercicio 2": {
+                                        "nombre":"cuerdas de batalla",
+                                        "numero de series":"3",
+                                        "duracion del ejercicio":"15 segundos",
+                                        "descanso entre ejercicios": "15 segundos"
+                                        }
+                    },
+                    "tipo de entrenamiento":"circuito por tiempo",
+                    "proposito":"PERDER PESO",
+                    "clasificacion":"PESO NORMAL|SOBREPESO|OBESIDAD"
+                },
+
+    "rutina 4":{
+                    "ejercicios":{        
+                        "ejercicio 1": {
+                                        "nombre":"burpees",
+                                        "numero de series":"4",
+                                        "duracion del ejercicio":"40 segundos",
+                                        "descanso entre ejercicios": "20 segundos"
+                                        },
+                        "ejercicio 2": {
+                                        "nombre":"saltar con la cuerda",
+                                        "numero de series":"4",
+                                        "duracion del ejercicio":"40 segundos",
+                                        "descanso entre ejercicios": "20 segundos"
+                                        }
+                    },
+                    "tipo de entrenamiento":"circuito por tiempo",
+                    "proposito":"PERDER PESO",
+                    "clasificacion":"PESO NORMAL"
+                }
+}

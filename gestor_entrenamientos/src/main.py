@@ -4,8 +4,9 @@ from flask_restful import Api
 from flask_cors import CORS
 from blueprints.resources import entrenamientos_blueprint
 from errors.errors import ApiError
-from models.models import db
+from models.models import db, Entrenamientos
 import logging
+import json
 import os
 
 # Configuración logger
@@ -31,6 +32,25 @@ cors = CORS(app)
 db.init_app(app)
 db.create_all()
 api = Api(app)
+
+# cargar entrenamientos en base de datos
+with open('utilities/entrenamientos.json') as fn:
+    entrenamientos = json.load(fn)
+
+for rutina, info in entrenamientos.items():
+    registro = []
+    registro.append(rutina)
+    for dato, valor in info.items():
+        registro.append(valor)
+    print(registro)
+    nuevo_entrenamiento = Entrenamientos(rutina=registro[0],
+                                         ejercicios=registro[1],
+                                         tipo_entrenamiento=registro[2],
+                                         proposito=registro[3],
+                                         clasificacion=registro[4]
+                                         )
+    db.session.add(nuevo_entrenamiento)
+    db.session.commit()
 
 # Manejador de errores
 @app.errorhandler(ApiError)

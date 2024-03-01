@@ -21,5 +21,5 @@ def notifiacion_alerta():
 
 @entrenamientos_blueprint.route('/plan-entrenamiento', methods=['POST'])
 def dar_plan_entrenamiento():
-    data = request.json()
-    return DarPlanEntrenamiento(data)
+    data = request.get_json()
+    return DarPlanEntrenamiento(data).execute()

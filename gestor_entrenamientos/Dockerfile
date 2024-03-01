@@ -10,7 +10,7 @@ RUN groupadd -r appentrenamientos
 RUN useradd -r -m -g appentrenamientos appentrenamientos
 WORKDIR /home/appentrenamientos/app
 COPY ["Pipfile", "Pipfile.lock", "./"]
-COPY gestor_entrenamientos/src/. /home/appentrenamientos/app
+COPY src/. /home/appentrenamientos/app
 
 FROM app AS release
 EXPOSE 3000

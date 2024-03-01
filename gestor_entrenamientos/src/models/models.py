@@ -14,10 +14,11 @@ db = SQLAlchemy()
 class Entrenamientos(db.Model):
     __tablename__ = 'entrenamientos'
     id = db.Column(db.Integer, primary_key=True)
-    rutina = db.Column(db.String(50), unique=True)
+    rutina = db.Column(db.String(50))#, unique=True)
     ejercicios = db.Column(JSONB)
     tipo_entrenamiento = db.Column(db.String(50))
-    indice_clasificacion = db.Column(db.Integer)
+    proposito = db.Column(db.String(50))
+    clasificacion = db.Column(db.String(50))
 
 class EntrenamientosSchema(SQLAlchemyAutoSchema):
     class Meta:

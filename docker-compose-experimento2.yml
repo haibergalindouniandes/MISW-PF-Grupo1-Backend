@@ -1,0 +1,41 @@
+version: '3'
+services:
+  entrenamientos-db:
+    container_name: entrenamientos-db
+    image: postgres:14.1-alpine
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_PASSWORD: admin
+      POSTGRES_USER: admin
+      POSTGRES_DB: entrenamientosdb
+    restart: always
+    networks:
+      - entrenamientos-net
+
+  mcs-gestor-entrenamientos:
+    container_name: mcs-gestor-entrenamientos
+    build: 
+      context: ./gestor_entrenamientos
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      DB_USER: admin
+      DB_PASSWORD: admin
+      DB_HOST: entrenamientos-db
+      DB_PORT: 5432
+      DB_NAME: entrenamientosdb    
+      APP_PORT: 3000      
+    restart: always
+    networks:
+      - entrenamientos-net
+      - app-net
+    depends_on:
+      - entrenamientos-db
+
+networks:
+  app-net:
+    driver: bridge
+  entrenamientos-net:
+    driver: bridge
