@@ -1,5 +1,5 @@
 # Importación de dependencias
-from errors.errors import BadRequest
+from src.errors.errors import BadRequest
 from jsonschema import validate
 import traceback
 import jsonschema

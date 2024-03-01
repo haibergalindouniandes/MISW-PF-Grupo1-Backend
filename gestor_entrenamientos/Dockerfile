@@ -26,4 +26,21 @@ FROM release AS prod
 RUN pipenv install --system --deploy
 USER appentrenamientos
 CMD ["python","main.py"]
-#CMD ["gunicorn"  , "-b", "0.0.0.0:  3000", "app:app"]
+# #CMD ["gunicorn"  , "-b", "0.0.0.0:  3000", "app:app"]
+
+
+
+
+# FROM python:3.9
+
+# EXPOSE 5000/tcp
+
+# COPY ./gestor_entrenamientos/requirements.txt ./
+# COPY ./gestor_entrenamientos/proyecto1-experimentos-a4f693fafcec.json ./
+# RUN pip install --upgrade --no-cache-dir pip setuptools wheel
+# RUN pip install --no-cache-dir wheel
+# RUN pip install --no-cache-dir -r requirements.txt
+
+# COPY . .
+
+# CMD [ "flask", "--app", "./gestor_entrenamientos/src/main.py", "run", "--host=0.0.0.0"]
