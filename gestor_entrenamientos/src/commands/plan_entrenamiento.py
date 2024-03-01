@@ -1,9 +1,9 @@
 # Importación de dependencias
 import traceback
-from commands.base_command import BaseCommannd
-from validators.validators import validateSchema, planEntrenamientoEsquema
+from src.commands.base_command import BaseCommannd
+from src.validators.validators import validateSchema, planEntrenamientoEsquema
 from sqlalchemy.exc import SQLAlchemyError
-from errors.errors import ApiError
+from src.errors.errors import ApiError
 from flask.json import jsonify
 
 

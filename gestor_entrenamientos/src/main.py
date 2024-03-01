@@ -2,9 +2,9 @@
 from flask import Flask, jsonify
 from flask_restful import Api
 from flask_cors import CORS
-from blueprints.resources import entrenamientos_blueprint
-from errors.errors import ApiError
-from models.models import db
+from src.blueprints.resources import entrenamientos_blueprint
+from src.errors.errors import ApiError
+from src.models.models import db
 import logging
 import os
 
