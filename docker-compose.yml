@@ -46,3 +46,31 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
+
+  gestornotificaciones:
+    container_name: gnotificaciones
+    hostname: gnotificaciones
+    restart: always
+    build:
+      context: .
+      dockerfile: ./gestor_notificaciones/Dockerfile
+    environment:
+      - GESTORENTRENAMIENTOS_ADDRESS=gnotificaciones
+      - PATH_PUBSUB_KEY=proyecto1-experimentos-b53d3e709d98.json
+      - SUBSCRIPTION_TOPIC=projects/proyecto1-experimentos/subscriptions/notifications-sub
+      - DB_USER=postgres
+      - DB_PASSWORD=postgres
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_NAME=sportapp
+      - APP_PORT=5001
+    ports:
+      - "5001:5001"
+    #command: sh run_commands.sh
+    networks:
+      - sportapp
+    depends_on:
+      postgres:
+        condition: service_healthy
+      gestorentrenamientos:
+        condition: service_healthy
