@@ -114,7 +114,7 @@ class RegistrarUsuario(BaseCommannd):
             # Logica de negocio
             resultado = self.ejecutar_batch_servicios()
             print(resultado)
-            self.asignar_ids_servicios_externos()
+            self.asignar_ids_servicios_externos(resultado)
             usuario_registrado = self.registrar_usuario_bd().to_dict()
             print(usuario_registrado)
             print("<=============== execute ==================>")

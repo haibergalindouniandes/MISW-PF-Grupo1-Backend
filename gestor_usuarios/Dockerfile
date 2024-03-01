@@ -1,5 +1,5 @@
 FROM python:3.10 AS base
-LABEL author="h.galindos@uniandes.edu.co and j.carillo@uniandes.edu.co"
+LABEL author="h.galindos@uniandes.edu.co and jm.carillo@uniandes.edu.co"
 RUN apt-get update && apt-get install -y
 RUN apt-get install telnet -y
 RUN pip install --upgrade pip
@@ -26,5 +26,4 @@ FROM release AS prod
 ENV PYTHONBUFFERED=1
 RUN pipenv install --system --deploy
 USER appusuarios
-# CMD ["gunicorn", "--bind", ":3000", "main:app"]
-CMD ["python","main.py"]
+CMD ["gunicorn", "--bind", ":3000", "main:app"]

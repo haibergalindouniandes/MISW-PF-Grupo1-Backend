@@ -50,5 +50,4 @@ async def consumo_servicio_asincrono(url, metodo, data=None, headers=None):
 async def ejecucion_batch_en_paralelo():
     tareas = [consumo_servicio_asincrono(url, metodo, data, headers) for url, metodo, data, headers in batch_servicios]
     resultados = await asyncio.gather(*tareas)
-    validar_resultado_consumo_servicio(resultados)
-    return batch_servicios, resultados
+    return resultados
