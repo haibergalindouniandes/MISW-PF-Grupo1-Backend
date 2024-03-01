@@ -1,13 +1,13 @@
 {
     "rutina 1":{
                     "ejercicios":{                 
-                        "ejercicio 1": {
+                        "ejercicio1": {
                                         "nombre":"swings con pesa rusa",
                                         "numero de series":"3",
                                         "numero de repeticiones":"15",
                                         "descanso entre ejercicios": "10 segundos"
                                         },
-                        "ejercicio 2": {
+                        "ejercicio2": {
                                         "nombre":"peso muerto con barra",
                                         "numero de series":"3",
                                         "numero de repeticiones":"10",
@@ -21,13 +21,13 @@
 
     "rutina 2":{
                     "ejercicios":{        
-                        "ejercicio 1": {
+                        "ejercicio1": {
                                         "nombre":"sentadillas con pesa rusa",
                                         "numero de series":"3",
                                         "numero de repeticiones":"15",
                                         "descanso entre ejercicios": "10 segundos"
                                         },
-                        "ejercicio 2": {
+                        "ejercicio2": {
                                         "nombre":"press de banca",
                                         "numero de series":"3",
                                         "numero de repeticiones":"10",
@@ -41,13 +41,13 @@
 
     "rutina 3":{
                     "ejercicios":{        
-                        "ejercicio 1": {
+                        "ejercicio1": {
                                         "nombre":"jumping jacks",
                                         "numero de series":"2",
                                         "duracion del ejercicio":"20 segundos",
                                         "descanso entre ejercicios": "20 segundos"
                                         },
-                        "ejercicio 2": {
+                        "ejercicio2": {
                                         "nombre":"cuerdas de batalla",
                                         "numero de series":"3",
                                         "duracion del ejercicio":"15 segundos",
@@ -61,13 +61,13 @@
 
     "rutina 4":{
                     "ejercicios":{        
-                        "ejercicio 1": {
+                        "ejercicio1": {
                                         "nombre":"burpees",
                                         "numero de series":"4",
                                         "duracion del ejercicio":"40 segundos",
                                         "descanso entre ejercicios": "20 segundos"
                                         },
-                        "ejercicio 2": {
+                        "ejercicio2": {
                                         "nombre":"saltar con la cuerda",
                                         "numero de series":"4",
                                         "duracion del ejercicio":"40 segundos",

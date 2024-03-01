@@ -1,10 +1,10 @@
 # Importación de dependencias
 import traceback
-from src.commands.base_command import BaseCommannd
-from src.validators.validators import validateSchema, alertaSchema
+from commands.base_command import BaseCommannd
+from validators.validators import validateSchema, alertaSchema
 from sqlalchemy.exc import SQLAlchemyError
-from src.utilities.utilities import publicar_pub_sub
-from src.errors.errors import ApiError
+from utilities.utilities import publicar_pub_sub
+from errors.errors import ApiError
 from flask.json import jsonify
 
 

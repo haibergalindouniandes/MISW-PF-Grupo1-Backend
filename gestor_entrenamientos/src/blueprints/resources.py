@@ -1,9 +1,9 @@
 from flask import request, Blueprint
-from src.commands.alertas import CrearAlerta
-from src.commands.plan_entrenamiento import DarPlanEntrenamiento
+from commands.alertas import CrearAlerta
+from commands.plan_entrenamiento import DarPlanEntrenamiento
 from flask.json import jsonify
 
-from src.utilities.utilities import formatDateTimeToUTC
+from utilities.utilities import formatDateTimeToUTC
 
 entrenamientos_blueprint = Blueprint(name='entrenamientos', import_name=__name__, url_prefix='/entrenamientos')
 

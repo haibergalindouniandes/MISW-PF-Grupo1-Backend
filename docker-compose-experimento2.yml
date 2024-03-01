@@ -4,12 +4,12 @@ services:
     container_name: entrenamientos-db
     image: postgres:14.1-alpine
     ports:
-      - "5432:5432"
+      - "5433:5432"
     environment:
       POSTGRES_PASSWORD: admin
       POSTGRES_USER: admin
       POSTGRES_DB: entrenamientosdb
-    restart: always
+    restart: on-failure
     networks:
       - entrenamientos-net
 
@@ -25,9 +25,9 @@ services:
       DB_PASSWORD: admin
       DB_HOST: entrenamientos-db
       DB_PORT: 5432
-      DB_NAME: entrenamientosdb    
+      DB_NAME: entrenamientosdb
       APP_PORT: 3000      
-    restart: always
+    restart: on-failure
     networks:
       - entrenamientos-net
       - app-net
