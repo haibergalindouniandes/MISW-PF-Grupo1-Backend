@@ -1,7 +1,7 @@
 from flask import request, Blueprint
 from flask.json import jsonify
-from commands.notificaciones import CrearNotificaiconMasiva
-from utilities.utilities import formatDateTimeToUTC
+from src.commands.notificaciones import CrearNotificaiconMasiva
+from src.utilities.utilities import formatDateTimeToUTC
 
 servicios_blueprint = Blueprint('servicios', __name__)
 

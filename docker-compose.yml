@@ -38,9 +38,34 @@ services:
       - DB_HOST=postgres
       - DB_PORT=5432
       - DB_NAME=sportapp
-      - APP_PORT=3000
+      - APP_PORT=5000
     ports:
       - "5000:5000"
+    networks:
+      - sportapp
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  gestorservicios:
+    container_name: gservicios
+    hostname: gservicios
+    restart: on-failure
+    build:
+      context: .
+      dockerfile: ./gestor_servicios/Dockerfile
+    environment:
+      - GESTORENTRENAMIENTOS_ADDRESS=gservicios
+      - PATH_PUBSUB_KEY=proyecto1-experimentos-a4f693fafcec.json
+      - PATH_TOPIC=projects/proyecto1-experimentos/topics/notifications
+      - DB_USER=postgres
+      - DB_PASSWORD=postgres
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_NAME=sportapp
+      - APP_PORT=5002
+    ports:
+      - "5002:5000"
     networks:
       - sportapp
     depends_on:
