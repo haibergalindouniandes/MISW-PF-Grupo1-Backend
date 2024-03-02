@@ -1,6 +1,9 @@
 import base64
 import json
 import sqlalchemy
+from email.message import EmailMessage
+import smtplib
+
 
 # Uncomment and set the following variables depending on your specific instance and database:
 connection_name = "proyecto1-experimentos:us-central1:postgres"
@@ -39,6 +42,36 @@ def insert(query):
         return 'Error: {}'.format(str(e))
     return 'ok'
 
+def notificacion_masiva(email,name,descripcion):
+    # create message object instance
+    msg = EmailMessage()
+    message = f"""<h1><strong>SportApp Notificacion Masiva&nbsp;</strong></h1> 
+        <h2><strong>Servicio de Notificacion de Servicios</strong></h2>  
+        <h2><strong>El Proveedor de su Servicio: </strong>{name}</h2>  
+        <p>Lo ha contactado ya que se encuentra Inscrito en su evento y tiene el siguiente mensaje para usted:</p>  
+        <p>{descripcion}</p>  
+        <p>Por favor pongase en contacto con el proveedor para mas detalles. </p>
+        <p>&nbsp;</p>  
+        <p>Equipo Grupo 1 - MISW4501</p>"""
+    
+    # setup the parameters of the message
+    password = "1d761200a0fd75"
+    msg["From"] = "miswexp1pro1grupo1@gmail.com"
+    msg["To"] = email
+    msg["Subject"] = "SportApp Alerta de Emergencia"
+    # add in the message body
+    msg.add_header("Content-Type", "text/html")
+    msg.set_payload(message)
+    # create server
+    server = smtplib.SMTP("sandbox.smtp.mailtrap.io", 2525)
+    server.starttls()
+    # Login Credentials for sending the mail
+    server.login("28ae9d3cad356a", password)
+    # send the message via the server.
+    server.sendmail(msg["From"], msg["To"], msg.as_string())
+    server.quit()
+    print("successfully sent email to %s:" % (msg["To"]))
+
 def notificaciones(event, context):
     """Definición de la función invocada por el servicio Pub/Sub. 
     La función retorna la información recibida en el body
@@ -57,25 +90,16 @@ def notificaciones(event, context):
     data_dict = json.loads(message_decoded)
     print(data_dict["name"])
 
-    if data_dict["tipo"] == "Alerta":
-        # alerta(
-        #     data_dict["name"],
-        #     data_dict["latitud"],
-        #     data_dict["longitud"],
-        #     data_dict["descripcion"]
-        #     )
-        insert('insert into notificaciones (name,latitud,longitud,descripcion,tipo) values ({a},{b},{c},{d},{e})'.format(a=data_dict["name"],b={data_dict["latitud"]},c=data_dict["longitud"],d=data_dict["descripcion"],e=data_dict["tipo"]))
-        print("Succes Alerta!")
-    elif data_dict["tipo"] == "Noti_Masiva":
-        # notificacion_masiva(
-        #     data_dict["name"],
-        #     data_dict["descripcion"]
-        #     )    
+    if data_dict["tipo"] == "Noti_Masiva":
+        notificacion_masiva(
+            data_dict["email"],
+            data_dict["name"],
+            data_dict["descripcion"]
+            )    
         insert('insert into notificaciones (name,descripcion,tipo) values ({a},{b},{c})'.format(a=data_dict["name"],b=data_dict["descripcion"],c=data_dict["tipo"]))      
         print("Succes Notificacion!")
     else:    
         print("Error!")
-
 
     data = event['data']
     print('Se recibe notificacion de usuario')
