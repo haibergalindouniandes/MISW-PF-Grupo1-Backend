@@ -11,13 +11,13 @@ spec:
   rules:
   - http:
       paths:
-      # - path: /entrenamientos
-      #   pathType: Prefix
-      #   backend:
-      #     service:
-      #       name: entrenamientos-service
-      #       port: 
-      #         number: 80
+      - path: /entrenamientos
+        pathType: Prefix
+        backend:
+          service:
+            name: entrenamientos-service
+            port: 
+              number: 80
       - path: /servicios
         pathType: Prefix
         backend:
