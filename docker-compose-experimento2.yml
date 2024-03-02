@@ -34,6 +34,40 @@ services:
     depends_on:
       - entrenamientos-db
 
+  nutricion-db:
+    container_name: nutricion-db
+    image: postgres:14.1-alpine
+    ports:
+      - "5435:5432"
+    environment:
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_DB: nutriciondb
+    restart: on-failure
+    networks:
+      - nutricion-net
+
+  mcs-gestor-plan-nutricional:
+    container_name: mcs-gestor-plan-nutricional
+    build: 
+      context: ./gestor_plan_nutricional
+      dockerfile: Dockerfile
+    ports:
+      - "3002:3000"
+    environment:
+      DB_USER: postgres
+      DB_PASSWORD: postgres
+      DB_HOST: nutricion-db
+      DB_PORT: 5432
+      DB_NAME: nutriciondb
+      APP_PORT: 3000      
+    restart: on-failure
+    networks:
+      - nutricion-net
+      - app-net
+    depends_on:
+      - nutricion-db
+
   usuarios-db:
     container_name: usuarios-db
     image: postgres:14.1-alpine
@@ -83,5 +117,7 @@ networks:
     driver: bridge
   entrenamientos-net:
     driver: bridge
+  nutricion-net:
+    driver: bridge    
   usuarios-net:
     driver: bridge    

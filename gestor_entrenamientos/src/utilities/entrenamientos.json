@@ -42,6 +42,26 @@
     "rutina 3":{
                     "ejercicios":{        
                         "ejercicio1": {
+                                        "nombre":"sentadillas con pesa rusa",
+                                        "numero de series":"4",
+                                        "numero de repeticiones":"20",
+                                        "descanso entre ejercicios": "15 segundos"
+                                        },
+                        "ejercicio2": {
+                                        "nombre":"press de banca",
+                                        "numero de series":"4",
+                                        "numero de repeticiones":"20",
+                                        "descanso entre ejercicios": "15 segundos"
+                                        }
+                    },
+                    "tipo de entrenamiento":"circuito por carga",
+                    "proposito":"GANAR MASA MUSCULAR",
+                    "clasificacion":"PESO BAJO|PESO NORMAL"
+                },
+
+    "rutina 4":{
+                    "ejercicios":{        
+                        "ejercicio1": {
                                         "nombre":"jumping jacks",
                                         "numero de series":"2",
                                         "duracion del ejercicio":"20 segundos",
@@ -59,7 +79,7 @@
                     "clasificacion":"PESO NORMAL|SOBREPESO|OBESIDAD"
                 },
 
-    "rutina 4":{
+    "rutina 5":{
                     "ejercicios":{        
                         "ejercicio1": {
                                         "nombre":"burpees",
@@ -77,5 +97,25 @@
                     "tipo de entrenamiento":"circuito por tiempo",
                     "proposito":"PERDER PESO",
                     "clasificacion":"PESO NORMAL"
+                },
+
+    "rutina 6":{
+                    "ejercicios":{        
+                        "ejercicio1": {
+                                        "nombre":"jumping jacks",
+                                        "numero de series":"2",
+                                        "duracion del ejercicio":"20 segundos",
+                                        "descanso entre ejercicios": "20 segundos"
+                                        },
+                        "ejercicio2": {
+                                        "nombre":"cuerdas de batalla",
+                                        "numero de series":"2",
+                                        "duracion del ejercicio":"20 segundos",
+                                        "descanso entre ejercicios": "20 segundos"
+                                        }
+                    },
+                    "tipo de entrenamiento":"circuito por tiempo",
+                    "proposito":"PERDER PESO",
+                    "clasificacion":"SOBREPESO|OBESIDAD"
                 }
 }

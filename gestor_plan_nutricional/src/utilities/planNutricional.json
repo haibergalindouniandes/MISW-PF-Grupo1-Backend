@@ -1,0 +1,115 @@
+{
+    "plan nutricional 1":{
+                    "menus":{                 
+                        "menu1":{
+                                   "nombre":"desayuno",
+                                   "descripcion":"3 huevos, 1 rebanada de pan, cafe sin azucar, 1 porcion de queso"
+                                },
+                        "menu2":{
+                                   "nombre":"almuerzo",
+                                   "descripcion":"pechuga de pollo, champinones, arroz con quinoa, ensalada con nueces"
+                                },
+                        "menu3":{
+                                   "nombre":"cena",
+                                   "descripcion":"filete de pescado, papas, aguacate"
+                                }
+                    },                    
+                    "proposito":"GANAR MASA MUSCULAR",
+                    "clasificacion":"PESO BAJO|PESO NORMAL"
+                },
+
+    "plan nutricional 2":{
+                    "menus":{        
+                        "menu1":{
+                                   "nombre":"desayuno",
+                                   "descripcion":"1 huevo, cafe sin azucar, 1 porcion de queso"
+                                },
+                        "menu2":{
+                                   "nombre":"almuerzo",
+                                   "descripcion":"pechuga de pollo, champinones, ensalada con nueces"
+                                },
+                        "menu3":{
+                                   "nombre":"cena",
+                                   "descripcion":"filete de pescado, aguacate"
+                                }
+                    },                    
+                    "proposito":"GANAR MASA MUSCULAR",
+                    "clasificacion":"SOBREPESO|OBESIDAD"
+                },
+
+    "plan nutricional 3":{
+                    "menus":{        
+                        "menu1":{
+                                   "nombre":"desayuno",
+                                   "descripcion":"2 huevos, 2 tostadas con mantequilla de almendras, cafe sin azucar, 1 porcion de queso, fruta con yogurt"
+                                },
+                        "menu2":{
+                                   "nombre":"almuerzo",
+                                   "descripcion":"arroz, papa al romero, carne, ensalada"
+                                },
+                        "menu3":{
+                                   "nombre":"cena",
+                                   "descripcion":"pechuga de pollo, arroz, espinaca guisada, aguacate"
+                                }
+                    },                    
+                    "proposito":"GANAR MASA MUSCULAR",
+                    "clasificacion":"PESO BAJO"
+                },
+
+    "plan nutricional 4":{
+                    "menus":{        
+                        "menu1":{
+                                   "nombre":"desayuno",
+                                   "descripcion":"1 huevo, vegetales, cafe sin azucar, frutos rojos"
+                                },
+                        "menu2":{
+                                   "nombre":"almuerzo",
+                                   "descripcion":"carne, ensalada, quinoa"
+                                },
+                        "menu3":{
+                                   "nombre":"cena",
+                                   "descripcion":"filete de pescado, vegetales salteados"
+                                }
+                    },                    
+                    "proposito":"PERDER PESO",
+                    "clasificacion":"PESO NORMAL|SOBREPESO|OBESIDAD"
+                },
+
+    "plan nutricional 5":{
+                    "menus":{        
+                        "menu1":{
+                                   "nombre":"desayuno",
+                                   "descripcion":"1 huevo, 1 rodaja de pan, cafe sin azucar, aguacate"
+                                },
+                        "menu2":{
+                                   "nombre":"almuerzo",
+                                   "descripcion":"pechuga de pollo, ensalada con nueces, ceviche de champinones"
+                                },
+                        "menu3":{
+                                   "nombre":"cena",
+                                   "descripcion":"filete de pescado, verduras salteadas, 1 taza de te"
+                                }
+                    },                    
+                    "proposito":"PERDER PESO",
+                    "clasificacion":"PESO NORMAL"
+                },
+
+    "plan nutricional 6":{
+                    "menus":{        
+                        "menu1":{
+                                  "nombre":"desayuno",
+                                  "descripcion":"1 huevo, aguacate, cafe sin azucar"
+                                },
+                        "menu2":{
+                                  "nombre":"almuerzo",
+                                  "descripcion":"carne, ensalada"
+                                 },
+                        "menu3":{
+                                  "nombre":"cena",
+                                  "descripcion":"pechuga de pollo, vegertales salteados"
+                                }
+                    },                    
+                    "proposito":"PERDER PESO",
+                    "clasificacion":"SOBREPESO|OBESIDAD"
+                }
+}
