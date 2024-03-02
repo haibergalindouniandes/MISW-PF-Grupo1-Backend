@@ -59,8 +59,8 @@ services:
       context: ./gestor_usuarios
       dockerfile: Dockerfile
     environment:
-      GESTORENTRENAMIENTOS_ADDRESS: https://my.api.mockaroo.com/nutricion/plan-nutricional
-      GESTOREPLANNUTRICIONAL_ADDRESS: https://my.api.mockaroo.com/entrenamientos/plan-entrenamiento
+      GESTORENTRENAMIENTOS_ADDRESS: http://mcs-gestor-entrenamientos:3000/entrenamientos/plan-entrenamiento
+      GESTOREPLANNUTRICIONAL_ADDRESS: http://mcs-gestor-entrenamientos:3000/entrenamientos/plan-entrenamiento
       DB_USER: postgres
       DB_PASSWORD: postgres
       DB_HOST: usuarios-db
@@ -71,6 +71,7 @@ services:
       - "3001:3000"
     networks:
       - usuarios-net
+      - app-net
     depends_on:
       usuarios-db:
         condition: service_healthy

@@ -45,3 +45,31 @@ def dar_clasificacion(sexo, peso, estatura, edad, enfermedades_cardiovasculares,
         clasificacion = 'OBESIDAD'
     
     return clasificacion    
+
+# Función que permite realizar el cargue inicial de entrenamientos
+def cargue_inicial_entrenamientos(db, Entrenamientos):
+    # Consultar la tabla en BD
+    registros = db.session.query(Entrenamientos).all()
+    # Validar si ya existen registros
+    if len(registros) == 0:
+        print('<============== Inicia cargue inicial de entrenamientos =================>')
+        # Cargar entrenamientos desde json file
+        with open('utilities/entrenamientos.json') as fn:
+            entrenamientos = json.load(fn)
+        # Registrar entrenamientos
+        for rutina, info in entrenamientos.items():
+            registro = []
+            registro.append(rutina)
+            for dato, valor in info.items():
+                registro.append(valor)
+            print(registro)
+            nuevo_entrenamiento = Entrenamientos(rutina=registro[0],
+                                                ejercicios=registro[1],
+                                                tipo_entrenamiento=registro[2],
+                                                proposito=registro[3],
+                                                clasificacion=registro[4]
+                                                )
+            db.session.add(nuevo_entrenamiento)
+            db.session.commit()
+        db.session.close()
+        print('<============== Finaliza cargue inicial de entrenamientos =================>')

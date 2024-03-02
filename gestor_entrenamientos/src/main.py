@@ -3,10 +3,10 @@ from flask import Flask, jsonify
 from flask_restful import Api
 from flask_cors import CORS
 from blueprints.resources import entrenamientos_blueprint
+from utilities.utilities import cargue_inicial_entrenamientos
 from errors.errors import ApiError
 from models.models import db, Entrenamientos
 import logging
-import json
 import os
 
 # Configuración logger
@@ -33,24 +33,8 @@ db.init_app(app)
 db.create_all()
 api = Api(app)
 
-# cargar entrenamientos en base de datos
-with open('utilities/entrenamientos.json') as fn:
-    entrenamientos = json.load(fn)
-
-for rutina, info in entrenamientos.items():
-    registro = []
-    registro.append(rutina)
-    for dato, valor in info.items():
-        registro.append(valor)
-    print(registro)
-    nuevo_entrenamiento = Entrenamientos(rutina=registro[0],
-                                         ejercicios=registro[1],
-                                         tipo_entrenamiento=registro[2],
-                                         proposito=registro[3],
-                                         clasificacion=registro[4]
-                                         )
-    db.session.add(nuevo_entrenamiento)
-    db.session.commit()
+# Cargue inicial de entrenamientos    
+cargue_inicial_entrenamientos(db, Entrenamientos)  
 
 # Manejador de errores
 @app.errorhandler(ApiError)
@@ -61,4 +45,4 @@ def handle_exception(err):
     return jsonify(response), err.code
 
 if __name__ == "__main__":
-    app.run(debug=True, port=APP_PORT)  #, host="0.0.0.0"
+    app.run(debug=True, port=APP_PORT, host="0.0.0.0") 

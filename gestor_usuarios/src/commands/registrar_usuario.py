@@ -2,7 +2,7 @@
 import asyncio
 import traceback
 from commands.base_command import BaseCommannd
-from utilities.utilities import booleano_a_string, obtener_enpoint_entrenamientos, obtener_enpoint_plan_nutricional, agregar_servicio_a_batch, limpiar_batch_de_servicios, ejecucion_batch_en_paralelo, string_a_booleano
+from utilities.utilities import booleano_a_string, obtener_endpoint_entrenamientos, obtener_endpoint_plan_nutricional, agregar_servicio_a_batch, limpiar_batch_de_servicios, ejecucion_batch_en_paralelo, string_a_booleano
 from models.models import db, Usuario
 from validators.validators import validar_esquema, esquema_registro_usuario
 from sqlalchemy.exc import SQLAlchemyError
@@ -47,22 +47,23 @@ class RegistrarUsuario(BaseCommannd):
     # Función que asigna  plan nutricional
     def agregar_plan_nutricional(self, resultados, resultado_legado):
         # Asignacion plan nutricional
-        resultados['alimentos'] = resultado_legado[0]["alimentos"]
+        resultados['plan_alimentacion'] = resultado_legado[0]
         return resultados
 
     # Función que asigna  plan de entrenamientos
     def agregar_plan_de_entrenamiento(self, resultados, resultado_legado):
         # Asignacion  plan de entrenamientos
-        resultados['ejercicios'] = resultado_legado[1]["ejercicios"]
+        resultados['plan_entrenamiento'] = resultado_legado[1]
         return resultados
 
 
     # Función que realiza el mapeo de información para el consumo del servicio de Entrenamientos
     def agregar_servicio_entrenamientos(self):
         # Mapeo de información
-        headers = {'Content-Type': 'application/json', 'X-API-Key': 'a033d2c0'}
+        headers = {'Content-Type': 'application/json'}
         data = {
             "sexo": self.sexo,
+            "edad": self.edad,
             "peso": int(self.peso),
             "estatura": int(self.estatura),
             "tipo_identificacion": self.tipo_identificacion,
@@ -70,14 +71,15 @@ class RegistrarUsuario(BaseCommannd):
             "practica_deporte": booleano_a_string(self.practica_deporte),
             "proposito": self.proposito
         }
-        agregar_servicio_a_batch((obtener_enpoint_plan_nutricional(), 'POST', data, headers))
+        agregar_servicio_a_batch((obtener_endpoint_entrenamientos(), 'POST', data, headers))
 
     # Función que realiza el mapeo de información para el consumo del servicio de plan nutricional
     def agregar_servicio_plan_nutricional(self):
         # Mapeo de información
-        headers = {'Content-Type': 'application/json', 'X-API-Key': 'a033d2c0'}
+        headers = {'Content-Type': 'application/json'}
         data = {
             "sexo": self.sexo,
+            "edad": self.edad,
             "peso": int(self.peso),
             "estatura": int(self.estatura),
             "tipo_identificacion": self.tipo_identificacion,
@@ -85,7 +87,7 @@ class RegistrarUsuario(BaseCommannd):
             "practica_deporte": booleano_a_string(self.practica_deporte),
             "proposito": self.proposito
         }
-        agregar_servicio_a_batch((obtener_enpoint_entrenamientos(), 'POST', data, headers))
+        agregar_servicio_a_batch((obtener_endpoint_plan_nutricional(), 'POST', data, headers))
 
     # Función que ejecuta el consumo en paralelo de servicios
     def ejecutar_batch_servicios(self):
