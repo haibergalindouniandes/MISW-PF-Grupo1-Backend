@@ -1,11 +1,11 @@
 # Importación de dependencias
 import os
-from src.commands.base_command import BaseCommannd
-from src.validators.validators import validateSchema, notificacionSchema
+from commands.base_command import BaseCommannd
+from validators.validators import validateSchema, notificacionSchema
 from sqlalchemy.exc import SQLAlchemyError
-from src.errors.errors import ApiError
+from errors.errors import ApiError
 from flask.json import jsonify
-from src.utilities.utilities import publicar_pub_sub
+from utilities.utilities import publicar_pub_sub
 
 
 import traceback
