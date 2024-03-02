@@ -61,4 +61,4 @@ def handle_exception(err):
     return jsonify(response), err.code
 
 if __name__ == "__main__":
-    app.run(debug=True, port=APP_PORT)  #, host="0.0.0.0"
+    app.run(debug=True, use_reloader=False, host="0.0.0.0", port=APP_PORT)
