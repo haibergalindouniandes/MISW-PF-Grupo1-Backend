@@ -1,0 +1,102 @@
+---------------------------------------------
+:CONFIGURACIÓN KUBERENTES EXPERIMENTOS:
+---------------------------------------------
+
+-> Autenticarse en Artifact Registry:
+	gcloud auth configure-docker us-central1-docker.pkg.dev
+
+-> Construir imagenes:
+
+	-> Imagen de Usuarios:
+		docker build -t us-central1-docker.pkg.dev/proyecto1-experimentos/experimentos-misw4501-g1/gusuarios:1.0 --target prod .
+	
+	-> Imagen de Entrenamientos:
+		docker build -t us-central1-docker.pkg.dev/proyecto1-experimentos/experimentos-misw4501-g1/gentrenamientos:1.0 --target prod .
+	
+	-> Imagen de Servicios:
+		docker build -t us-central1-docker.pkg.dev/proyecto1-experimentos/experimentos-misw4501-g1/gservicios:1.0 --target prod .
+		
+	-> Imagen de Plan Nutricional:
+		docker build -t us-central1-docker.pkg.dev/proyecto1-experimentos/experimentos-misw4501-g1/gplannutricional:1.0 --target prod .
+		
+-> Publicar imagenes en Artifact Registry:
+	
+	-> Publicar de Usuarios:	
+		docker push us-central1-docker.pkg.dev/proyecto1-experimentos/experimentos-misw4501-g1/gusuarios:1.0
+	
+	-> Publicar de Entrenamientos:
+		docker push us-central1-docker.pkg.dev/proyecto1-experimentos/experimentos-misw4501-g1/gentrenamientos:1.0
+	
+	-> Publicar de Servicios:
+		docker push us-central1-docker.pkg.dev/proyecto1-experimentos/experimentos-misw4501-g1/gservicios:1.0
+		
+	-> Publicar de Plan Nutricional:
+		docker push us-central1-docker.pkg.dev/proyecto1-experimentos/experimentos-misw4501-g1/gplannutricional:1.0
+
+-> Crear red virtual:
+	gcloud compute networks create vpn-proyecto1-experimentos --project=proyecto1-experimentos --subnet-mode=custom --mtu=1460 --bgp-routing-mode=regional
+
+-> Crear subred para los pods:
+	gcloud compute networks subnets create red-proyecto1-experimentos --range=192.168.32.0/19 --network=vpn-proyecto1-experimentos --region=us-central1 --project=proyecto1-experimentos
+
+-> Crear Kubernetes:
+	Nombre Kubernetes: misw-proyecto1-experimentos-k8s
+	Red: vpn-misw-app-nativas-nube-grupo8
+	Subred del nodo: red-misw-proyecto1-experimentos
+	Rango de direcciones del pod: 192.168.64.0/21
+	Rango de direcciones del servicio: 192.168.72.0/21
+
+-> Crear sub red para la base de datos:
+	gcloud compute addresses create red-dbs-proyecto1-experimentos --global --purpose=VPC_PEERING --addresses=192.168.0.0 --prefix-length=24 --network=vpn-proyecto1-experimentos --project=proyecto1-experimentos
+
+-> Otorgar accesos a la red virtual:
+	gcloud services vpc-peerings connect --service=servicenetworking.googleapis.com --ranges=red-dbs-proyecto1-experimentos --network=vpn-proyecto1-experimentos --project=proyecto1-experimentos
+	
+-> Agregar regla del firewall :
+	gcloud compute firewall-rules create allow-db-ingress --direction=INGRESS --priority=1000 --network=vpn-proyecto1-experimentos --action=ALLOW --rules=tcp:5432 --source-ranges=192.168.1.0/24 --target-tags=basesdedatos --project=proyecto1-experimentos
+
+-> Crear base de datos:
+	-> Instancia:
+		Nombre: misw-proyecto1-experimentos-db
+		Contraseña: PgNube202314
+		Versión: PostgreSQL 14
+		Región: us-central1
+		Disponibilidad zonal: Única
+	
+	-> Maquina y Almacenamiento:
+		Tipo de máquina: De núcleo compartido, 1 core y 1.7 GB de RAM
+		Almacenamiento 10 GB de HDD
+		No habilitar los aumentos automáticos de almacenamiento.
+	
+	-> Conexiones:
+		Asignación de IP de la instancia: privada
+		Red: vpn-misw-app-nativas-nube-grupo8
+		Rango de IP asignado: red-dbs-misw-proyecto1-experimentos
+		
+	-> Etiquetas:
+		basesdedatos
+
+-> Desplegar la funcion function-send-mail:
+    gcloud functions deploy function-send-mail --entry-point hello_http --runtime python39 --trigger-http --allow-unauthenticated --memory 128MB --region us-central1 --timeout 60 --min-instances 0 --max-instances 1
+
+-> Conectarse a Kuberneters en GCP:
+	gcloud container clusters get-credentials proyecto1-experimentos-k8s --region us-central1 --project proyecto1-experimentos
+	gcloud container clusters get-credentials misw-proyecto1-experimentos-k8 --region us-central1 --project misw-app-nativas-nube
+
+-> Borrar todo en kubernetes lo referente a pods, services y deployments:	
+	kubectl delete all --all -n default
+
+-> Aplicar Secrets:
+	kubectl apply -f secrets.yml
+
+-> Aplicar deployment servicios:
+	kubectl apply -f k8s-experimento1.yaml
+	kubectl apply -f k8s-experimento2.yaml
+	
+-> Aplicar ingress con todos los servicios:
+	kubectl apply -f k8s-ingress-deployment1.yaml	
+	kubectl apply -f k8s-ingress-deployment2.yaml
+
+-> Borrar ingress:
+	kubectl delete k8s-ingress-deployment1.yaml
+	kubectl delete ingress k8s-ingress-deployment2.yaml

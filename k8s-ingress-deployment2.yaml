@@ -1,0 +1,27 @@
+###################################
+# INGRESS
+###################################
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: gateway-ingress-epx-2-k8s
+  labels:
+    name: gateway-ingress-epx-2-k8s
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /usuarios
+        pathType: Prefix
+        backend:
+          service:
+            name: usuarios-service
+            port: 
+              number: 80
+      - path: /entrenamientos
+        pathType: Prefix
+        backend:
+          service:
+            name: entrenamientos-service
+            port: 
+              number: 80

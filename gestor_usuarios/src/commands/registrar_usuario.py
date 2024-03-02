@@ -90,8 +90,8 @@ class RegistrarUsuario(BaseCommannd):
     # Función que ejecuta el consumo en paralelo de servicios
     def ejecutar_batch_servicios(self):
         print("<=============== ejecutar_batch_servicios ==================>")
-        self.agregar_servicio_entrenamientos()
         self.agregar_servicio_plan_nutricional()
+        self.agregar_servicio_entrenamientos()
         resultados = asyncio.run(ejecucion_batch_en_paralelo())
         limpiar_batch_de_servicios()
         print("<=============== ejecutar_batch_servicios ==================>")
