@@ -1,88 +1,103 @@
 ###################################
 # GESTOR DE ENTRENAMIENTOS
 ###################################
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: entrenamientos
-  labels:
-    app: entrenamientos
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: entrenamientos
-  template:
-    metadata:
-      labels:
-        app: entrenamientos
-    spec:
-      restartPolicy: Always
-      containers:
-        - name: entrenamientos
-          image: us-central1-docker.pkg.dev/proyecto1-experimentos/experimentos-misw4501-g1/gentrenamientos:1.0
-          ports:
-            - containerPort: 3000
-          env:
-            - name: "DB_NAME"
-              valueFrom:
-                secretKeyRef:
-                  name: appsecrets 
-                  key: DB_NAME
-            - name: "DB_HOST"
-              valueFrom:
-                secretKeyRef:
-                  name: appsecrets 
-                  key: DB_HOST
-            - name: "DB_PORT"
-              valueFrom:
-                secretKeyRef:
-                  name: appsecrets 
-                  key: DB_PORT
-            - name: "DB_USER"
-              valueFrom:
-                secretKeyRef:
-                  name: appsecrets 
-                  key: DB_USER
-            - name: "DB_PASSWORD"
-              valueFrom:
-                secretKeyRef:
-                  name: appsecrets 
-                  key: DB_PASSWORD                           
-            - name: "NOTIFICACIONES_PATH"
-              valueFrom:
-                secretKeyRef:
-                  name: appsecrets 
-                  key: NOTIFICACIONES_PATH                  
-          imagePullPolicy: Always
----
-apiVersion: cloud.google.com/v1
-kind: BackendConfig
-metadata:
-  name: entrenamientos-config
-spec:
-  healthCheck:
-    checkIntervalSec: 30
-    port: 3000
-    type: HTTP
-    requestPath: /entrenamientos/ping
----
-kind: Service
-apiVersion: v1
-metadata:
-  name: entrenamientos-service
-  annotations:
-    cloud.google.com/backend-config: '{"default": "entrenamientos-config"}'
-spec:
-  type: NodePort
-  selector:
-    app: entrenamientos
-  ports:
-    - protocol: TCP
-      port: 80
-      targetPort: 3000
-      nodePort: 31017
----      
+# apiVersion: apps/v1
+# kind: Deployment
+# metadata:
+#   name: entrenamientos
+#   labels:
+#     app: entrenamientos
+# spec:
+#   replicas: 1
+#   selector:
+#     matchLabels:
+#       app: entrenamientos
+#   template:
+#     metadata:
+#       labels:
+#         app: entrenamientos
+#     spec:
+#       restartPolicy: Always
+#       containers:
+#         - name: entrenamientos
+#           image: us-central1-docker.pkg.dev/proyecto1-experimentos/experimentos-misw4501-g1/gentrenamientos:1.0
+#           ports:
+#             - containerPort: 3000
+#           env:
+#             - name: "DB_NAME"
+#               valueFrom:
+#                 secretKeyRef:
+#                   name: appsecrets 
+#                   key: DB_NAME
+#             - name: "DB_HOST"
+#               valueFrom:
+#                 secretKeyRef:
+#                   name: appsecrets 
+#                   key: DB_HOST
+#             - name: "DB_PORT"
+#               valueFrom:
+#                 secretKeyRef:
+#                   name: appsecrets 
+#                   key: DB_PORT
+#             - name: "DB_USER"
+#               valueFrom:
+#                 secretKeyRef:
+#                   name: appsecrets 
+#                   key: DB_USER
+#             - name: "DB_PASSWORD"
+#               valueFrom:
+#                 secretKeyRef:
+#                   name: appsecrets 
+#                   key: DB_PASSWORD                           
+#             - name: "NOTIFICACIONES_PATH"
+#               valueFrom:
+#                 secretKeyRef:
+#                   name: appsecrets 
+#                   key: NOTIFICACIONES_PATH
+#             - name: "PATH_PUBSUB_KEY"
+#               valueFrom:
+#                 secretKeyRef:
+#                   name: appsecrets 
+#                   key: PATH_PUBSUB_KEY
+#             - name: "GOOGLE_APPLICATION_CREDENTIALS"
+#               valueFrom:
+#                 secretKeyRef:
+#                   name: appsecrets 
+#                   key: GOOGLE_APPLICATION_CREDENTIALS       
+#             - name: "PATH_TOPIC"
+#               valueFrom:
+#                 secretKeyRef:
+#                   name: appsecrets 
+#                   key: PATH_TOPIC                   
+#           imagePullPolicy: Always
+# ---
+# apiVersion: cloud.google.com/v1
+# kind: BackendConfig
+# metadata:
+#   name: entrenamientos-config
+# spec:
+#   healthCheck:
+#     checkIntervalSec: 30
+#     port: 3000
+#     type: HTTP
+#     requestPath: /entrenamientos/ping
+# ---
+# kind: Service
+# apiVersion: v1
+# metadata:
+#   name: entrenamientos-service
+#   annotations:
+#     cloud.google.com/backend-config: '{"default": "entrenamientos-config"}'
+# spec:
+#   type: NodePort
+#   selector:
+#     app: entrenamientos
+#   ports:
+#     - protocol: TCP
+#       port: 80
+#       targetPort: 3000
+#       nodePort: 31017
+# ---      
 ###################################
 # GESTOR DE SERVICIOS
 ###################################

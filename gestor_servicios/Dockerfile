@@ -1,5 +1,5 @@
 FROM python:3.10 AS base
-LABEL author="s.salazarc@uniandes.edu.co and jf.guzmanc1@uniandes.edu.co and h.galindos@uniandes.edu.co and jm.carrillo@uniandes.edu.co"
+LABEL author="s.salazarc@uniandes.edu.co and jf.guzmanc1@uniandes.edu.co"
 RUN apt-get update && apt-get install -y
 RUN apt-get install telnet -y
 RUN pip install --upgrade pip
@@ -9,7 +9,7 @@ FROM base AS app
 RUN groupadd -r appservicios
 RUN useradd -r -m -g appservicios appservicios
 WORKDIR /home/appservicios/app
-COPY ["Pipfile", "Pipfile.lock", "./"]
+COPY ["Pipfile", "Pipfile.lock","proyecto1-experimentos-a4f693fafcec.json", "./"]
 COPY src/. /home/appservicios/app
 
 FROM app AS release
@@ -23,6 +23,7 @@ USER appservicios
 CMD ["python", "main.py"]
 
 FROM release AS prod
+ENV GOOGLE_APPLICATION_CREDENTIALS=proyecto1-experimentos-a4f693fafcec.json
 RUN pipenv install --system --deploy
 USER appservicios
 CMD ["python","main.py"]

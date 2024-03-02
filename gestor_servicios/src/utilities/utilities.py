@@ -3,7 +3,6 @@ import json
 from google.cloud import pubsub_v1
 
 # Constantes
-os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = os.getenv("PATH_PUBSUB_KEY")
 PATH_TOPIC = os.getenv("PATH_TOPIC")
 def formatDateTimeToUTC(dateTime):
     return dateTime.split('.')[0].replace(' ', 'T')
@@ -14,3 +13,5 @@ def publicar_pub_sub(args):
     publisher = pubsub_v1.PublisherClient()
     args = json.dumps(args).encode('utf-8')
     messege_published = publisher.publish(PATH_TOPIC, args)
+    message_id = messege_published.result()
+    print(f"Mensaje publicado con ID: {message_id}")
