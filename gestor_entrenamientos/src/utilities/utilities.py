@@ -3,7 +3,7 @@ import json
 from google.cloud import pubsub_v1
 
 # Constantes
-PATH_TOPIC = os.getenv("PATH_TOPIC")
+PATH_TOPIC = os.getenv("PATH_TOPIC_ALERTA")
 def formatDateTimeToUTC(dateTime):
     return dateTime.split('.')[0].replace(' ', 'T')
 
