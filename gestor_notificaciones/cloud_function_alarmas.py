@@ -39,7 +39,7 @@ def insert(query):
         return 'Error: {}'.format(str(e))
     return 'ok'
 
-def notificaciones(event, context):
+def alarmas(event, context):
     """Definición de la función invocada por el servicio Pub/Sub. 
     La función retorna la información recibida en el body
     
@@ -49,7 +49,7 @@ def notificaciones(event, context):
     Returns:
         Información de la solicitud de auxilio
     """
-    print('Inicia gestor de notificaciones')
+    print('Inicia gestor de Alarmas')
     print(event['data'])
 
     message_decoded= base64.b64decode(event['data'])
@@ -78,5 +78,5 @@ def notificaciones(event, context):
 
 
     data = event['data']
-    print('Se recibe notificacion de usuario')
+    print('Se recibe Alarma de usuario')
     return data
