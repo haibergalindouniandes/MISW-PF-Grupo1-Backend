@@ -1,11 +1,12 @@
 # Importación de dependencias
 import os
-from src.commands.base_command import BaseCommannd
-from src.validators.validators import validateSchema, notificacionSchema
+from commands.base_command import BaseCommannd
+from validators.validators import validateSchema, notificacionSchema
 from sqlalchemy.exc import SQLAlchemyError
-from src.errors.errors import ApiError
+from errors.errors import ApiError
+from models.models import db, Notificaciones
 from flask.json import jsonify
-from src.utilities.utilities import publicar_pub_sub
+from utilities.utilities import publicar_pub_sub
 
 
 import traceback
@@ -45,3 +46,16 @@ class CrearNotificaiconMasiva(BaseCommannd):
         except SQLAlchemyError as e:# pragma: no cover
             traceback.print_exc()
             raise ApiError(e)
+        
+def registrar_notificacion(self):
+        # Registrar en BD
+        notifcacion = Notificaciones(
+            name=self.name,
+            latitud=self.latitud,
+            longitud=self.longitud,
+            descripcion=self.descripcion,
+            tipo=self.tipo
+        )
+        db.session.add(notifcacion)
+        #db.session.commit()
+        return notifcacion

@@ -2,7 +2,7 @@
 import asyncio
 import traceback
 from commands.base_command import BaseCommannd
-from utilities.utilities import booleano_a_string, obtener_enpoint_entrenamientos, obtener_enpoint_plan_nutricional, agregar_servicio_a_batch, limpiar_batch_de_servicios, ejecucion_batch_en_paralelo, string_a_booleano
+from utilities.utilities import booleano_a_string, obtener_endpoint_entrenamientos, obtener_endpoint_plan_nutricional, agregar_servicio_a_batch, limpiar_batch_de_servicios, ejecucion_batch_en_paralelo, string_a_booleano
 from models.models import db, Usuario
 from validators.validators import validar_esquema, esquema_registro_usuario
 from sqlalchemy.exc import SQLAlchemyError
@@ -43,13 +43,27 @@ class RegistrarUsuario(BaseCommannd):
         # Asignacion id servicios externos
         self.id_entrenamiento = resultados[0]["id"]
         self.id_plan_nutricional = resultados[1]["id"]
+        
+    # Función que asigna  plan nutricional
+    def agregar_plan_nutricional(self, resultados, resultado_legado):
+        # Asignacion plan nutricional
+        resultados['plan_alimentacion'] = resultado_legado[0]
+        return resultados
+
+    # Función que asigna  plan de entrenamientos
+    def agregar_plan_de_entrenamiento(self, resultados, resultado_legado):
+        # Asignacion  plan de entrenamientos
+        resultados['plan_entrenamiento'] = resultado_legado[1]
+        return resultados
+
 
     # Función que realiza el mapeo de información para el consumo del servicio de Entrenamientos
     def agregar_servicio_entrenamientos(self):
         # Mapeo de información
-        headers = {'Content-Type': 'application/json', 'X-API-Key': 'a033d2c0'}
+        headers = {'Content-Type': 'application/json'}
         data = {
             "sexo": self.sexo,
+            "edad": self.edad,
             "peso": int(self.peso),
             "estatura": int(self.estatura),
             "tipo_identificacion": self.tipo_identificacion,
@@ -57,14 +71,15 @@ class RegistrarUsuario(BaseCommannd):
             "practica_deporte": booleano_a_string(self.practica_deporte),
             "proposito": self.proposito
         }
-        agregar_servicio_a_batch((obtener_enpoint_plan_nutricional(), 'POST', data, headers))
+        agregar_servicio_a_batch((obtener_endpoint_entrenamientos(), 'POST', data, headers))
 
     # Función que realiza el mapeo de información para el consumo del servicio de plan nutricional
     def agregar_servicio_plan_nutricional(self):
         # Mapeo de información
-        headers = {'Content-Type': 'application/json', 'X-API-Key': 'a033d2c0'}
+        headers = {'Content-Type': 'application/json'}
         data = {
             "sexo": self.sexo,
+            "edad": self.edad,
             "peso": int(self.peso),
             "estatura": int(self.estatura),
             "tipo_identificacion": self.tipo_identificacion,
@@ -72,13 +87,13 @@ class RegistrarUsuario(BaseCommannd):
             "practica_deporte": booleano_a_string(self.practica_deporte),
             "proposito": self.proposito
         }
-        agregar_servicio_a_batch((obtener_enpoint_entrenamientos(), 'POST', data, headers))
+        agregar_servicio_a_batch((obtener_endpoint_plan_nutricional(), 'POST', data, headers))
 
     # Función que ejecuta el consumo en paralelo de servicios
     def ejecutar_batch_servicios(self):
         print("<=============== ejecutar_batch_servicios ==================>")
-        self.agregar_servicio_entrenamientos()
         self.agregar_servicio_plan_nutricional()
+        self.agregar_servicio_entrenamientos()
         resultados = asyncio.run(ejecucion_batch_en_paralelo())
         limpiar_batch_de_servicios()
         print("<=============== ejecutar_batch_servicios ==================>")
@@ -99,9 +114,7 @@ class RegistrarUsuario(BaseCommannd):
             enfermedades_cardiovasculares=self.enfermedades_cardiovasculares,
             pais=self.pais,
             departamento=self.departamento,
-            ciudad=self.ciudad,
-            id_entrenamiento=self.id_entrenamiento,
-            id_plan_nutricional=self.id_plan_nutricional
+            ciudad=self.ciudad
         )
         db.session.add(usuario)
         db.session.commit()
@@ -114,8 +127,10 @@ class RegistrarUsuario(BaseCommannd):
             # Logica de negocio
             resultado = self.ejecutar_batch_servicios()
             print(resultado)
-            self.asignar_ids_servicios_externos(resultado)
+            # self.asignar_ids_servicios_externos(resultado)
             usuario_registrado = self.registrar_usuario_bd().to_dict()
+            usuario_registrado = self.agregar_plan_de_entrenamiento(usuario_registrado, resultado)
+            usuario_registrado = self.agregar_plan_nutricional(usuario_registrado, resultado)
             print(usuario_registrado)
             print("<=============== execute ==================>")
             return usuario_registrado

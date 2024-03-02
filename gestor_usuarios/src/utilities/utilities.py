@@ -16,11 +16,11 @@ def string_a_booleano(string):
     return True if string == 'SI' else False
 
 # Función retorna el enpoint del servicio de plan nutricional
-def obtener_enpoint_plan_nutricional():
+def obtener_endpoint_plan_nutricional():
     return os.getenv('GESTOREPLANNUTRICIONAL_ADDRESS')
 
 # Función retorna el enpoint del servicio de entrenamientos
-def obtener_enpoint_entrenamientos():
+def obtener_endpoint_entrenamientos():
     return os.getenv('GESTORENTRENAMIENTOS_ADDRESS')
 
 # Función que agregar un nuevo  endpoint de la API a llamar

@@ -6,9 +6,9 @@ import smtplib
 import os
 from google.cloud import pubsub_v1
 
-PATH_PUBSUB_KEY = os.getenv("PATH_PUBSUB_KEY", default="proyecto1-experimentos-b53d3e709d98.json")
-PATH_SUBSCRIBER = os.getenv("SUBSCRIPTION_TOPIC", default="projects/proyecto1-experimentos/subscriptions/notifications-sub")
-os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = PATH_PUBSUB_KEY
+PATH_PUBSUB_KEY = os.getenv("PATH_PUBSUB_KEY")
+PATH_TOPIC = os.getenv("PATH_TOPIC")
+#os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = os.getenv("PATH_PUBSUB_KEY")
 
 def callback(message: pubsub_v1.subscriber.message.Message) -> None:
     try:

@@ -1,0 +1,6 @@
+# JMeter generated Authorization file
+http://10.69.38.11:7003	wl-user	weblogic.user			BASIC
+http://localhost:7001	weblogic	welcome1			BASIC
+http://10.69.38.12:7010	digital-user	digital.2017			BASIC
+http://10.69.42.105	digital-user	digital.2017			BASIC
+http://10.100.76.149	retry-user	retry.user.2020			BASIC

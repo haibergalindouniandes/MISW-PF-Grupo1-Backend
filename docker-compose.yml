@@ -32,7 +32,7 @@ services:
     environment:
       - GESTORENTRENAMIENTOS_ADDRESS=gentrenamientos
       - PATH_PUBSUB_KEY=proyecto1-experimentos-a4f693fafcec.json
-      - PATH_TOPIC=projects/proyecto1-experimentos/topics/notifications
+      - PATH_TOPIC_ALERTAS=projects/proyecto1-experimentos/topics/alarmas
       - DB_USER=postgres
       - DB_PASSWORD=postgres
       - DB_HOST=postgres
@@ -57,7 +57,7 @@ services:
     environment:
       - GESTORENTRENAMIENTOS_ADDRESS=gservicios
       - PATH_PUBSUB_KEY=proyecto1-experimentos-a4f693fafcec.json
-      - PATH_TOPIC=projects/proyecto1-experimentos/topics/notifications
+      - PATH_TOPIC_MASIVAS=projects/proyecto1-experimentos/topics/notifications
       - DB_USER=postgres
       - DB_PASSWORD=postgres
       - DB_HOST=postgres

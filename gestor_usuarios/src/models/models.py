@@ -26,10 +26,10 @@ class Usuario(db.Model):
     pais = db.Column(db.String(50), nullable=True)
     departamento = db.Column(db.String(90), nullable=True)
     ciudad = db.Column(db.String(90), nullable=True)
-    id_entrenamiento = db.Column(db.String(90), nullable=True)
-    id_plan_nutricional = db.Column(db.String(90), nullable=True)
-    create_date = db.Column(db.DateTime, default=datetime.utcnow)
-    update_date = db.Column(db.DateTime, default=datetime.utcnow)
+    id_entrenamiento = db.Column(db.String(90), nullable=True, default=None)
+    id_plan_nutricional = db.Column(db.String(90), nullable=True, default=None)
+    fecha_creacion = db.Column(db.DateTime, default=datetime.utcnow)
+    fecha_actualizacion = db.Column(db.DateTime, default=datetime.utcnow)
 
     # Función que retorna un diccionario a partir del modelo
     def to_dict(self):
@@ -47,8 +47,6 @@ class Usuario(db.Model):
             "pais": self.pais,
             "departamento": self.departamento,
             "ciudad": self.ciudad,
-            "id_entrenamiento": self.id_entrenamiento,
-            "id_plan_nutricional": self.id_plan_nutricional,
-            "create_date": str(self.create_date),
-            "update_date": str(self.update_date)
+            "fecha_creacion": str(self.fecha_creacion),
+            "fecha_actualizacion": str(self.fecha_actualizacion)
         }

@@ -1,0 +1,10 @@
+
+### habilitar APIs
+Habilitar Cloud Functions API si es necesario
+Habilitar Cloud SQL Admin API si es Necesario
+
+
+###Crear Funcion para el gestor de notificaciones
+gcloud functions deploy funcion-pubsub-gestor-notificaciones --entry-point notificaciones --runtime python39 --trigger-topic notifications --allow-unauthenticated --memory 128MB --region us-central1 --timeout 60 --min-instances 0 --max-instances 1 
+###Crear Funcion para el gestor de alarmas
+gcloud functions deploy funcion-pubsub-gestor-alarmas --entry-point alarmas --runtime python39 --trigger-topic alarmas --allow-unauthenticated --memory 128MB --region us-central1 --timeout 60 --min-instances 0 --max-instances 1 
