@@ -26,8 +26,8 @@ class Usuario(db.Model):
     pais = db.Column(db.String(50), nullable=True)
     departamento = db.Column(db.String(90), nullable=True)
     ciudad = db.Column(db.String(90), nullable=True)
-    id_entrenamiento = db.Column(db.String(90), nullable=True)
-    id_plan_nutricional = db.Column(db.String(90), nullable=True)
+    id_entrenamiento = db.Column(db.String(90), nullable=True, default=None)
+    id_plan_nutricional = db.Column(db.String(90), nullable=True, default=None)
     create_date = db.Column(db.DateTime, default=datetime.utcnow)
     update_date = db.Column(db.DateTime, default=datetime.utcnow)
 

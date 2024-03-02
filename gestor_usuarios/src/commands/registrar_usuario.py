@@ -43,6 +43,19 @@ class RegistrarUsuario(BaseCommannd):
         # Asignacion id servicios externos
         self.id_entrenamiento = resultados[0]["id"]
         self.id_plan_nutricional = resultados[1]["id"]
+        
+    # Función que asigna  plan nutricional
+    def agregar_plan_nutricional(self, resultados, resultado_legado):
+        # Asignacion plan nutricional
+        resultados['alimentos'] = resultado_legado[0]["alimentos"]
+        return resultados
+
+    # Función que asigna  plan de entrenamientos
+    def agregar_plan_de_entrenamiento(self, resultados, resultado_legado):
+        # Asignacion  plan de entrenamientos
+        resultados['ejercicios'] = resultado_legado[1]["ejercicios"]
+        return resultados
+
 
     # Función que realiza el mapeo de información para el consumo del servicio de Entrenamientos
     def agregar_servicio_entrenamientos(self):
@@ -99,9 +112,7 @@ class RegistrarUsuario(BaseCommannd):
             enfermedades_cardiovasculares=self.enfermedades_cardiovasculares,
             pais=self.pais,
             departamento=self.departamento,
-            ciudad=self.ciudad,
-            id_entrenamiento=self.id_entrenamiento,
-            id_plan_nutricional=self.id_plan_nutricional
+            ciudad=self.ciudad
         )
         db.session.add(usuario)
         db.session.commit()
@@ -114,8 +125,10 @@ class RegistrarUsuario(BaseCommannd):
             # Logica de negocio
             resultado = self.ejecutar_batch_servicios()
             print(resultado)
-            self.asignar_ids_servicios_externos(resultado)
+            # self.asignar_ids_servicios_externos(resultado)
             usuario_registrado = self.registrar_usuario_bd().to_dict()
+            usuario_registrado = self.agregar_plan_de_entrenamiento(usuario_registrado, resultado)
+            usuario_registrado = self.agregar_plan_nutricional(usuario_registrado, resultado)
             print(usuario_registrado)
             print("<=============== execute ==================>")
             return usuario_registrado
