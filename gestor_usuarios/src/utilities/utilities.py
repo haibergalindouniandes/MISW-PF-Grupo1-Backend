@@ -33,14 +33,13 @@ def limpiar_batch_de_servicios():
 
 # Función que permite realizar el consumo de un servicio de forma asincrona
 async def consumo_servicio_asincrono(url, metodo, data=None, headers=None):
-    print('<================ consumo_servicio_asincrono =====================>')
-    print(url)
-    print(metodo)
-    print(data)
-    print(data)    
+    print('<================ consumo_servicio_asincrono-request =====================>')
+    print(f'Endpoint [{url}]')
+    print(f'Metodo [{metodo}]')
+    print(f'Request [{data}]')
     async with aiohttp.ClientSession() as session:
         if metodo == "POST":
-            async with session.post(url, json=data, headers=headers) as resultado:
+            async with session.post(url, json=data, headers=headers) as resultado:                
                 validar_resultado_consumo_servicio(resultado)
                 return await resultado.json()
         else:

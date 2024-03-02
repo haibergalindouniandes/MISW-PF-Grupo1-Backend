@@ -56,7 +56,6 @@ class RegistrarUsuario(BaseCommannd):
         resultados['plan_entrenamiento'] = resultado_legado[1]
         return resultados
 
-
     # Función que realiza el mapeo de información para el consumo del servicio de Entrenamientos
     def agregar_servicio_entrenamientos(self):
         # Mapeo de información
@@ -91,12 +90,10 @@ class RegistrarUsuario(BaseCommannd):
 
     # Función que ejecuta el consumo en paralelo de servicios
     def ejecutar_batch_servicios(self):
-        print("<=============== ejecutar_batch_servicios ==================>")
         self.agregar_servicio_plan_nutricional()
         self.agregar_servicio_entrenamientos()
         resultados = asyncio.run(ejecucion_batch_en_paralelo())
         limpiar_batch_de_servicios()
-        print("<=============== ejecutar_batch_servicios ==================>")
         return resultados
 
         # Función que realiza el registro del usuario en BD
@@ -123,16 +120,12 @@ class RegistrarUsuario(BaseCommannd):
     # Función que realiza creación de la Alerta
     def execute(self):
         try:
-            print("<=============== execute ==================>")
             # Logica de negocio
             resultado = self.ejecutar_batch_servicios()
-            print(resultado)
             # self.asignar_ids_servicios_externos(resultado)
             usuario_registrado = self.registrar_usuario_bd().to_dict()
             usuario_registrado = self.agregar_plan_de_entrenamiento(usuario_registrado, resultado)
             usuario_registrado = self.agregar_plan_nutricional(usuario_registrado, resultado)
-            print(usuario_registrado)
-            print("<=============== execute ==================>")
             return usuario_registrado
         except SQLAlchemyError as e:# pragma: no cover
             traceback.print_exc()

@@ -1,0 +1,517 @@
+{
+	"info": {
+		"_postman_id": "e691ec6c-cdc2-412c-827e-eab2985b2a92",
+		"name": "Experimento2",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "5238096",
+		"_collection_link": "https://planetary-water-212881.postman.co/workspace/NeorisWorksapce~9bbcffd1-3c84-4e9a-8798-11122e25b222/collection/5238096-e691ec6c-cdc2-412c-827e-eab2985b2a92?action=share&source=collection_link&creator=5238096"
+	},
+	"item": [
+		{
+			"name": "Plan Entrenamiento",
+			"item": [
+				{
+					"name": "Healtcheck",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{HOST_ENTRENAMIENTOS}}/entrenamientos/ping",
+							"host": [
+								"{{HOST_ENTRENAMIENTOS}}"
+							],
+							"path": [
+								"entrenamientos",
+								"ping"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Healtcheck",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{HOST_ENTRENAMIENTOS}}/entrenamientos/ping",
+									"host": [
+										"{{HOST_ENTRENAMIENTOS}}"
+									],
+									"path": [
+										"entrenamientos",
+										"ping"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "html",
+							"header": [
+								{
+									"key": "Server",
+									"value": "Werkzeug/3.0.1 Python/3.10.13"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 02 Mar 2024 20:11:04 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "text/html; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "4"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								}
+							],
+							"cookie": [],
+							"body": "pong"
+						}
+					]
+				},
+				{
+					"name": "Consultar plan entrenamiento",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"sexo\": \"MASCULINO\",\r\n    \"edad\": 30,\r\n    \"peso\": 72,\r\n    \"estatura\": 170,\r\n    \"enfermedades_cardiovasculares\": \"NO\",\r\n    \"practica_deporte\": \"SI\",\r\n    \"proposito\": \"GANAR MASA MUSCULAR\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{HOST_ENTRENAMIENTOS}}/entrenamientos/plan-entrenamiento",
+							"host": [
+								"{{HOST_ENTRENAMIENTOS}}"
+							],
+							"path": [
+								"entrenamientos",
+								"plan-entrenamiento"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Consultar plan entrenamiento",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"sexo\": \"MASCULINO\",\r\n    \"edad\": 30,\r\n    \"peso\": 72,\r\n    \"estatura\": 170,\r\n    \"enfermedades_cardiovasculares\": \"NO\",\r\n    \"practica_deporte\": \"SI\",\r\n    \"proposito\": \"GANAR MASA MUSCULAR\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{HOST_ENTRENAMIENTOS}}/entrenamientos/plan-entrenamiento",
+									"host": [
+										"{{HOST_ENTRENAMIENTOS}}"
+									],
+									"path": [
+										"entrenamientos",
+										"plan-entrenamiento"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "Werkzeug/3.0.1 Python/3.10.13"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 02 Mar 2024 20:11:42 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "1243"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"clasificacion\": \"PESO BAJO|PESO NORMAL|SOBREPESO|OBESIDAD\",\n        \"ejercicios\": {\n            \"ejercicio1\": {\n                \"descanso entre ejercicios\": \"10 segundos\",\n                \"nombre\": \"swings con pesa rusa\",\n                \"numero de repeticiones\": \"15\",\n                \"numero de series\": \"3\"\n            },\n            \"ejercicio2\": {\n                \"descanso entre ejercicios\": \"10 segundos\",\n                \"nombre\": \"peso muerto con barra\",\n                \"numero de repeticiones\": \"10\",\n                \"numero de series\": \"3\"\n            }\n        },\n        \"id\": 1,\n        \"proposito\": \"GANAR MASA MUSCULAR\",\n        \"rutina\": \"rutina 1\",\n        \"tipo_entrenamiento\": \"circuito por carga\"\n    },\n    {\n        \"clasificacion\": \"PESO BAJO|PESO NORMAL|SOBREPESO|OBESIDAD\",\n        \"ejercicios\": {\n            \"ejercicio1\": {\n                \"descanso entre ejercicios\": \"10 segundos\",\n                \"nombre\": \"sentadillas con pesa rusa\",\n                \"numero de repeticiones\": \"15\",\n                \"numero de series\": \"3\"\n            },\n            \"ejercicio2\": {\n                \"descanso entre ejercicios\": \"10 segundos\",\n                \"nombre\": \"press de banca\",\n                \"numero de repeticiones\": \"10\",\n                \"numero de series\": \"3\"\n            }\n        },\n        \"id\": 2,\n        \"proposito\": \"GANAR MASA MUSCULAR\",\n        \"rutina\": \"rutina 2\",\n        \"tipo_entrenamiento\": \"circuito por carga\"\n    }\n]"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Plan Nutricional",
+			"item": [
+				{
+					"name": "Healtcheck",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{HOST_PLANNUTRICIONAL}}/nutricion/ping",
+							"host": [
+								"{{HOST_PLANNUTRICIONAL}}"
+							],
+							"path": [
+								"nutricion",
+								"ping"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Healtcheck",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{HOST_PLANNUTRICIONAL}}/nutricion/ping",
+									"host": [
+										"{{HOST_PLANNUTRICIONAL}}"
+									],
+									"path": [
+										"nutricion",
+										"ping"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "html",
+							"header": [
+								{
+									"key": "Server",
+									"value": "Werkzeug/3.0.1 Python/3.10.13"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 02 Mar 2024 20:12:51 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "text/html; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "4"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								}
+							],
+							"cookie": [],
+							"body": "pong"
+						}
+					]
+				},
+				{
+					"name": "Consultar plan nutricional",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"sexo\": \"MASCULINO\",\r\n    \"edad\": 30,\r\n    \"peso\": 72,\r\n    \"estatura\": 170,\r\n    \"enfermedades_cardiovasculares\": \"NO\",\r\n    \"practica_deporte\": \"SI\",\r\n    \"proposito\": \"GANAR MASA MUSCULAR\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{HOST_PLANNUTRICIONAL}}/nutricion/plan-nutricional",
+							"host": [
+								"{{HOST_PLANNUTRICIONAL}}"
+							],
+							"path": [
+								"nutricion",
+								"plan-nutricional"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Consultar plan nutricional",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"sexo\": \"MASCULINO\",\r\n    \"edad\": 30,\r\n    \"peso\": 72,\r\n    \"estatura\": 170,\r\n    \"enfermedades_cardiovasculares\": \"NO\",\r\n    \"practica_deporte\": \"SI\",\r\n    \"proposito\": \"GANAR MASA MUSCULAR\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{HOST_PLANNUTRICIONAL}}/nutricion/plan-nutricional",
+									"host": [
+										"{{HOST_PLANNUTRICIONAL}}"
+									],
+									"path": [
+										"nutricion",
+										"plan-nutricional"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "Werkzeug/3.0.1 Python/3.10.13"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 02 Mar 2024 20:13:52 GMT"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "537"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"clasificacion\": \"SOBREPESO|OBESIDAD\",\n        \"id\": 2,\n        \"menus\": {\n            \"menu1\": {\n                \"descripcion\": \"1 huevo, cafe sin azucar, 1 porcion de queso\",\n                \"nombre\": \"desayuno\"\n            },\n            \"menu2\": {\n                \"descripcion\": \"pechuga de pollo, champinones, ensalada con nueces\",\n                \"nombre\": \"almuerzo\"\n            },\n            \"menu3\": {\n                \"descripcion\": \"filete de pescado, aguacate\",\n                \"nombre\": \"cena\"\n            }\n        },\n        \"plan_nutricional\": \"plan nutricional 2\",\n        \"proposito\": \"GANAR MASA MUSCULAR\"\n    }\n]"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Usuarios",
+			"item": [
+				{
+					"name": "Healtcheck",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{HOST_USUARIOS}}/usuarios/ping",
+							"host": [
+								"{{HOST_USUARIOS}}"
+							],
+							"path": [
+								"usuarios",
+								"ping"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Healtcheck",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{HOST_USUARIOS}}/usuarios/ping",
+									"host": [
+										"{{HOST_USUARIOS}}"
+									],
+									"path": [
+										"usuarios",
+										"ping"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "html",
+							"header": [
+								{
+									"key": "Server",
+									"value": "gunicorn"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 02 Mar 2024 20:14:27 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								},
+								{
+									"key": "Content-Type",
+									"value": "text/html; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "4"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								}
+							],
+							"cookie": [],
+							"body": "pong"
+						}
+					]
+				},
+				{
+					"name": "Registrar usuario",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nombres\": \"Prueba\",\r\n    \"apellidos\": \"Doe\",\r\n    \"tipo_identificacion\": \"Cédula de ciudadania\",\r\n    \"numero_identificacion\": \"123456789\",\r\n    \"sexo\": \"MASCULINO\",\r\n    \"edad\": 30,\r\n    \"peso\": 75,\r\n    \"estatura\": 170,\r\n    \"enfermedades_cardiovasculares\": false,\r\n    \"practica_deporte\": true,\r\n    \"proposito\": \"GANAR MASA MUSCULAR\",\r\n    \"pais\": \"USA\",\r\n    \"departamento\": \"California\",\r\n    \"ciudad\": \"Los Angeles\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{HOST_USUARIOS}}/usuarios",
+							"host": [
+								"{{HOST_USUARIOS}}"
+							],
+							"path": [
+								"usuarios"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Registrar usuario",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"nombres\": \"Prueba\",\r\n    \"apellidos\": \"Doe\",\r\n    \"tipo_identificacion\": \"Cédula de ciudadania\",\r\n    \"numero_identificacion\": \"123456789\",\r\n    \"sexo\": \"MASCULINO\",\r\n    \"edad\": 30,\r\n    \"peso\": 75,\r\n    \"estatura\": 170,\r\n    \"enfermedades_cardiovasculares\": false,\r\n    \"practica_deporte\": true,\r\n    \"proposito\": \"GANAR MASA MUSCULAR\",\r\n    \"pais\": \"USA\",\r\n    \"departamento\": \"California\",\r\n    \"ciudad\": \"Los Angeles\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{HOST_USUARIOS}}/usuarios",
+									"host": [
+										"{{HOST_USUARIOS}}"
+									],
+									"path": [
+										"usuarios"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "gunicorn"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 02 Mar 2024 20:14:48 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "close"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json"
+								},
+								{
+									"key": "Content-Length",
+									"value": "2444"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"apellidos\": \"Doe\",\n    \"ciudad\": \"Los Angeles\",\n    \"departamento\": \"California\",\n    \"edad\": 30,\n    \"enfermedades_cardiovasculares\": false,\n    \"estatura\": 170,\n    \"fecha_actualizacion\": \"2024-03-02 20:14:48.093518\",\n    \"fecha_creacion\": \"2024-03-02 20:14:48.093514\",\n    \"id\": \"d3a1562f-7f77-4809-aba5-0b1d15af667e\",\n    \"nombres\": \"Prueba\",\n    \"numero_identificacion\": \"123456789\",\n    \"pais\": \"USA\",\n    \"peso\": 75,\n    \"plan_alimentacion\": [\n        {\n            \"clasificacion\": \"SOBREPESO|OBESIDAD\",\n            \"id\": 2,\n            \"menus\": {\n                \"menu1\": {\n                    \"descripcion\": \"1 huevo, cafe sin azucar, 1 porcion de queso\",\n                    \"nombre\": \"desayuno\"\n                },\n                \"menu2\": {\n                    \"descripcion\": \"pechuga de pollo, champinones, ensalada con nueces\",\n                    \"nombre\": \"almuerzo\"\n                },\n                \"menu3\": {\n                    \"descripcion\": \"filete de pescado, aguacate\",\n                    \"nombre\": \"cena\"\n                }\n            },\n            \"plan_nutricional\": \"plan nutricional 2\",\n            \"proposito\": \"GANAR MASA MUSCULAR\"\n        }\n    ],\n    \"plan_entrenamiento\": [\n        {\n            \"clasificacion\": \"PESO BAJO|PESO NORMAL|SOBREPESO|OBESIDAD\",\n            \"ejercicios\": {\n                \"ejercicio1\": {\n                    \"descanso entre ejercicios\": \"10 segundos\",\n                    \"nombre\": \"swings con pesa rusa\",\n                    \"numero de repeticiones\": \"15\",\n                    \"numero de series\": \"3\"\n                },\n                \"ejercicio2\": {\n                    \"descanso entre ejercicios\": \"10 segundos\",\n                    \"nombre\": \"peso muerto con barra\",\n                    \"numero de repeticiones\": \"10\",\n                    \"numero de series\": \"3\"\n                }\n            },\n            \"id\": 1,\n            \"proposito\": \"GANAR MASA MUSCULAR\",\n            \"rutina\": \"rutina 1\",\n            \"tipo_entrenamiento\": \"circuito por carga\"\n        },\n        {\n            \"clasificacion\": \"PESO BAJO|PESO NORMAL|SOBREPESO|OBESIDAD\",\n            \"ejercicios\": {\n                \"ejercicio1\": {\n                    \"descanso entre ejercicios\": \"10 segundos\",\n                    \"nombre\": \"sentadillas con pesa rusa\",\n                    \"numero de repeticiones\": \"15\",\n                    \"numero de series\": \"3\"\n                },\n                \"ejercicio2\": {\n                    \"descanso entre ejercicios\": \"10 segundos\",\n                    \"nombre\": \"press de banca\",\n                    \"numero de repeticiones\": \"10\",\n                    \"numero de series\": \"3\"\n                }\n            },\n            \"id\": 2,\n            \"proposito\": \"GANAR MASA MUSCULAR\",\n            \"rutina\": \"rutina 2\",\n            \"tipo_entrenamiento\": \"circuito por carga\"\n        }\n    ],\n    \"sexo\": \"MASCULINO\",\n    \"tipo_identificacion\": \"Cédula de ciudadania\"\n}"
+						}
+					]
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "HOST_USUARIOS",
+			"value": "https://3001-shiomarsala-misw4501202-lw1s54l2oe0.ws-us108.gitpod.io",
+			"type": "string"
+		},
+		{
+			"key": "HOST_ENTRENAMIENTOS",
+			"value": "https://3000-shiomarsala-misw4501202-lw1s54l2oe0.ws-us108.gitpod.io",
+			"type": "string"
+		},
+		{
+			"key": "HOST_PLANNUTRICIONAL",
+			"value": "https://3002-shiomarsala-misw4501202-lw1s54l2oe0.ws-us108.gitpod.io",
+			"type": "string"
+		}
+	]
+}

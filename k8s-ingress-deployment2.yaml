@@ -11,11 +11,11 @@ spec:
   rules:
   - http:
       paths:
-      - path: /usuarios
+      - path: /plannutricional
         pathType: Prefix
         backend:
           service:
-            name: usuarios-service
+            name: plannutricional-service
             port: 
               number: 80
       - path: /entrenamientos
@@ -25,3 +25,10 @@ spec:
             name: entrenamientos-service
             port: 
               number: 80
+      - path: /usuarios
+        pathType: Prefix
+        backend:
+          service:
+            name: usuarios-service
+            port: 
+              number: 80              
