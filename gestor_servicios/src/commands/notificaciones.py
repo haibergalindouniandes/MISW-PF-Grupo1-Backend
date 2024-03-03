@@ -16,7 +16,7 @@ class CrearNotificaiconMasiva(BaseCommannd):
     def __init__(self, data):
         self.validateRequest(data)
         #TODO: Email de prueba para el experimento
-        self.emails = ["s.salazarc@uniandes.edu.co",
+        self.emails = ["shiomarsa_2@hotmail.com",
                      "jf.guzmanc1@uniandes.edu.co"] 
 
     # Función que valida el request del servicio
@@ -32,7 +32,7 @@ class CrearNotificaiconMasiva(BaseCommannd):
     # Función que realiza creación de la Notificacion Masiva
     def execute(self):
         try:
-            #TODO: Consulta de Emails de usuarios a Gestor de Consultas
+            #TODO: Consulta de Emails de usuarios a Gestor de Consultasc
             #TODO: Consulta de Nombre del Servicio a Gestor de Consultas
             for email in self.emails:
                 notificaciones_msg = {

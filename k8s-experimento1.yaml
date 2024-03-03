@@ -8,7 +8,7 @@ metadata:
   labels:
     app: entrenamientos
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app: entrenamientos
@@ -60,6 +60,9 @@ spec:
                   name: appsecrets 
                   key: PATH_TOPIC_ALERTA                   
           imagePullPolicy: Always
+          resources:
+            requests:
+              cpu: 200m
 ---
 apiVersion: cloud.google.com/v1
 kind: BackendConfig
@@ -87,6 +90,19 @@ spec:
       port: 80
       targetPort: 3000
       nodePort: 31017
+---
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: autoscaller-entrenamientos
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: entrenamientos
+  minReplicas: 2
+  maxReplicas: 3
+  targetCPUUtilizationPercentage: 40
 ---      
 ###################################
 # GESTOR DE SERVICIOS
@@ -98,7 +114,7 @@ metadata:
   labels:
     app: servicios
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app: servicios
@@ -149,7 +165,10 @@ spec:
                 secretKeyRef:
                   name: appsecrets 
                   key: PATH_TOPIC_MASIVAS
-          imagePullPolicy: Always                          
+          imagePullPolicy: Always  
+          resources:
+            requests:
+              cpu: 200m                        
 ---
 apiVersion: cloud.google.com/v1
 kind: BackendConfig
@@ -177,4 +196,17 @@ spec:
       port: 80
       targetPort: 3000
       nodePort: 31018
----      
+---  
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: autoscaller-servicios
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: servicios
+  minReplicas: 2
+  maxReplicas: 3
+  targetCPUUtilizationPercentage: 40
+---
