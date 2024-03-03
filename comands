@@ -1,0 +1,173 @@
+---------------------------------------------
+:CONFIGURACIÓN KUBERENTES EXPERIMENTOS:
+---------------------------------------------
+
+-> Autenticarse en Artifact Registry:
+	gcloud auth configure-docker us-central1-docker.pkg.dev
+
+-> Construir imagenes:
+
+	-> Imagen de Users:
+		docker build -t us-central1-docker.pkg.dev/s202314-proyecto-grupo8/misw-native-microservices-app/users:1.0 --target prod .
+		docker build -t us-central1-docker.pkg.dev/misw-app-nativas-nube/misw-native-microservices-app/users:1.0 --target prod .
+	
+	-> Imagen de Offers:
+		docker build -t  us-central1-docker.pkg.dev/s202314-proyecto-grupo8/misw-native-microservices-app/offers:1.0 --target prod .
+		docker build -t us-central1-docker.pkg.dev/misw-app-nativas-nube/misw-native-microservices-app/offers:1.0 --target prod .
+	
+	-> Imagen de Routes:
+		docker build -t us-central1-docker.pkg.dev/s202314-proyecto-grupo8/misw-native-microservices-app/routes:1.0 --target prod .
+		docker build -t us-central1-docker.pkg.dev/misw-app-nativas-nube/misw-native-microservices-app/routes:1.0 --target prod .
+		
+	-> Imagen de posts:
+		docker build -t us-central1-docker.pkg.dev/s202314-proyecto-grupo8/misw-native-microservices-app/posts:1.0 --target prod .
+		docker build -t us-central1-docker.pkg.dev/misw-app-nativas-nube/misw-native-microservices-app/posts:1.0 --target prod .
+		
+	-> Imagen de scores:
+		docker build -t us-central1-docker.pkg.dev/s202314-proyecto-grupo8/misw-native-microservices-app/scores:1.0 --target prod .
+		docker build -t us-central1-docker.pkg.dev/misw-app-nativas-nube/misw-native-microservices-app/scores:1.0 --target prod .
+	
+	-> Imagen de rf003:
+		docker build -t us-central1-docker.pkg.dev/s202314-proyecto-grupo8/misw-native-microservices-app/rf003:1.0 --target prod .
+		docker build -t us-central1-docker.pkg.dev/misw-app-nativas-nube/misw-native-microservices-app/rf003:1.0 --target prod .
+
+	-> Imagen de rf004:
+		docker build -t us-central1-docker.pkg.dev/s202314-proyecto-grupo8/misw-native-microservices-app/rf004:1.0 --target prod .
+		docker build -t us-central1-docker.pkg.dev/misw-app-nativas-nube/misw-native-microservices-app/rf004:1.0 --target prod .
+
+	-> Imagen de rf005:
+		docker build -t us-central1-docker.pkg.dev/s202314-proyecto-grupo8/misw-native-microservices-app/rf005:1.0 --target prod .
+		docker build -t us-central1-docker.pkg.dev/misw-app-nativas-nube/misw-native-microservices-app/rf005:1.0 --target prod .
+
+	-> Imagen de rf006:
+		docker build -t us-central1-docker.pkg.dev/s202314-proyecto-grupo8/misw-native-microservices-app/rf006:1.0 --target prod .
+		docker build -t us-central1-docker.pkg.dev/misw-app-nativas-nube/misw-native-microservices-app/rf006:1.0 --target prod .
+
+	-> Imagen de rf006_poll:
+		docker build -t us-central1-docker.pkg.dev/s202314-proyecto-grupo8/misw-native-microservices-app/rf006_poll:1.0 --target prod .
+		docker build -t us-central1-docker.pkg.dev/misw-app-nativas-nube/misw-native-microservices-app/rf006_poll:1.0 --target prod .
+
+-> Publicar imagenes en Artifact Registry:
+	
+	-> Publicar de Users:	
+		docker push us-central1-docker.pkg.dev/s202314-proyecto-grupo8/misw-native-microservices-app/users:1.0
+		docker push us-central1-docker.pkg.dev/misw-app-nativas-nube/misw-native-microservices-app/users:1.0
+	
+	-> Publicar de Offers:
+		docker push  us-central1-docker.pkg.dev/s202314-proyecto-grupo8/misw-native-microservices-app/offers:1.0
+		docker push us-central1-docker.pkg.dev/misw-app-nativas-nube/misw-native-microservices-app/offers:1.0
+	
+	-> Publicar de Routes:
+		docker push us-central1-docker.pkg.dev/s202314-proyecto-grupo8/misw-native-microservices-app/routes:1.0
+		docker push us-central1-docker.pkg.dev/misw-app-nativas-nube/misw-native-microservices-app/routes:1.0
+		
+	-> Publicar de posts:
+		docker push us-central1-docker.pkg.dev/s202314-proyecto-grupo8/misw-native-microservices-app/posts:1.0
+		docker push us-central1-docker.pkg.dev/misw-app-nativas-nube/misw-native-microservices-app/posts:1.0
+		
+	-> Publicar de scores:
+		docker push us-central1-docker.pkg.dev/s202314-proyecto-grupo8/misw-native-microservices-app/scores:1.0
+		docker push us-central1-docker.pkg.dev/misw-app-nativas-nube/misw-native-microservices-app/scores:1.0
+
+	-> Publicar de rf003:
+		docker push us-central1-docker.pkg.dev/s202314-proyecto-grupo8/misw-native-microservices-app/rf003:1.0
+		docker push us-central1-docker.pkg.dev/misw-app-nativas-nube/misw-native-microservices-app/rf003:1.0
+		
+	-> Publicar de rf004:
+		docker push us-central1-docker.pkg.dev/s202314-proyecto-grupo8/misw-native-microservices-app/rf004:1.0
+		docker push us-central1-docker.pkg.dev/misw-app-nativas-nube/misw-native-microservices-app/rf004:1.0
+
+	-> Publicar de rf005:
+		docker push us-central1-docker.pkg.dev/s202314-proyecto-grupo8/misw-native-microservices-app/rf005:1.0
+		docker push us-central1-docker.pkg.dev/misw-app-nativas-nube/misw-native-microservices-app/rf005:1.0
+
+	-> Publicar de rf006:
+		docker push us-central1-docker.pkg.dev/s202314-proyecto-grupo8/misw-native-microservices-app/rf006:1.0
+		docker push us-central1-docker.pkg.dev/misw-app-nativas-nube/misw-native-microservices-app/rf006:1.0
+
+	-> Publicar de rf006_poll:
+		docker push us-central1-docker.pkg.dev/s202314-proyecto-grupo8/misw-native-microservices-app/rf006_poll:1.0
+		docker push us-central1-docker.pkg.dev/misw-app-nativas-nube/misw-native-microservices-app/rf006_poll:1.0		
+
+-> Crear red virtual:
+
+	gcloud compute networks create vpn-experimentos-misw4501-g1 --project=proyecto1-experimentos --subnet-mode=custom --mtu=1460 --bgp-routing-mode=regional
+
+	gcloud compute networks create vpn-misw-app-nativas-nube-grupo8 --project=misw-app-nativas-nube --subnet-mode=custom --mtu=1460 --bgp-routing-mode=regional
+
+-> Crear subred para los pods:
+	gcloud compute networks subnets create red-s202314-proyecto-grupo8 --range=192.168.32.0/19 --network=vpn-s202314-proyecto-grupo8 --region=us-central1 --project=s202314-proyecto-grupo8
+
+	gcloud compute networks subnets create red-misw-app-nativas-nube-proyecto-grupo8 --range=192.168.32.0/19 --network=vpn-misw-app-nativas-nube-grupo8 --region=us-central1 --project=misw-app-nativas-nube
+	
+-> Crear Kubernetes:
+	Nombre Kubernetes: misw-app-nativas-nube-proyecto-grupo8-k8s
+	Red: vpn-misw-app-nativas-nube-grupo8
+	Subred del nodo: red-misw-app-nativas-nube-proyecto-grupo8
+	Rango de direcciones del pod: 192.168.64.0/21
+	Rango de direcciones del servicio: 192.168.72.0/21
+
+-> Crear sub red para la base de datos:
+	gcloud compute addresses create red-dbs-s202314-proyecto-grupo8 --global --purpose=VPC_PEERING --addresses=192.168.0.0 --prefix-length=24 --network=vpn-s202314-proyecto-grupo8 --project=s202314-proyecto-grupo8
+
+	gcloud compute addresses create red-dbs-misw-app-nativas-nube-proyecto-grupo8 --global --purpose=VPC_PEERING --addresses=192.168.0.0 --prefix-length=24 --network=vpn-misw-app-nativas-nube-grupo8 --project=misw-app-nativas-nube
+
+-> Otorgar accesos a la red virtual:
+	gcloud services vpc-peerings connect --service=servicenetworking.googleapis.com --ranges=red-dbs-s202314-proyecto-grupo8 --network=vpn-s202314-proyecto-grupo8 --project=s202314-proyecto-grupo8
+	
+	gcloud services vpc-peerings connect --service=servicenetworking.googleapis.com --ranges=red-dbs-misw-app-nativas-nube-proyecto-grupo8 --network=vpn-misw-app-nativas-nube-grupo8 --project=misw-app-nativas-nube
+	
+-> Agregar regla del firewall :
+	gcloud compute firewall-rules create allow-db-ingress --direction=INGRESS --priority=1000 --network=vpn-s202314-proyecto-grupo8 --action=ALLOW --rules=tcp:5432 --source-ranges=192.168.1.0/24 --target-tags=basesdedatos --project=s202314-proyecto-grupo8
+
+	gcloud compute firewall-rules create allow-db-ingress --direction=INGRESS --priority=1000 --network=vpn-misw-app-nativas-nube-grupo8 --action=ALLOW --rules=tcp:5432 --source-ranges=192.168.1.0/24 --target-tags=basesdedatos --project=misw-app-nativas-nube
+
+-> Crear base de datos:
+	-> Instancia:
+		Nombre: misw-app-nativas-nube-proyecto-grupo8-db
+		Contraseña: PgNube202314
+		Versión: PostgreSQL 14
+		Región: us-central1
+		Disponibilidad zonal: Única
+	
+	-> Maquina y Almacenamiento:
+		Tipo de máquina: De núcleo compartido, 1 core y 1.7 GB de RAM
+		Almacenamiento 10 GB de HDD
+		No habilitar los aumentos automáticos de almacenamiento.
+	
+	-> Conexiones:
+		Asignación de IP de la instancia: privada
+		Red: vpn-misw-app-nativas-nube-grupo8
+		Rango de IP asignado: red-dbs-misw-app-nativas-nube-proyecto-grupo8
+		
+	-> Etiquetas:
+		basesdedatos
+
+-> Desplegar la funcion function-send-mail:
+    gcloud functions deploy function-send-mail --entry-point hello_http --runtime python39 --trigger-http --allow-unauthenticated --memory 128MB --region us-central1 --timeout 60 --min-instances 0 --max-instances 1
+
+-> Conectarse a Kuberneters en GCP:
+	gcloud container clusters get-credentials s202314-proyecto-grupo8-k8s --region us-central1 --project s202314-proyecto-grupo8
+	gcloud container clusters get-credentials misw-app-nativas-nube-proyecto-grupo8-k8 --region us-central1 --project misw-app-nativas-nube
+
+-> Borrar todo en kubernetes lo referente a pods, services y deployments:	
+	kubectl delete all --all -n default
+
+-> Aplicar Secrets:
+	kubectl apply -f secrets.yml
+
+-> Aplicar deployment servicios entrega 1:
+	kubectl apply -f k8s-base-layer-deployment.yaml
+	
+-> Aplicar deployment servicios entrega 2:
+	kubectl apply -f k8s-new-services-deployment.yaml	
+
+-> Aplicar deployment servicios entrega 3:
+	kubectl apply -f k8s-true-native-deployment.yaml
+	kubectl apply -f k8s-componentes-entrega-3.yaml	
+	
+-> Aplicar ingress con todos los servicios:
+	kubectl apply -f k8s-ingress-deloyment.yaml	
+
+-> Borrar ingress:
+	kubectl delete ingress gateway-ingress-grupo8-k8s
