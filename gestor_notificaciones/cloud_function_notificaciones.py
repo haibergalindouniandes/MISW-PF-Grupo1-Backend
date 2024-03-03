@@ -4,7 +4,6 @@ import sqlalchemy
 from email.message import EmailMessage
 import smtplib
 
-
 # Uncomment and set the following variables depending on your specific instance and database:
 connection_name = "proyecto1-experimentos:us-central1:postgres"
 #table_name = ""
@@ -45,7 +44,7 @@ def insert(query):
 def notificacion_masiva(email,name,descripcion):
     # create message object instance
     msg = EmailMessage()
-    message = f"""<h1><strong>SportApp Notificacion Masiva&nbsp;</strong></h1> 
+    body = f"""<h1><strong>SportApp Notificacion Masiva&nbsp;</strong></h1> 
         <h2><strong>Servicio de Notificacion de Servicios</strong></h2>  
         <h2><strong>El Proveedor de su Servicio: </strong>{name}</h2>  
         <p>Lo ha contactado ya que se encuentra Inscrito en su evento y tiene el siguiente mensaje para usted:</p>  
@@ -55,18 +54,35 @@ def notificacion_masiva(email,name,descripcion):
         <p>Equipo Grupo 1 - MISW4501</p>"""
     
     # setup the parameters of the message
-    password = "1d761200a0fd75"
+    # password = "1d761200a0fd75"
+    # msg["From"] = "miswexp1pro1grupo1@gmail.com"
+    # msg["To"] = email
+    # msg["Subject"] = "SportApp Notificacion Masiva"
+    # # add in the message body
+    # msg.add_header("Content-Type", "text/html")
+    # msg.set_payload(message)
+    # # create server
+    # server = smtplib.SMTP("sandbox.smtp.mailtrap.io", 2525)
+    # server.starttls()
+    # # Login Credentials for sending the mail
+    # server.login("28ae9d3cad356a", password)
+    # # send the message via the server.
+    # server.sendmail(msg["From"], msg["To"], msg.as_string())
+    # server.quit()
+    # print("successfully sent email to %s:" % (msg["To"]))
+
+    password = "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"
     msg["From"] = "miswexp1pro1grupo1@gmail.com"
     msg["To"] = email
-    msg["Subject"] = "SportApp Alerta de Emergencia"
+    msg["Subject"] = "SportApp Notificacion Masiva"
     # add in the message body
     msg.add_header("Content-Type", "text/html")
-    msg.set_payload(message)
+    msg.set_payload(body)
     # create server
-    server = smtplib.SMTP("sandbox.smtp.mailtrap.io", 2525)
+    server = smtplib.SMTP("smtp.sendgrid.net", 587)
     server.starttls()
     # Login Credentials for sending the mail
-    server.login("28ae9d3cad356a", password)
+    server.login("apikey", password)
     # send the message via the server.
     server.sendmail(msg["From"], msg["To"], msg.as_string())
     server.quit()

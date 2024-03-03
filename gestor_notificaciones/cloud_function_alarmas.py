@@ -44,7 +44,7 @@ def insert(query):
 def alerta(email,name,latitud,longitud,descripcion):
     # create message object instance
     msg = EmailMessage()
-    message = f""" <h1><strong>SportApp Alerta&nbsp;</strong></h1> 
+    body = f""" <h1><strong>SportApp Alerta&nbsp;</strong></h1> 
         <h2><strong>Servicio de Alerta de Emergencia</strong></h2>  
         <h2><strong>El siguiente Usuario: </strong>{name}</h2>  
         <p>Lo ha contactado ya que se encuentra en un situacion anormal durante su entrenamiento y usted es su contacto de emergencia</p>  
@@ -55,18 +55,35 @@ def alerta(email,name,latitud,longitud,descripcion):
         <p>Equipo Grupo 1 - MISW4501</p>"""
 
     # setup the parameters of the message
-    password = "1d761200a0fd75"
+    # password = "1d761200a0fd75"
+    # msg["From"] = "miswexp1pro1grupo1@gmail.com"
+    # msg["To"] = email
+    # msg["Subject"] = "SportApp Alerta de Emergencia"
+    # # add in the message body
+    # msg.add_header("Content-Type", "text/html")
+    # msg.set_payload(message)
+    # # create server
+    # server = smtplib.SMTP("sandbox.smtp.mailtrap.io", 2525)
+    # server.starttls()
+    # # Login Credentials for sending the mail
+    # server.login("28ae9d3cad356a", password)
+    # # send the message via the server.
+    # server.sendmail(msg["From"], msg["To"], msg.as_string())
+    # server.quit()
+    # print("successfully sent email to %s:" % (msg["To"]))
+
+    password = "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"
     msg["From"] = "miswexp1pro1grupo1@gmail.com"
     msg["To"] = email
-    msg["Subject"] = "SportApp Alerta de Emergencia"
+    msg["Subject"] = "SportApp Notificacion de Alerta"
     # add in the message body
     msg.add_header("Content-Type", "text/html")
-    msg.set_payload(message)
+    msg.set_payload(body)
     # create server
-    server = smtplib.SMTP("sandbox.smtp.mailtrap.io", 2525)
+    server = smtplib.SMTP("smtp.sendgrid.net", 587)
     server.starttls()
     # Login Credentials for sending the mail
-    server.login("28ae9d3cad356a", password)
+    server.login("apikey", password)
     # send the message via the server.
     server.sendmail(msg["From"], msg["To"], msg.as_string())
     server.quit()
@@ -92,8 +109,8 @@ def alarmas(event, context):
 
     if data_dict["tipo"] == "Alerta":
         alerta(
-            data_dict["name"],
             data_dict["email"],
+            data_dict["name"],
             data_dict["latitud"],
             data_dict["longitud"],
             data_dict["descripcion"]

@@ -1,0 +1,132 @@
+{
+	"info": {
+		"_postman_id": "dbd766a2-35dc-418e-9ddc-9da9384f116d",
+		"name": "Proyecto1_Experimento1",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "24449657",
+		"_collection_link": "https://planetary-water-212881.postman.co/workspace/MISW4304-DevOps~d3c8a8af-f51c-4b53-91e5-7c70c6ef1744/collection/24449657-dbd766a2-35dc-418e-9ddc-9da9384f116d?action=share&source=collection_link&creator=24449657"
+	},
+	"item": [
+		{
+			"name": "Servicios Ping",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{INGRESS_ADDRESS}}/servicios/ping",
+					"protocol": "http",
+					"host": [
+						"{{INGRESS_ADDRESS}}"
+					],
+					"path": [
+						"servicios",
+						"ping"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Enviar Notificacion Masiva",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id_trigger\": \"80\",\r\n    \"descripcion\": \"Prueba de Kubernetes\",\r\n    \"latitud\": \"01\",\r\n    \"longitud\": \"01\"\r\n\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{INGRESS_ADDRESS}}/servicios/notificacion",
+					"protocol": "http",
+					"host": [
+						"{{INGRESS_ADDRESS}}"
+					],
+					"path": [
+						"servicios",
+						"notificacion"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Entrenamientos Ping",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{INGRESS_ADDRESS}}/entrenamientos/ping",
+					"protocol": "http",
+					"host": [
+						"{{INGRESS_ADDRESS}}"
+					],
+					"path": [
+						"entrenamientos",
+						"ping"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Enviar Alarma",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id_trigger\": \"25\",\r\n    \"descripcion\": \"Prueba de Kubernetes\",\r\n    \"latitud\": \"01\",\r\n    \"longitud\": \"01\"\r\n\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://{{INGRESS_ADDRESS}}/entrenamientos/alerta",
+					"protocol": "http",
+					"host": [
+						"{{INGRESS_ADDRESS}}"
+					],
+					"path": [
+						"entrenamientos",
+						"alerta"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "INGRESS_ADDRESS",
+			"value": "34.111.166.30",
+			"type": "string"
+		}
+	]
+}
