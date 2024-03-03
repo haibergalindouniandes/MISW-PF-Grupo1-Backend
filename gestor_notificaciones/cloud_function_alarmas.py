@@ -3,6 +3,7 @@ import json
 import sqlalchemy
 from email.message import EmailMessage
 import smtplib
+from security_utilies import cargar_clave_desde_archivo, descifrar_texto
 
 # Uncomment and set the following variables depending on your specific instance and database:
 connection_name = "proyecto1-experimentos:us-central1:postgres"
@@ -72,7 +73,11 @@ def alerta(email,name,latitud,longitud,descripcion):
     # server.quit()
     # print("successfully sent email to %s:" % (msg["To"]))
 
-    password = "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"
+    clave_cargada = cargar_clave_desde_archivo()
+    texto_cifrado = b'gAAAAABl4-WSBGPYs_zRFNAGLm2N0d6ooQAkC73ZxeDJgeY5p87NWi2uDzeZ8PzOui77RuQ9ajjqDmSZe-hS2FipsVKrm9HUT4pmh5dGNPvmWYM53Vu5OALGE8GdHp4qgDSSCOeRT7Tq9-RjRGQ8g8WVNCk46xZVGsBMSWkTFcawgl0nESrEFRY='
+    texto_descifrado = descifrar_texto(texto_cifrado, clave_cargada)
+
+    password = texto_descifrado
     msg["From"] = "miswexp1pro1grupo1@gmail.com"
     msg["To"] = email
     msg["Subject"] = "SportApp Notificacion de Alerta"
