@@ -3,9 +3,8 @@ from flask import Flask, jsonify
 from flask_restful import Api
 from flask_cors import CORS
 from blueprints.resources import planes_nutricionales_blueprint
-from utilities.utilities import cargue_inicial_plan_nutricional
 from errors.errors import ApiError
-from models.models import db, PlanNutricional
+from models.models import db
 import logging
 import os
 
@@ -32,9 +31,6 @@ cors = CORS(app)
 db.init_app(app)
 db.create_all()
 api = Api(app)
-
-# Cargue inicial de planes nutricionales 
-cargue_inicial_plan_nutricional(db, PlanNutricional)  
 
 # Manejador de errores
 @app.errorhandler(ApiError)

@@ -3,9 +3,9 @@ from flask import Flask, jsonify
 from flask_restful import Api
 from flask_cors import CORS
 from blueprints.resources import entrenamientos_blueprint
-from utilities.utilities import cargue_inicial_entrenamientos
 from errors.errors import ApiError
-from models.models import db, Entrenamientos
+from models.models import db
+
 import logging
 import os
 
@@ -32,9 +32,6 @@ cors = CORS(app)
 db.init_app(app)
 db.create_all()
 api = Api(app)
-
-# Cargue inicial de entrenamientos    
-cargue_inicial_entrenamientos(db, Entrenamientos)  
 
 # Manejador de errores
 @app.errorhandler(ApiError)
