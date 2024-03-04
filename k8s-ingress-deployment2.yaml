@@ -11,7 +11,7 @@ spec:
   rules:
   - http:
       paths:
-      - path: /plannutricional
+      - path: /nutricion
         pathType: Prefix
         backend:
           service:

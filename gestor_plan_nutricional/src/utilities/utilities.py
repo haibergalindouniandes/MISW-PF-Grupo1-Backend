@@ -31,13 +31,22 @@ def dar_clasificacion(sexo, peso, estatura, edad, enfermedades_cardiovasculares,
     
     return clasificacion    
 
+
+# Función que permite realizar el cargue inicial de entrenamientos
+def recomendacion_planes_nutricionales():
+    # Cargar entrenamientos desde json file
+    with open('utilities/planNutricional.json') as fn:
+        planes_entrenamiento = json.load(fn)
+    return planes_entrenamiento
+        
+
 # Función que permite realizar el cargue inicial de entrenamientos
 def cargue_inicial_plan_nutricional(db, PlanNutricional):
     # Consultar la tabla en BD
     registros = db.session.query(PlanNutricional).all()
     # Validar si ya existen registros
     if len(registros) == 0:
-        print('<============== Inicia cargue inicial de entrenamientos =================>')
+        print('<============== Inicia cargue inicial de planes de nutricionales =================>')
         # Cargar entrenamientos desde json file
         with open('utilities/planNutricional.json') as fn:
             planes_nutricionales = json.load(fn)
@@ -56,4 +65,4 @@ def cargue_inicial_plan_nutricional(db, PlanNutricional):
             db.session.add(nuevo_plan_nutricional)
             db.session.commit()
         db.session.close()
-        print('<============== Finaliza cargue inicial de entrenamientos =================>')
+        print('<============== Finaliza cargue inicial de planes de nutricionales =================>')

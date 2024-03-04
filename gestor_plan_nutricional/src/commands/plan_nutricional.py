@@ -1,4 +1,5 @@
 # Importación de dependencias
+import json
 import traceback
 from commands.base_command import BaseCommannd
 from validators.validators import validateSchema, planNutricionalEsquema
@@ -29,9 +30,9 @@ class DarPlanNutricional(BaseCommannd):
     # Función que realiza creación de la Alerta
     def execute(self):
         try:
-            clasificacion = utilities.dar_clasificacion(self.sexo, self.peso, self.estatura, self.edad, self.enfermedades_cardiovasculares, self.practica_deporte)           
-            planesNutricionales = PlanNutricional.query.filter(PlanNutricional.proposito == self.proposito, PlanNutricional.clasificacion.like(f'%{clasificacion}%')).all()
-            return [plan_nutricion_schema.dump(planNutricional) for planNutricional in planesNutricionales]
+            utilities.dar_clasificacion(self.sexo, self.peso, self.estatura, self.edad, self.enfermedades_cardiovasculares, self.practica_deporte)           
+            planes_nutricionales = utilities.recomendacion_planes_nutricionales()
+            return planes_nutricionales["plan nutricional 1"]
         except SQLAlchemyError as e:# pragma: no cover
             traceback.print_exc()
             raise ApiError(e)

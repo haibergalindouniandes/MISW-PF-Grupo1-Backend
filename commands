@@ -5,33 +5,31 @@
 -> Autenticarse en Artifact Registry:
 	gcloud auth configure-docker us-central1-docker.pkg.dev
 
+
+-> Artifact Registry
+	Nombre: experimentos-misw4501-g1-exp2
+
 -> Construir imagenes:
 
 	-> Imagen de Usuarios:
-		docker build -t us-central1-docker.pkg.dev/proyecto1-experimentos/experimentos-misw4501-g1/gusuarios:1.0 --target prod .
+		docker build -t us-central1-docker.pkg.dev/proyecto1-experimentos/experimentos-misw4501-g1-exp2/gusuarios:1.0 --target prod .
 	
 	-> Imagen de Entrenamientos:
-		docker build -t us-central1-docker.pkg.dev/proyecto1-experimentos/experimentos-misw4501-g1/gentrenamientos:1.0 --target prod .
+		docker build -t us-central1-docker.pkg.dev/proyecto1-experimentos/experimentos-misw4501-g1-exp2/gentrenamientos:1.0 --target prod .
 	
-	-> Imagen de Servicios:
-		docker build -t us-central1-docker.pkg.dev/proyecto1-experimentos/experimentos-misw4501-g1/gservicios:1.0 --target prod .
-		
 	-> Imagen de Plan Nutricional:
-		docker build -t us-central1-docker.pkg.dev/proyecto1-experimentos/experimentos-misw4501-g1/gplannutricional:1.0 --target prod .
-		
+		docker build -t us-central1-docker.pkg.dev/proyecto1-experimentos/experimentos-misw4501-g1-exp2/gplannutricional:1.0 --target prod .
+
 -> Publicar imagenes en Artifact Registry:
 	
 	-> Publicar de Usuarios:	
-		docker push us-central1-docker.pkg.dev/proyecto1-experimentos/experimentos-misw4501-g1/gusuarios:1.0
+		docker push us-central1-docker.pkg.dev/proyecto1-experimentos/experimentos-misw4501-g1-exp2/gusuarios:1.0
 	
 	-> Publicar de Entrenamientos:
-		docker push us-central1-docker.pkg.dev/proyecto1-experimentos/experimentos-misw4501-g1/gentrenamientos:1.0
-	
-	-> Publicar de Servicios:
-		docker push us-central1-docker.pkg.dev/proyecto1-experimentos/experimentos-misw4501-g1/gservicios:1.0
+		docker push us-central1-docker.pkg.dev/proyecto1-experimentos/experimentos-misw4501-g1-exp2/gentrenamientos:1.0
 		
 	-> Publicar de Plan Nutricional:
-		docker push us-central1-docker.pkg.dev/proyecto1-experimentos/experimentos-misw4501-g1/gplannutricional:1.0
+		docker push us-central1-docker.pkg.dev/proyecto1-experimentos/experimentos-misw4501-g1-exp2/gplannutricional:1.0
 
 -> Crear red virtual:
 	gcloud compute networks create vpn-proyecto1-experimentos --project=proyecto1-experimentos --subnet-mode=custom --mtu=1460 --bgp-routing-mode=regional
@@ -46,6 +44,11 @@
 	Rango de direcciones del pod: 192.168.64.0/21
 	Rango de direcciones del servicio: 192.168.72.0/21
 
+	Creación Cluster Experimento 2
+	Nombre Cluster: proyecto1-experimento-2
+	Rango de direcciones del Pod predeterminado del clúster: 192.168.80.0/21
+	Rango de direcciones del servicio: 192.168.88.0/21
+
 -> Crear sub red para la base de datos:
 	gcloud compute addresses create red-dbs-proyecto1-experimentos --global --purpose=VPC_PEERING --addresses=192.168.0.0 --prefix-length=24 --network=vpn-proyecto1-experimentos --project=proyecto1-experimentos
 
@@ -57,9 +60,9 @@
 
 -> Crear base de datos:
 	-> Instancia:
-		Nombre: misw-proyecto1-experimentos-db
-		Contraseña: PgNube202314
-		Versión: PostgreSQL 14
+		Nombre: postgres-exp2
+		Contraseña: postgres
+		Versión: PostgreSQL 15
 		Región: us-central1
 		Disponibilidad zonal: Única
 	
@@ -70,7 +73,7 @@
 	
 	-> Conexiones:
 		Asignación de IP de la instancia: privada
-		Red: vpn-misw-app-nativas-nube-grupo8
+		Red: vpn-proyecto1-experimentos
 		Rango de IP asignado: red-dbs-misw-proyecto1-experimentos
 		
 	-> Etiquetas:
@@ -87,16 +90,13 @@
 	kubectl delete all --all -n default
 
 -> Aplicar Secrets:
-	kubectl apply -f secrets.yml
+	kubectl apply -f secrets-exp2.yml
 
 -> Aplicar deployment servicios:
-	kubectl apply -f k8s-experimento1.yaml
 	kubectl apply -f k8s-experimento2.yaml
 	
 -> Aplicar ingress con todos los servicios:
-	kubectl apply -f k8s-ingress-deployment1.yaml	
 	kubectl apply -f k8s-ingress-deployment2.yaml
 
 -> Borrar ingress:
-	kubectl delete k8s-ingress-deployment1.yaml
 	kubectl delete ingress k8s-ingress-deployment2.yaml

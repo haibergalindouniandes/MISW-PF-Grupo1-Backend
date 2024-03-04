@@ -47,6 +47,13 @@ def dar_clasificacion(sexo, peso, estatura, edad, enfermedades_cardiovasculares,
     return clasificacion    
 
 # Función que permite realizar el cargue inicial de entrenamientos
+def recomendacion_planes_entrenamiento():
+    # Cargar entrenamientos desde json file
+    with open('utilities/entrenamientos.json') as fn:
+        planes_entrenamiento = json.load(fn)
+    return planes_entrenamiento
+
+# Función que permite realizar el cargue inicial de entrenamientos
 def cargue_inicial_entrenamientos(db, Entrenamientos):
     # Consultar la tabla en BD
     registros = db.session.query(Entrenamientos).all()

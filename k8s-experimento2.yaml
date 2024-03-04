@@ -1,92 +1,98 @@
 ###################################
-# GESTOR USUARIOS
-###################################
+# GESTOR PLAN NUTRICIONAL
+###################################s
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: usuarios
+  name: plannutricional
   labels:
-    app: usuarios
+    app: plannutricional
 spec:
-  replicas: 1
+  replicas: 4
   selector:
     matchLabels:
-      app: usuarios
+      app: plannutricional
   template:
     metadata:
       labels:
-        app: usuarios
+        app: plannutricional
     spec:
       containers:
-        - name: usuarios
-          image: us-central1-docker.pkg.dev/proyecto1-experimentos/experimentos-misw4501-g1/gusuarios:1.0
+        - name: plannutricional
+          image: us-central1-docker.pkg.dev/proyecto1-experimentos/experimentos-misw4501-g1-exp2/gplannutricional:1.0
           ports:
             - containerPort: 3000
           env:
             - name: "DB_NAME"
               valueFrom:
                 secretKeyRef:
-                  name: appsecrets 
+                  name: appsecretsexp2 
                   key: DB_NAME
             - name: "DB_HOST"
               valueFrom:
                 secretKeyRef:
-                  name: appsecrets 
+                  name: appsecretsexp2 
                   key: DB_HOST
             - name: "DB_PORT"
               valueFrom:
                 secretKeyRef:
-                  name: appsecrets 
+                  name: appsecretsexp2 
                   key: DB_PORT
             - name: "DB_USER"
               valueFrom:
                 secretKeyRef:
-                  name: appsecrets 
+                  name: appsecretsexp2 
                   key: DB_USER
             - name: "DB_PASSWORD"
               valueFrom:
                 secretKeyRef:
-                  name: appsecrets 
-                  key: DB_PASSWORD
-            - name: "DB_PASSWORD"
-              valueFrom:
-                secretKeyRef:
-                  name: appsecrets 
-                  key: GESTORENTRENAMIENTOS_ADDRESS
-            - name: "DB_PASSWORD"
-              valueFrom:
-                secretKeyRef:
-                  name: appsecrets 
-                  key: GESTOREPLANNUTRICIONAL_ADDRESS                    
-          imagePullPolicy: Always
+                  name: appsecretsexp2 
+                  key: DB_PASSWORD  
+          imagePullPolicy: Always 
+          resources:
+            requests:
+              cpu: 200m                         
 ---
 apiVersion: cloud.google.com/v1
 kind: BackendConfig
 metadata:
-  name: usuarios-config
+  name: plannutricional-config
 spec:
   healthCheck:
     checkIntervalSec: 30
     port: 3000
     type: HTTP
-    requestPath: /usuarios/ping
+    requestPath: /nutricion/ping
 ---
 kind: Service
 apiVersion: v1
 metadata:
-  name: usuarios-service
+  name: plannutricional-service
   annotations:
-    cloud.google.com/backend-config: '{"default": "usuarios-config"}'
+    cloud.google.com/backend-config: '{"default": "plannutricional-config"}'
 spec:
   type: NodePort
   selector:
-    app: usuarios
+    app: plannutricional
   ports:
     - protocol: TCP
       port: 80
       targetPort: 3000
-      nodePort: 31019
----      
+      nodePort: 31030
+---
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: plannutricional-hpa
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: plannutricional
+  minReplicas: 4
+  maxReplicas: 6
+  targetCPUUtilizationPercentage: 20   
+---
 ###################################
 # GESTOR ENTRENAMIENTOS
 ###################################
@@ -97,7 +103,7 @@ metadata:
   labels:
     app: entrenamientos
 spec:
-  replicas: 1
+  replicas: 4
   selector:
     matchLabels:
       app: entrenamientos
@@ -108,36 +114,39 @@ spec:
     spec:
       containers:
         - name: entrenamientos
-          image: us-central1-docker.pkg.dev/proyecto1-experimentos/experimentos-misw4501-g1/gentrenamientos:1.0
+          image: us-central1-docker.pkg.dev/proyecto1-experimentos/experimentos-misw4501-g1-exp2/gentrenamientos:1.0
           ports:
             - containerPort: 3000
           env:
             - name: "DB_NAME"
               valueFrom:
                 secretKeyRef:
-                  name: appsecrets 
+                  name: appsecretsexp2 
                   key: DB_NAME
             - name: "DB_HOST"
               valueFrom:
                 secretKeyRef:
-                  name: appsecrets 
+                  name: appsecretsexp2 
                   key: DB_HOST
             - name: "DB_PORT"
               valueFrom:
                 secretKeyRef:
-                  name: appsecrets 
+                  name: appsecretsexp2 
                   key: DB_PORT
             - name: "DB_USER"
               valueFrom:
                 secretKeyRef:
-                  name: appsecrets 
+                  name: appsecretsexp2 
                   key: DB_USER
             - name: "DB_PASSWORD"
               valueFrom:
                 secretKeyRef:
-                  name: appsecrets 
+                  name: appsecretsexp2 
                   key: DB_PASSWORD  
-          imagePullPolicy: Always                          
+          imagePullPolicy: Always
+          resources:
+            requests:
+              cpu: 200m                          
 ---
 apiVersion: cloud.google.com/v1
 kind: BackendConfig
@@ -164,83 +173,122 @@ spec:
     - protocol: TCP
       port: 80
       targetPort: 3000
-      nodePort: 31020
----      
+      nodePort: 31031
+---
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: entrenamientos-hpa
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: entrenamientos
+  minReplicas: 4
+  maxReplicas: 6
+  targetCPUUtilizationPercentage: 20 
+---
 ###################################
-# GESTOR PLAN NUTRICIONAL
+# GESTOR USUARIOS
 ###################################
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: plannutricional
+  name: usuarios
   labels:
-    app: plannutricional
+    app: usuarios
 spec:
-  replicas: 1
+  replicas: 8
   selector:
     matchLabels:
-      app: plannutricional
+      app: usuarios
   template:
     metadata:
       labels:
-        app: plannutricional
+        app: usuarios
     spec:
       containers:
-        - name: plannutricional
-          image: us-central1-docker.pkg.dev/proyecto1-experimentos/experimentos-misw4501-g1/gplannutricional:1.0
+        - name: usuarios
+          image: us-central1-docker.pkg.dev/proyecto1-experimentos/experimentos-misw4501-g1-exp2/gusuarios:1.0
           ports:
             - containerPort: 3000
           env:
             - name: "DB_NAME"
               valueFrom:
                 secretKeyRef:
-                  name: appsecrets 
+                  name: appsecretsexp2 
                   key: DB_NAME
             - name: "DB_HOST"
               valueFrom:
                 secretKeyRef:
-                  name: appsecrets 
+                  name: appsecretsexp2 
                   key: DB_HOST
             - name: "DB_PORT"
               valueFrom:
                 secretKeyRef:
-                  name: appsecrets 
+                  name: appsecretsexp2 
                   key: DB_PORT
             - name: "DB_USER"
               valueFrom:
                 secretKeyRef:
-                  name: appsecrets 
+                  name: appsecretsexp2 
                   key: DB_USER
             - name: "DB_PASSWORD"
               valueFrom:
                 secretKeyRef:
-                  name: appsecrets 
-                  key: DB_PASSWORD  
-          imagePullPolicy: Always                          
+                  name: appsecretsexp2 
+                  key: DB_PASSWORD
+            - name: "GESTORENTRENAMIENTOS_ADDRESS"
+              valueFrom:
+                secretKeyRef:
+                  name: appsecretsexp2 
+                  key: GESTORENTRENAMIENTOS_ADDRESS
+            - name: "GESTOREPLANNUTRICIONAL_ADDRESS"
+              valueFrom:
+                secretKeyRef:
+                  name: appsecretsexp2 
+                  key: GESTOREPLANNUTRICIONAL_ADDRESS                    
+          imagePullPolicy: Always
+          resources:
+            requests:
+              cpu: 200m
 ---
 apiVersion: cloud.google.com/v1
 kind: BackendConfig
 metadata:
-  name: plannutricional-config
+  name: usuarios-config
 spec:
   healthCheck:
     checkIntervalSec: 30
     port: 3000
     type: HTTP
-    requestPath: /plannutricional/ping
+    requestPath: /usuarios/ping
 ---
 kind: Service
 apiVersion: v1
 metadata:
-  name: plannutricional-service
+  name: usuarios-service
   annotations:
-    cloud.google.com/backend-config: '{"default": "plannutricional-config"}'
+    cloud.google.com/backend-config: '{"default": "usuarios-config"}'
 spec:
   type: NodePort
   selector:
-    app: plannutricional
+    app: usuarios
   ports:
     - protocol: TCP
       port: 80
       targetPort: 3000
-      nodePort: 31021     
+      nodePort: 31032
+---
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: usuarios-hpa
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: usuarios
+  minReplicas: 8
+  maxReplicas: 12
+  targetCPUUtilizationPercentage: 20

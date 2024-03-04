@@ -1,4 +1,5 @@
 # Importación de dependencias
+import json
 import traceback
 from commands.base_command import BaseCommannd
 from validators.validators import validateSchema, planEntrenamientoEsquema
@@ -29,9 +30,9 @@ class DarPlanEntrenamiento(BaseCommannd):
     # Función que realiza creación de la Alerta
     def execute(self):
         try:
-            clasificacion = utilities.dar_clasificacion(self.sexo, self.peso, self.estatura, self.edad, self.enfermedades_cardiovasculares, self.practica_deporte)           
-            entrenamientos = Entrenamientos.query.filter(Entrenamientos.proposito == self.proposito, Entrenamientos.clasificacion.like(f'%{clasificacion}%')).all()
-            return [entrenamientos_schema.dump(entrenamiento) for entrenamiento in entrenamientos]
+            utilities.dar_clasificacion(self.sexo, self.peso, self.estatura, self.edad, self.enfermedades_cardiovasculares, self.practica_deporte)           
+            plan_entrenamiento = utilities.recomendacion_planes_entrenamiento()
+            return plan_entrenamiento["rutina 2"]
         except SQLAlchemyError as e:# pragma: no cover
             traceback.print_exc()
             raise ApiError(e)
