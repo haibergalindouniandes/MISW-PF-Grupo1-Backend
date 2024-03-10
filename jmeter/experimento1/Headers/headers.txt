@@ -1,0 +1,9 @@
+# JMeter generated Header file
+X-TransactionId	123
+X-PlatformId	SIEBEL
+Content-Type	application/json
+X-SourceIp	123
+platformId	SIEBEL
+source	10.183.116.158
+processId	BRA87F
+transactionId	3123089729
