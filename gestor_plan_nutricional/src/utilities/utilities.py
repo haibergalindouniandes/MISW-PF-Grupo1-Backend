@@ -1,6 +1,6 @@
-import os
 import json
 
+datos_en_memoria = None
 
 def dar_clasificacion(sexo, peso, estatura, edad, enfermedades_cardiovasculares, practica_deporte):
     idx_enfermedades = 0
@@ -28,29 +28,30 @@ def dar_clasificacion(sexo, peso, estatura, edad, enfermedades_cardiovasculares,
         clasificacion = 'SOBREPESO'
     else:
         clasificacion = 'OBESIDAD'
-    
     return clasificacion    
 
+# Función que permite realizar el cargue inicial de plan nutricional
+def cargue_inicial():
+    # Cargar plan nutricional desde json file
+    with open('utilities/planNutricional.json') as archivo_json:
+        global datos_en_memoria
+        datos_en_memoria = json.load(archivo_json)
 
-# Función que permite realizar el cargue inicial de entrenamientos
+# Función que permite realizar el cargue inicial de plan nutricional
 def recomendacion_planes_nutricionales():
-    # Cargar entrenamientos desde json file
-    with open('utilities/planNutricional.json') as fn:
-        planes_entrenamiento = json.load(fn)
-    return planes_entrenamiento
-        
+    global datos_en_memoria
+    return datos_en_memoria
 
-# Función que permite realizar el cargue inicial de entrenamientos
+# Función que permite realizar el cargue inicial de plan nutricional
 def cargue_inicial_plan_nutricional(db, PlanNutricional):
     # Consultar la tabla en BD
     registros = db.session.query(PlanNutricional).all()
     # Validar si ya existen registros
     if len(registros) == 0:
-        print('<============== Inicia cargue inicial de planes de nutricionales =================>')
-        # Cargar entrenamientos desde json file
-        with open('utilities/planNutricional.json') as fn:
-            planes_nutricionales = json.load(fn)
-        # Registrar entrenamientos
+        # Cargar plan nutricional desde json file
+        with open('utilities/planNutricional.json') as archivo_json:
+            planes_nutricionales = json.load(archivo_json)
+        # Registrar plan nutricional
         for plan_nutricional, info in planes_nutricionales.items():
             registro = []
             registro.append(plan_nutricional)
@@ -61,8 +62,7 @@ def cargue_inicial_plan_nutricional(db, PlanNutricional):
                                                 menus=registro[1],                                                
                                                 proposito=registro[2],
                                                 clasificacion=registro[3]
-                                                )
+                                            )
             db.session.add(nuevo_plan_nutricional)
             db.session.commit()
         db.session.close()
-        print('<============== Finaliza cargue inicial de planes de nutricionales =================>')

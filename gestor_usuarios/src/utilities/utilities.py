@@ -1,10 +1,10 @@
 import asyncio
 import os
-import traceback
 import aiohttp
-from errors.errors import ApiError, ErrorMetodoNoPermitido
+from errors.errors import ErrorMetodoNoPermitido
 from validators.validators import validar_resultado_consumo_servicio
 
+datos_consulta_paralela = None
 batch_servicios = []
 
 # Función convierte booleano a string
@@ -33,10 +33,6 @@ def limpiar_batch_de_servicios():
 
 # Función que permite realizar el consumo de un servicio de forma asincrona
 async def consumo_servicio_asincrono(url, metodo, data=None, headers=None):
-    print('<================ consumo_servicio_asincrono-request =====================>')
-    print(f'Endpoint [{url}]')
-    print(f'Metodo [{metodo}]')
-    print(f'Request [{data}]')
     async with aiohttp.ClientSession() as session:
         if metodo == "POST":
             async with session.post(url, json=data, headers=headers) as resultado:                
@@ -47,6 +43,7 @@ async def consumo_servicio_asincrono(url, metodo, data=None, headers=None):
     
 # Función que permite realizar el consumo en paralelo de servicios
 async def ejecucion_batch_en_paralelo():
+    global datos_consulta_paralela
     tareas = [consumo_servicio_asincrono(url, metodo, data, headers) for url, metodo, data, headers in batch_servicios]
-    resultados = await asyncio.gather(*tareas)
-    return resultados
+    datos_consulta_paralela = await asyncio.gather(*tareas)
+    return datos_consulta_paralela

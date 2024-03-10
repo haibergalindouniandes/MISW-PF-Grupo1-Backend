@@ -27,15 +27,13 @@ class DarPlanNutricional(BaseCommannd):
         self.practica_deporte = request_json["practica_deporte"]
         self.proposito = request_json["proposito"]
 
-    # Función que realiza creación de la Alerta
+    # Función que retorna la recomendación de plan nutricional
     def execute(self):
         try:
             utilities.dar_clasificacion(self.sexo, self.peso, self.estatura, self.edad, self.enfermedades_cardiovasculares, self.practica_deporte)           
             planes_nutricionales = utilities.recomendacion_planes_nutricionales()
-            return planes_nutricionales["plan nutricional 1"]
+            planes_nutricionales_keys = list(planes_nutricionales.keys())
+            return planes_nutricionales[planes_nutricionales_keys[0]]
         except SQLAlchemyError as e:# pragma: no cover
             traceback.print_exc()
             raise ApiError(e)
-        
-
-        

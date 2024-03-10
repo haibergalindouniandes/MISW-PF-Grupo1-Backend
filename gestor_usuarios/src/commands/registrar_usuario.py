@@ -38,12 +38,6 @@ class RegistrarUsuario(BaseCommannd):
         self.departamento = json_payload['departamento']
         self.ciudad = json_payload['ciudad']
         
-    # Función que valida el request del servicio
-    def asignar_ids_servicios_externos(self, resultados):
-        # Asignacion id servicios externos
-        self.id_entrenamiento = resultados[0]["id"]
-        self.id_plan_nutricional = resultados[1]["id"]
-        
     # Función que asigna  plan nutricional
     def agregar_plan_nutricional(self, resultados, resultado_legado):
         # Asignacion plan nutricional
@@ -122,7 +116,6 @@ class RegistrarUsuario(BaseCommannd):
         try:
             # Logica de negocio
             resultado = self.ejecutar_batch_servicios()
-            # self.asignar_ids_servicios_externos(resultado)
             usuario_registrado = self.registrar_usuario_bd().to_dict()
             usuario_registrado = self.agregar_plan_de_entrenamiento(usuario_registrado, resultado)
             usuario_registrado = self.agregar_plan_nutricional(usuario_registrado, resultado)

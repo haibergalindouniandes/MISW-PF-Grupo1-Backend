@@ -25,6 +25,5 @@ CMD ["python", "main.py"]
 FROM release AS prod
 RUN pipenv install --system --deploy
 USER appnutricion
-CMD ["python","main.py"]
-# CMD ["gunicorn"  , "-b", "0.0.0.0:  3000", "app:app"]
+CMD ["gunicorn", "-w", "2", "--bind", ":3000", "main:app"]
 

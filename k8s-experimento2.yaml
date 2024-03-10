@@ -8,7 +8,7 @@ metadata:
   labels:
     app: plannutricional
 spec:
-  replicas: 4
+  replicas: 6
   selector:
     matchLabels:
       app: plannutricional
@@ -51,7 +51,9 @@ spec:
           imagePullPolicy: Always 
           resources:
             requests:
-              cpu: 200m                         
+              cpu: 250m
+            limits:
+              cpu: 280m                        
 ---
 apiVersion: cloud.google.com/v1
 kind: BackendConfig
@@ -79,19 +81,19 @@ spec:
       port: 80
       targetPort: 3000
       nodePort: 31030
----
-apiVersion: autoscaling/v1
-kind: HorizontalPodAutoscaler
-metadata:
-  name: plannutricional-hpa
-spec:
-  scaleTargetRef:
-    apiVersion: apps/v1
-    kind: Deployment
-    name: plannutricional
-  minReplicas: 4
-  maxReplicas: 6
-  targetCPUUtilizationPercentage: 20   
+# ---
+# apiVersion: autoscaling/v1
+# kind: HorizontalPodAutoscaler
+# metadata:
+#   name: plannutricional-hpa
+# spec:
+#   scaleTargetRef:
+#     apiVersion: apps/v1
+#     kind: Deployment
+#     name: plannutricional
+#   minReplicas: 4
+#   maxReplicas: 6
+#   targetCPUUtilizationPercentage: 20   
 ---
 ###################################
 # GESTOR ENTRENAMIENTOS
@@ -103,7 +105,7 @@ metadata:
   labels:
     app: entrenamientos
 spec:
-  replicas: 4
+  replicas: 6
   selector:
     matchLabels:
       app: entrenamientos
@@ -146,7 +148,9 @@ spec:
           imagePullPolicy: Always
           resources:
             requests:
-              cpu: 200m                          
+              cpu: 250m
+            limits:
+              cpu: 280m                            
 ---
 apiVersion: cloud.google.com/v1
 kind: BackendConfig
@@ -174,19 +178,19 @@ spec:
       port: 80
       targetPort: 3000
       nodePort: 31031
----
-apiVersion: autoscaling/v1
-kind: HorizontalPodAutoscaler
-metadata:
-  name: entrenamientos-hpa
-spec:
-  scaleTargetRef:
-    apiVersion: apps/v1
-    kind: Deployment
-    name: entrenamientos
-  minReplicas: 4
-  maxReplicas: 6
-  targetCPUUtilizationPercentage: 20 
+# ---
+# apiVersion: autoscaling/v1
+# kind: HorizontalPodAutoscaler
+# metadata:
+#   name: entrenamientos-hpa
+# spec:
+#   scaleTargetRef:
+#     apiVersion: apps/v1
+#     kind: Deployment
+#     name: entrenamientos
+#   minReplicas: 4
+#   maxReplicas: 6
+#   targetCPUUtilizationPercentage: 20 
 ---
 ###################################
 # GESTOR USUARIOS
@@ -198,7 +202,7 @@ metadata:
   labels:
     app: usuarios
 spec:
-  replicas: 8
+  replicas: 12
   selector:
     matchLabels:
       app: usuarios
@@ -251,7 +255,9 @@ spec:
           imagePullPolicy: Always
           resources:
             requests:
-              cpu: 200m
+              cpu: 300m
+            limits:
+              cpu: 330m                   
 ---
 apiVersion: cloud.google.com/v1
 kind: BackendConfig
@@ -279,16 +285,16 @@ spec:
       port: 80
       targetPort: 3000
       nodePort: 31032
----
-apiVersion: autoscaling/v1
-kind: HorizontalPodAutoscaler
-metadata:
-  name: usuarios-hpa
-spec:
-  scaleTargetRef:
-    apiVersion: apps/v1
-    kind: Deployment
-    name: usuarios
-  minReplicas: 8
-  maxReplicas: 12
-  targetCPUUtilizationPercentage: 20
+# ---
+# apiVersion: autoscaling/v1
+# kind: HorizontalPodAutoscaler
+# metadata:
+#   name: usuarios-hpa
+# spec:
+#   scaleTargetRef:
+#     apiVersion: apps/v1
+#     kind: Deployment
+#     name: usuarios
+#   minReplicas: 8
+#   maxReplicas: 12
+#   targetCPUUtilizationPercentage: 20

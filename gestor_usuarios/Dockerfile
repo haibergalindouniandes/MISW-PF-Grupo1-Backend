@@ -27,4 +27,4 @@ ENV PYTHONBUFFERED=1
 ENV FLASK_DEBUG=1
 RUN pipenv install --system --deploy
 USER appusuarios
-CMD ["gunicorn", "--bind", ":3000", "main:app"]
+CMD ["gunicorn", "-w", "2", "--bind", ":3000", "main:app"]

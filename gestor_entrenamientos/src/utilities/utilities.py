@@ -2,6 +2,8 @@ import os
 import json
 from google.cloud import pubsub_v1
 
+datos_en_memoria = None
+
 # Constantes
 PATH_TOPIC = os.getenv("PATH_TOPIC_ALERTA")
 def formatDateTimeToUTC(dateTime):
@@ -46,12 +48,17 @@ def dar_clasificacion(sexo, peso, estatura, edad, enfermedades_cardiovasculares,
     
     return clasificacion    
 
-# Función que permite realizar el cargue inicial de entrenamientos
+# Función que permite realizar el cargue inicial de plan nutricional
+def cargue_inicial():
+    # Cargar plan nutricional desde json file
+    with open('utilities/entrenamientos.json') as archivo_json:
+        global datos_en_memoria
+        datos_en_memoria = json.load(archivo_json)
+
+# Función que permite realizar el cargue inicial de plan nutricional
 def recomendacion_planes_entrenamiento():
-    # Cargar entrenamientos desde json file
-    with open('utilities/entrenamientos.json') as fn:
-        planes_entrenamiento = json.load(fn)
-    return planes_entrenamiento
+    global datos_en_memoria
+    return datos_en_memoria
 
 # Función que permite realizar el cargue inicial de entrenamientos
 def cargue_inicial_entrenamientos(db, Entrenamientos):
@@ -59,7 +66,6 @@ def cargue_inicial_entrenamientos(db, Entrenamientos):
     registros = db.session.query(Entrenamientos).all()
     # Validar si ya existen registros
     if len(registros) == 0:
-        print('<============== Inicia cargue inicial de entrenamientos =================>')
         # Cargar entrenamientos desde json file
         with open('utilities/entrenamientos.json') as fn:
             entrenamientos = json.load(fn)
@@ -79,4 +85,3 @@ def cargue_inicial_entrenamientos(db, Entrenamientos):
             db.session.add(nuevo_entrenamiento)
             db.session.commit()
         db.session.close()
-        print('<============== Finaliza cargue inicial de entrenamientos =================>')
