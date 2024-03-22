@@ -37,6 +37,8 @@ class RegistrarUsuario(BaseCommannd):
         self.pais = json_payload['pais']
         self.departamento = json_payload['departamento']
         self.ciudad = json_payload['ciudad']
+        self.email = json_payload['email']
+        self.password = hashlib.md5(json_payload['password'].encode('utf-8')).hexdigest()
         
     # Función que asigna  plan nutricional
     def agregar_plan_nutricional(self, resultados, resultado_legado):
@@ -105,7 +107,9 @@ class RegistrarUsuario(BaseCommannd):
             enfermedades_cardiovasculares=self.enfermedades_cardiovasculares,
             pais=self.pais,
             departamento=self.departamento,
-            ciudad=self.ciudad
+            ciudad=self.ciudad,
+            email=self.email,
+            password=self.password
         )
         db.session.add(usuario)
         db.session.commit()

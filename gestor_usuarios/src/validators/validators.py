@@ -22,9 +22,11 @@ esquema_registro_usuario = {
         "proposito": {"type": "string", "enum" : ["GANAR MASA MUSCULAR", "PERDER PESO"]},
         "pais": {"type": "string", "minimum": 4, "maximum": 64},
         "departamento": {"type": "string", "minimum": 4, "maximum": 64},
-        "ciudad": {"type": "string", "minimum": 4, "maximum": 64}
+        "ciudad": {"type": "string", "minimum": 4, "maximum": 64},
+        "email": {"type": "string", "minimum": 4, "maximum": 100},
+        "password": {"type": "string", "minimum": 4, "maximum": 250}
     },
-    "required": ["nombres", "apellidos", "tipo_identificacion", "numero_identificacion", "sexo", "edad", "estatura", "enfermedades_cardiovasculares", "practica_deporte", "proposito","pais", "departamento", "ciudad"]
+    "required": ["nombres", "apellidos", "tipo_identificacion", "numero_identificacion", "sexo", "edad", "estatura", "enfermedades_cardiovasculares", "practica_deporte", "proposito","pais", "departamento", "ciudad", "email","password"]
 }
 
 # Función que valida los esquemas de las peticiones

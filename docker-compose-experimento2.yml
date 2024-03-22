@@ -107,6 +107,7 @@ services:
     environment:
       GESTORENTRENAMIENTOS_ADDRESS: http://mcs-gestor-entrenamientos:3000/entrenamientos/plan-entrenamiento
       GESTOREPLANNUTRICIONAL_ADDRESS: http://mcs-gestor-plan-nutricional:3000/nutricion/plan-nutricional
+      JWT_SECRET_KEY: JwBGj2B4XFAKhYmn8Pgk0vH2w7UvgYfXAJ32e5rs8vI=
       DB_USER: postgres
       DB_PASSWORD: postgres
       DB_HOST: usuarios-db
