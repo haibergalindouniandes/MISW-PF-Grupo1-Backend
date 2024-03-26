@@ -17,3 +17,8 @@ class ErrorConsumoServicioExterno(ApiError):
 class ErrorMetodoNoPermitido(ApiError):
     code = 409
     description = "Metodo no permitido"        
+
+# Clase que contiene la estructura de un error de tipo Bad Request
+class LoginFailed(ApiError):
+    code = 400
+    description = "Login Failed, corrija los datos ingresados e intente nuevamente."    

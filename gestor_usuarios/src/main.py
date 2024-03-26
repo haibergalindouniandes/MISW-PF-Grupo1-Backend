@@ -7,6 +7,8 @@ from errors.errors import ApiError
 from models.models import db
 import logging
 import os
+from flask_jwt_extended import JWTManager
+
 
 # Configuración logger
 logging.basicConfig(level=logging.INFO)
@@ -22,6 +24,7 @@ APP_PORT =  int(os.getenv("APP_PORT", default=3000))
 
 # Configuracion app
 app = Flask(__name__)
+app.config['DEBUG'] = True
 app.config["SQLALCHEMY_DATABASE_URI"] = f"postgresql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 app.config["PROPAGATE_EXCEPTIONS"] = True
@@ -33,6 +36,7 @@ cors = CORS(app)
 db.init_app(app)
 db.create_all()
 api = Api(app)
+jwt = JWTManager(app)
 
 # Manejador de errores
 @app.errorhandler(ApiError)

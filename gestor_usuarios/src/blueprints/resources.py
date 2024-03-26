@@ -3,6 +3,9 @@ from commands.registrar_usuario import RegistrarUsuario
 from commands.consultar_usuario import ConsultarUsuario
 from flask_jwt_extended import jwt_required, create_access_token
 import hashlib
+from models.models import db, Usuario
+from flask_jwt_extended import jwt_required
+import logging
 
 usuarios_blueprint = Blueprint('usuarios', __name__)
 
@@ -21,9 +24,11 @@ def registrar_usuario():
 # Recurso que expone la funcionalidad login de usuarios
 @usuarios_blueprint.route('/usuarios/login', methods=['POST'])
 def login_usuario():
+    logging.info("Inicio Login Usuario")
     data = request.get_json()
-    contrasena_encriptada = hashlib.md5(request.json["password"].encode('utf-8')).hexdigest()
+    logging.info(data)
     usuario = ConsultarUsuario(data).execute()
-    #db.session.commit()
-    token_de_acceso = create_access_token(identity=usuario.id)
-    return {"mensaje": "Inicio de sesión exitoso", "token": token_de_acceso, "id": usuario.id, "rol": usuario.rol}
+    logging.info(usuario)
+    db.session.commit()
+    token_de_acceso = create_access_token(identity=request.json["password"])
+    return {"mensaje": "Inicio de sesión exitoso", "token": token_de_acceso, "id": usuario.id, "nombres": usuario.nombres}

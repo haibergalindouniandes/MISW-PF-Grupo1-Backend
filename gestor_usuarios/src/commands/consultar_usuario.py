@@ -5,27 +5,63 @@ from commands.base_command import BaseCommannd
 from models.models import db, Usuario
 #from validators.validators import validar_esquema, esquema_registro_usuario
 from sqlalchemy.exc import SQLAlchemyError
-from errors.errors import ApiError
+from marshmallow_sqlalchemy import SQLAlchemyAutoSchema
+from marshmallow import fields, Schema
+from errors.errors import ApiError, LoginFailed
 from models.models import Usuario
+import hashlib
+import logging
 
 
 
 # Clase que contiene la logica de consulta de usuarios
 class ConsultarUsuario(BaseCommannd):
     email: str
-    password_encriptado: str
+    password: str
 
     # Constructor
     def __init__(self, data):
         self.email=data["email"]
-        self.password_encriptado=data["password"]
+        self.password=data["password"]
     
     # Función que realiza de consulta de un usuario
     def execute(self):
         try:
+            logging.info("Execute Consultar  Usuario")
+            logging.info(self)
             # Logica de negocio
-            usuario = Usuario.query.filter(Usuario.email == self.email,
-                                Usuario.password == self.password_encriptado).first()
+            contrasena_encriptada = hashlib.md5(self.password.encode('utf-8')).hexdigest()
+            #result = db.session.query(Usuario).filter_by(email = self.email,
+            #                    password = contrasena_encriptada).first()
+            #result= Usuario.query.filter(Usuario.email == self.email,
+            #                    Usuario.password == contrasena_encriptada).first()
+            result = db.session.query(Usuario).filter_by(email = self.email, password = contrasena_encriptada).first()
+            if result!=None:
+
+                logging.info("resultado")
+                logging.info(result)
+                logging.info(result.id)
+                logging.info(result.nombres)
+                usuario = Usuario(
+                    id=result.id,
+                    nombres=result.nombres,
+                    apellidos=result.apellidos,
+                    tipo_identificacion=result.tipo_identificacion,
+                    numero_identificacion=result.numero_identificacion,
+                    sexo=result.sexo,
+                    edad=result.edad,
+                    peso=result.peso,
+                    estatura=result.estatura,
+                    enfermedades_cardiovasculares=result.enfermedades_cardiovasculares,
+                    pais=result.pais,
+                    departamento=result.departamento,
+                    ciudad=result.ciudad,
+                    email=result.email,
+                    password=result.password
+                )
+                logging.info(usuario)
+            else:
+                raise LoginFailed()
             return usuario
         except SQLAlchemyError as e:# pragma: no cover
             traceback.print_exc()

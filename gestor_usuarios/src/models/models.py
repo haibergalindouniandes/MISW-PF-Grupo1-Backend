@@ -5,6 +5,7 @@ from marshmallow_sqlalchemy import SQLAlchemyAutoSchema
 from marshmallow import fields
 from sqlalchemy import DateTime
 from sqlalchemy.dialects.postgresql import UUID
+from marshmallow import fields, Schema
 import uuid
 
 # Creación de variable db
@@ -52,5 +53,5 @@ class Usuario(db.Model):
             "fecha_creacion": str(self.fecha_creacion),
             "fecha_actualizacion": str(self.fecha_actualizacion),
             "email": str(self.email),
-            "password": str(self.password),
+            "password": str(self.password)
         }

@@ -7,6 +7,7 @@ from models.models import db, Usuario
 from validators.validators import validar_esquema, esquema_registro_usuario
 from sqlalchemy.exc import SQLAlchemyError
 from errors.errors import ApiError
+import hashlib
 
 # Clase que contiene la logica de creción de Alerta
 class RegistrarUsuario(BaseCommannd):
@@ -119,10 +120,10 @@ class RegistrarUsuario(BaseCommannd):
     def execute(self):
         try:
             # Logica de negocio
-            resultado = self.ejecutar_batch_servicios()
+            #resultado = self.ejecutar_batch_servicios()
             usuario_registrado = self.registrar_usuario_bd().to_dict()
-            usuario_registrado = self.agregar_plan_de_entrenamiento(usuario_registrado, resultado)
-            usuario_registrado = self.agregar_plan_nutricional(usuario_registrado, resultado)
+            #usuario_registrado = self.agregar_plan_de_entrenamiento(usuario_registrado, resultado)
+            #usuario_registrado = self.agregar_plan_nutricional(usuario_registrado, resultado)
             return usuario_registrado
         except SQLAlchemyError as e:# pragma: no cover
             traceback.print_exc()
