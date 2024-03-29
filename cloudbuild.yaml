@@ -1,0 +1,95 @@
+steps:
+  # - id: 'Run unit test and e2e test'
+  #   name: 'ubuntu'
+  #   entrypoint: '/bin/sh'
+  #   args:
+  #     - '-c'
+  #     - |
+  #       apt-get update
+  #       apt-get install -y curl gnupg unzip xvfb libxi6 libgconf-2-4 wget
+  #       curl -sL https://deb.nodesource.com/setup_18.x | bash -
+  #       apt-get install -y nodejs
+  #       npm install -g npm@9
+  #       node -v
+  #       npm -v
+  #       wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+  #       apt install -y ./google-chrome-stable_current_amd64.deb
+  #       export CHROME_BIN='/usr/bin/google-chrome'
+  #       npm i -g @angular/cli
+  #       npm install
+  #       ng test --watch=false --browsers=ChromeHeadlessNoSandbox
+  #       nohup ng serve &
+  #       npx cypress run --headless
+  # Install dependencies
+  - name: python
+    entrypoint: pipenv
+    args: ["shelll"]
+
+  - name: python
+    entrypoint: pipenv
+    args: ["install"]
+  # Run unit tests
+  - name: python
+    entrypoint: python
+    args: ["-m", "pytest", "--junitxml=${SHORT_SHA}_test_log.xml"] 
+
+# Docker Build
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t',
+         'us-central1-docker.pkg.dev/${PROJECT_ID}/${_ARTIFACT_REGISTRY_REPO}/gestor_usuarios:${SHORT_SHA}', '.']
+
+# Docker push to Google Artifact Registry
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push',  'us-central1-docker.pkg.dev/${PROJECT_ID}/${_ARTIFACT_REGISTRY_REPO}/gestor_usuarios:${SHORT_SHA}']
+
+  # Deploy to Cloud Run
+  - name: google/cloud-sdk
+    args: ['gcloud', 'run', 'deploy', 'gestor_usuarios-${SHORT_SHA}',
+         '--image=us-central1-docker.pkg.dev/${PROJECT_ID}/${_ARTIFACT_REGISTRY_REPO}/gestor_usuarios:${SHORT_SHA}',
+         '--region', 'us-central1', '--platform', 'managed',
+         '--allow-unauthenticated']  
+# Save test logs to Google Cloud Storage
+artifacts:
+  objects:
+    location: gs://${_BUCKET_NAME}/
+    paths:
+      - ${SHORT_SHA}_test_log.xml 
+
+# Store images in Google Artifact Registry
+images:
+  - us-central1-docker.pkg.dev/${PROJECT_ID}/${_ARTIFACT_REGISTRY_REPO}/gestor_usuarios:${SHORT_SHA}
+
+  - id: 'Build Docker image Gestor Usuarios'
+    name: 'gcr.io/cloud-builders/docker'
+    args: [
+      'build',
+      '-t',
+      'gcr.io/$PROJECT_ID/gestor_usuarios:$SHORT_SHA',
+      '.'
+      ]
+
+  - id: 'Push the Docker image to Google Container Registry'
+    name: 'gcr.io/cloud-builders/docker'
+    args: [
+      'push',
+      'gcr.io/$PROJECT_ID/gestor_usuarios:$SHORT_SHA'
+      ]
+
+  - id: 'Deploy to Cloud Run'
+    name: 'gcr.io/cloud-builders/gcloud'
+    args: [
+      'run',
+      'deploy',
+      'gestor_usuarios',
+      '--image',
+      'gcr.io/$PROJECT_ID/gestor_usuarios:$SHORT_SHA',
+      '--platform',
+      'managed',
+      '--region',
+      'us-central1',
+      '--allow-unauthenticated',
+      '--port',
+      '80',
+      '--timeout',
+      '900'
+      ]
