@@ -1,7 +1,7 @@
 # Importación de dependencias
 import os
 from commands.base_command import BaseCommannd
-from validators.validators import validateSchema, notificacionSchema
+from validators.validators import validar_esquema, notificacionSchema
 from sqlalchemy.exc import SQLAlchemyError
 from errors.errors import ApiError
 from models.models import db, Notificaciones
@@ -22,7 +22,7 @@ class CrearNotificaiconMasiva(BaseCommannd):
     # Función que valida el request del servicio
     def validateRequest(self, notificacionJSON):
         # Validacion del request
-        validateSchema(notificacionJSON, notificacionSchema)
+        validar_esquema(notificacionJSON, notificacionSchema)
         # Asignacion de variables
         self.id_trigger = notificacionJSON['id_trigger']
         self.latitud = notificacionJSON['latitud']

@@ -1,5 +1,4 @@
 FROM python:3.10 AS base
-LABEL author="s.salazarc@uniandes.edu.co and jf.guzmanc1@uniandes.edu.co"
 RUN apt-get update && apt-get install -y
 RUN apt-get install telnet -y
 RUN pip install --upgrade pip
@@ -23,23 +22,9 @@ USER appservicios
 CMD ["python", "main.py"]
 
 FROM release AS prod
+ENV PYTHONBUFFERED=1
+ENV FLASK_DEBUG=1
 ENV GOOGLE_APPLICATION_CREDENTIALS=proyecto1-experimentos-a4f693fafcec.json
 RUN pipenv install --system --deploy
 USER appservicios
-CMD ["python","main.py"]
-#CMD ["gunicorn", "--bind", ":3000", "main:app"]
-
-
-#FROM python:3.9
-
-# EXPOSE 5002/tcp
-
-# COPY ./gestor_servicios/requirements.txt ./
-# COPY ./gestor_servicios/proyecto1-experimentos-a4f693fafcec.json ./
-# RUN pip install --upgrade --no-cache-dir pip setuptools wheel
-# RUN pip install --no-cache-dir wheel
-# RUN pip install --no-cache-dir -r requirements.txt
-
-# COPY . .
-
-# CMD [ "flask", "--app", "./gestor_servicios/src/main.py", "run", "--host=0.0.0.0"]
+CMD ["gunicorn", "--bind", ":3000", "main:app"]

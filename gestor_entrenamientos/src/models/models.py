@@ -5,7 +5,6 @@ from marshmallow_sqlalchemy import SQLAlchemyAutoSchema
 from marshmallow import fields
 from sqlalchemy import DateTime
 from sqlalchemy.dialects.postgresql import UUID
-from sqlalchemy.dialects.postgresql import JSONB
 import uuid
 
 # Creación de variable db
@@ -13,14 +12,36 @@ db = SQLAlchemy()
 
 class Entrenamientos(db.Model):
     __tablename__ = 'entrenamientos'
-    id = db.Column(db.Integer, primary_key=True)
-    rutina = db.Column(db.String(50), unique=True)
-    ejercicios = db.Column(JSONB)
-    tipo_entrenamiento = db.Column(db.String(50))
-    proposito = db.Column(db.String(50))
-    clasificacion = db.Column(db.String(50))
+    id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    entrenamiento = db.Column(db.String, nullable=False)
+    numero_semanas = db.Column(db.Integer, nullable=False)
+    id_usuario = db.Column(db.String, nullable=False)
+    # Relación uno a uno con la tabla PlanEntrenamiento
+    plan_entrenamiento = db.relationship('PlanEntrenamiento', uselist=False, back_populates='entrenamiento')
+       
+class PlanEntrenamiento(db.Model):
+    __tablename__ = "plan_entrenamiento"
+    id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    lunes = db.Column(db.Integer, nullable=False)
+    martes = db.Column(db.Integer, nullable=False)
+    miercoles = db.Column(db.Integer, nullable=False)
+    jueves = db.Column(db.Integer, nullable=False)
+    viernes = db.Column(db.Integer, nullable=False)
+    sabado = db.Column(db.Integer, nullable=False)
+    domingo = db.Column(db.Integer, nullable=False)        
+    # Relación uno a uno con la tabla Entrenamientos
+    entrenamiento_id = db.Column(db.UUID(as_uuid=True), db.ForeignKey('entrenamientos.id'))
+    entrenamiento = db.relationship('Entrenamientos', back_populates='plan_entrenamiento')
+    
+class PlanEntrenamientoSchema(SQLAlchemyAutoSchema):
+    class Meta:
+        model = PlanEntrenamiento
+        include_relationships = True     
 
-class EntrenamientosSchema(SQLAlchemyAutoSchema):
+class EntrenamientoSchema(SQLAlchemyAutoSchema):
+    plan_entrenamiento = fields.Nested(PlanEntrenamientoSchema)
     class Meta:
         model = Entrenamientos
-        id = fields.String()
+        include_relationships = True
+        load_instance = True
+   

@@ -27,10 +27,11 @@ services:
     hostname: gentrenamientos
     restart: on-failure
     build:
-      context: .
-      dockerfile: ./gestor_entrenamientos/Dockerfile
+      context: ./gestor_entrenamientos
+      dockerfile: Dockerfile
     environment:
       - GESTORENTRENAMIENTOS_ADDRESS=gentrenamientos
+      - GESTORUSUARIOS_ADDRESS=https://my.api.mockaroo.com/v1/users
       - PATH_PUBSUB_KEY=proyecto1-experimentos-a4f693fafcec.json
       - PATH_TOPIC_ALERTAS=projects/proyecto1-experimentos/topics/alarmas
       - DB_USER=postgres
@@ -40,7 +41,7 @@ services:
       - DB_NAME=sportapp
       - APP_PORT=5000
     ports:
-      - "5000:5000"
+      - "5000:3000"
     networks:
       - sportapp
     depends_on:
@@ -52,10 +53,11 @@ services:
     hostname: gservicios
     restart: on-failure
     build:
-      context: .
-      dockerfile: ./gestor_servicios/Dockerfile
+      context: ./gestor_servicios
+      dockerfile: Dockerfile
     environment:
       - GESTORENTRENAMIENTOS_ADDRESS=gservicios
+      - GESTORUSUARIOS_ADDRESS=https://my.api.mockaroo.com/v1/users
       - PATH_PUBSUB_KEY=proyecto1-experimentos-a4f693fafcec.json
       - PATH_TOPIC_MASIVAS=projects/proyecto1-experimentos/topics/notifications
       - DB_USER=postgres
@@ -65,7 +67,7 @@ services:
       - DB_NAME=sportapp
       - APP_PORT=5002
     ports:
-      - "5002:5000"
+      - "5002:3000"
     networks:
       - sportapp
     depends_on:

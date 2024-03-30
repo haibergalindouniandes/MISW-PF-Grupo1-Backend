@@ -1,5 +1,5 @@
 # Importación de dependencias
-from errors.errors import BadRequest
+from errors.errors import BadRequest, CallExternalServiceError, Forbidden
 from jsonschema import validate
 import traceback
 import jsonschema
@@ -30,6 +30,40 @@ planEntrenamientoEsquema = {
     },
     "required": ["sexo", "peso", "estatura", "edad", "enfermedades_cardiovasculares", "practica_deporte", "proposito"]
 }
+
+crearPlanEntrenamientoEsquema = {
+    "type": "object",
+    "properties": {
+        "entrenamiento": {"type": "string"},
+        "numero_semanas": {"type": "integer", "minimum": 1},
+        "id_usuario": {"type": "string", "format": "uuid"},
+        "plan_entrenamiento": {
+            "type": "object",
+            "properties": {
+                "lunes": {"type": "string", "pattern": "^[0-9]+$"},
+                "martes": {"type": "string", "pattern": "^[0-9]+$"},
+                "miercoles": {"type": "string", "pattern": "^[0-9]+$"},
+                "jueves": {"type": "string", "pattern": "^[0-9]+$"},
+                "viernes": {"type": "string", "pattern": "^[0-9]+$"},
+                "sabado": {"type": "string", "pattern": "^[0-9]+$"},
+                "domingo": {"type": "string", "pattern": "^[0-9]+$"}
+            },
+            "required": ["lunes", "martes", "miercoles", "jueves", "viernes", "sabado", "domingo"]
+        }
+    },
+    "required": ["entrenamiento", "numero_semanas", "id_usuario", "plan_entrenamiento"]
+}
+
+# Función que valida el http-response-code del consumo de un servicio
+def validar_resultado_consumo_servicio(response):
+    if response.status_code != 200:
+        traceback.print_exc()
+        raise CallExternalServiceError
+
+# Función que valida el http-response-code del consumo de un servicio
+def validar_permisos_usuario(response_json):
+    if response_json['rol'] != 'PRO':
+        raise Forbidden
 
 # Función que valida los esquemas de las peticiones
 def validateSchema(jsonData, schema):

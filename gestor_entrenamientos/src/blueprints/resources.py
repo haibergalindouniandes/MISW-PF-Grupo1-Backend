@@ -1,6 +1,6 @@
 from flask import request, Blueprint
 from commands.alertas import CrearAlerta
-from commands.plan_entrenamiento import DarPlanEntrenamiento
+from commands.plan_entrenamiento import CrearPlanEntrenamiento, DarPlanEntrenamiento
 from flask.json import jsonify
 
 from utilities.utilities import formatDateTimeToUTC
@@ -23,3 +23,10 @@ def notifiacion_alerta():
 def dar_plan_entrenamiento():
     data = request.get_json()
     return DarPlanEntrenamiento(data).execute()
+
+@entrenamientos_blueprint.route('/plan-entrenamiento/crear', methods=['POST'])
+def crear_plan_entrenamiento():
+    data = request.get_json()
+    headers = request.headers
+    plan_entrenamiento = CrearPlanEntrenamiento(data, headers).execute()
+    return  jsonify(plan_entrenamiento)

@@ -31,6 +31,7 @@ app_context = app.app_context()
 app_context.push()
 cors = CORS(app)
 db.init_app(app)
+db.create_all()
 api = Api(app)
 
 # Cargue inicial

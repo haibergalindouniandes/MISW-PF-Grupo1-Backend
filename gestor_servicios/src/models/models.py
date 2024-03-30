@@ -3,7 +3,7 @@ from datetime import datetime
 from flask_sqlalchemy import SQLAlchemy
 from marshmallow_sqlalchemy import SQLAlchemyAutoSchema
 from marshmallow import fields
-from sqlalchemy import DateTime
+from sqlalchemy import UniqueConstraint
 from sqlalchemy.dialects.postgresql import UUID
 import uuid
 
@@ -19,8 +19,8 @@ class Notificaciones(db.Model):
     longitud = db.Column(db.String(200), nullable=True)
     descripcion = db.Column(db.String(200), nullable=True)
     tipo = db.Column(db.String(30), nullable=True)   
-    create_date = db.Column(db.DateTime, default=datetime.utcnow)
-    update_date = db.Column(db.DateTime, default=datetime.utcnow)
+    fecha_creacion = db.Column(db.DateTime, default=datetime.utcnow)
+    fecha_actualizacion = db.Column(db.DateTime, default=datetime.utcnow)
 
     # Función que retorna un diccionario a partir del modelo
     def to_dict(self):
@@ -31,6 +31,40 @@ class Notificaciones(db.Model):
             "longitud": self.longitud,
             "descripcion": self.descripcion,
             "tipo": self.tipo,
-            "create_date": int(self.create_date),
-            "update_date": float(self.update_date)
+            "fecha_creacion": int(self.fecha_creacion),
+            "fecha_actualizacion": float(self.fecha_actualizacion)
         }
+
+class Servicios(db.Model):
+    __tablename__ = "servicios"
+    id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    nombre = db.Column(db.String, nullable=False)
+    descripcion = db.Column(db.String, nullable=False)
+    frecuencia = db.Column(db.String, nullable=False)
+    costo = db.Column(db.String, nullable=False)
+    numero_minimo_participantes = db.Column(db.Integer, nullable=False)
+    numero_maximo_participantes = db.Column(db.Integer, nullable=False)
+    lugar = db.Column(db.String, nullable=True)
+    fecha = db.Column(db.DateTime, nullable=False)
+    id_usuario = db.Column(db.String, nullable=False)
+    estado = db.Column(db.String, default='ACT')
+    # Llave compuesta
+    __table_args__ = (
+        UniqueConstraint('nombre', 'fecha', 'id_usuario', name='ck_servicio_fecha_usuario'),
+    )
+
+    # Función que retorna un diccionario a partir del modelo
+    def to_dict(self):
+        return {
+                    "id": str(self.id),
+                    "nombre": self.nombre,
+                    "descripcion": self.descripcion,
+                    "frecuencia": self.frecuencia,
+                    "costo": self.costo,
+                    "numero_minimo_participantes": self.numero_minimo_participantes,
+                    "numero_maximo_participantes": self.numero_maximo_participantes,
+                    "lugar": self.lugar,
+                    "fecha": str(self.fecha),
+                    "id_usuario": self.id_usuario,
+                    "estado": self.estado
+                }
