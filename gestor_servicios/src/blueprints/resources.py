@@ -1,7 +1,8 @@
 from flask import request, Blueprint
 from flask.json import jsonify
 from commands.notificaciones import CrearNotificaiconMasiva
-from commands.registrar import RegistrarServicio
+from commands.registrar import RegistrarServicio 
+from commands.agendar import AgendarServicio
 
 servicios_blueprint = Blueprint('servicios', __name__)
 
@@ -22,3 +23,10 @@ def registrar_servicio():
     data = request.get_json()
     headers = request.headers
     return RegistrarServicio(data, headers).execute()
+
+# Recurso que expone la funcionalidad registro de servicios
+@servicios_blueprint.route('/servicios/agendar', methods=['POST'])
+def agendar_servicio():
+    data = request.get_json()
+    headers = request.headers
+    return AgendarServicio(data, headers).execute()

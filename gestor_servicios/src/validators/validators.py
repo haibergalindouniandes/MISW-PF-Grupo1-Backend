@@ -34,6 +34,20 @@ esquema_registro_servicio = {
     "required": ["nombre", "descripcion", "frecuencia", "costo", "numero_minimo_participantes", "numero_maximo_participantes", "lugar", "fecha", "id_usuario"]
 }
 
+# Esquema para registrar un servicio
+esquema_agendar_servicio = {
+    "type": "object",
+    "properties": {
+        "id_usuario": {"type": "string", "minLength": 1, "maxLength": 36},
+        "id_servicio": {"type": "string", "minLength": 1, "maxLength": 36},
+        "email": {"type": "string", "minLength": 1, "maxLength": 200},
+        "fecha": {"type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2}$"},        
+        "descripcion": {"type": "string", "minLength": 10, "maxLength": 1000},
+        "lugar": {"type": "string", "minLength": 6, "maxLength": 200}                
+    },
+    "required": ["id_usuario", "id_servicio", "fecha", "descripcion", "lugar"]
+}
+
 # Función que valida el http-response-code del consumo de un servicio
 def validar_resultado_consumo_servicio(response):
     if response.status_code != 200:

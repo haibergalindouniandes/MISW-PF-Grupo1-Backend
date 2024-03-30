@@ -68,3 +68,32 @@ class Servicios(db.Model):
                     "id_usuario": self.id_usuario,
                     "estado": self.estado
                 }
+    
+
+class AgendaServicios(db.Model):
+    __tablename__ = "agendas"
+    id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    id_usuario = db.Column(db.String, nullable=False)
+    id_servicio = db.Column(db.String, nullable=False)
+    email = db.Column(db.String, nullable=False)
+    fecha = db.Column(db.DateTime, nullable=False)
+    descripcion = db.Column(db.String, nullable=False)
+    lugar = db.Column(db.String, nullable=True)
+
+    
+    # Llave compuesta
+    __table_args__ = (
+        UniqueConstraint('id', 'id_usuario', 'id_servicio','fecha', name='ck_sagenda_servicio_fecha_usuario')
+    )
+
+    # Función que retorna un diccionario a partir del modelo
+    def to_dict(self):
+        return {
+                    "id": str(self.id),
+                    "id_usuario": self.id_usuario,
+                    "id_servicio": self.id_servicio,
+                    "email": self.email,
+                    "fecha": self.fecha,
+                    "descripcion": self.descripcion,
+                    "lugar": self.lugar
+                }
