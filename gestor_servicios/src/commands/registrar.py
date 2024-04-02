@@ -47,6 +47,7 @@ class RegistrarServicio(BaseCommannd):
         self.lugar = json_payload['lugar']
         self.fecha = json_payload['fecha']
         self.id_usuario = json_payload['id_usuario']
+
         
     # Función que realiza el registro del usuario en BD
     def registrar_servicio_bd(self):

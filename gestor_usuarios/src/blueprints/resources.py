@@ -31,4 +31,4 @@ def login_usuario():
     logging.info(usuario)
     db.session.commit()
     token_de_acceso = create_access_token(identity=request.json["password"])
-    return {"mensaje": "Inicio de sesión exitoso", "token": token_de_acceso, "id": usuario.id, "nombres": usuario.nombres}
+    return {"mensaje": "Inicio de sesión exitoso", "token": token_de_acceso, "id": usuario.id, "nombres": usuario.nombres, "rol":usuario.rol,"plan":usuario.plan}

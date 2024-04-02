@@ -33,6 +33,8 @@ class Usuario(db.Model):
     fecha_actualizacion = db.Column(db.DateTime, default=datetime.utcnow)
     email = db.Column(db.String(100), nullable=False, default=None)
     password = db.Column(db.String(250), nullable=False, default=None)
+    rol = db.Column(db.String(30), nullable=False, default=None)
+    plan = db.Column(db.String(30), nullable=False, default=None)
 
     # Función que retorna un diccionario a partir del modelo
     def to_dict(self):
@@ -53,5 +55,7 @@ class Usuario(db.Model):
             "fecha_creacion": str(self.fecha_creacion),
             "fecha_actualizacion": str(self.fecha_actualizacion),
             "email": str(self.email),
-            "password": str(self.password)
+            "password": str(self.password),
+            "rol": str(self.rol),
+            "plan": str(self.plan)
         }

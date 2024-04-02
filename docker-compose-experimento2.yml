@@ -131,7 +131,7 @@ services:
     image: postgres:14.1-alpine
     container_name: services-db
     ports:
-      - "5435:5432"
+      - "5436:5432"
     networks:
       - services-net
     environment:
@@ -146,14 +146,14 @@ services:
       retries: 5
 
   mcs-gestor-servicios:
-    container_name: mcs-gestor-usuario
-    hostname: mcs-gestor-usuario
+    container_name: mcs-gestor-servicios
+    hostname: mcs-gestor-servicios
     restart: on-failure
     build:
       context: ./gestor_servicios
       dockerfile: Dockerfile
     environment:
-      - GESTORENTRENAMIENTOS_ADDRESS=gservicios
+      - GESTORENTRENAMIENTOS_ADDRESS=mcs-gestor-entrenamientos
       - GESTORUSUARIOS_ADDRESS=https://my.api.mockaroo.com/v1/users
       - PATH_PUBSUB_KEY=proyecto1-experimentos-a4f693fafcec.json
       - PATH_TOPIC_MASIVAS=projects/proyecto1-experimentos/topics/notifications

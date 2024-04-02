@@ -57,7 +57,9 @@ class ConsultarUsuario(BaseCommannd):
                     departamento=result.departamento,
                     ciudad=result.ciudad,
                     email=result.email,
-                    password=result.password
+                    password=result.password,
+                    rol=result.rol,
+                    plan=result.plan
                 )
                 logging.info(usuario)
             else:
