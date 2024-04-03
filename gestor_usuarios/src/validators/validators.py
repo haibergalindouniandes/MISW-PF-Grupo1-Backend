@@ -28,7 +28,7 @@ esquema_registro_usuario = {
         "rol": {"type": "string", "enum" : ["USUARIO","PRESTADOR"]},
         "plan": {"type": "string", "enum" : ["BASIC", "MEDIUM", "PRO"]}
     },
-    "required": ["nombres", "apellidos", "tipo_identificacion", "numero_identificacion", "sexo", "edad", "estatura", "enfermedades_cardiovasculares", "practica_deporte", "proposito","pais", "departamento", "ciudad", "email","password", "rol","plam"]
+    "required": ["nombres", "apellidos", "tipo_identificacion", "numero_identificacion", "sexo", "edad", "estatura", "enfermedades_cardiovasculares", "practica_deporte", "proposito","pais", "departamento", "ciudad", "email","password", "rol","plan"]
 }
 
 # Función que valida los esquemas de las peticiones

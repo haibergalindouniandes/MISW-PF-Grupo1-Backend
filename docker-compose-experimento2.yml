@@ -134,6 +134,7 @@ services:
       - "5436:5432"
     networks:
       - services-net
+      - app-net
     environment:
       POSTGRES_DB: postgres
       POSTGRES_USER: postgres
@@ -159,10 +160,10 @@ services:
       - PATH_TOPIC_MASIVAS=projects/proyecto1-experimentos/topics/notifications
       - DB_USER=postgres
       - DB_PASSWORD=servicesdb
-      - DB_HOST=postgres
-      - DB_PORT=5435
+      - DB_HOST=services-db
+      - DB_PORT=5432
       - DB_NAME=postgres
-      - APP_PORT=5002
+      - APP_PORT=3003
     ports:
       - "3003:3000"
     networks:
