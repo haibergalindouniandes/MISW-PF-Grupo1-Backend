@@ -54,7 +54,8 @@ class AgendarServicio(BaseCommannd):
             id_servicio=self.id_servicio,  
             email=self.email,
             fecha=self.fecha,  
-            lugar=self.lugar            
+            lugar=self.lugar,
+            descripcion=self.descripcion            
         )
         db.session.add(servicio)
         db.session.commit()
@@ -73,6 +74,7 @@ class AgendarServicio(BaseCommannd):
             servicio_agendado = self.agendar_servicio_bd()
             return servicio_agendado.to_dict()
         except IntegrityError as e:# pragma: no cover
+            print(e)
             db.session.rollback()
             raise ServiceAlreadyRegistered(e)
         except SQLAlchemyError as e:# pragma: no cover

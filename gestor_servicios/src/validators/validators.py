@@ -42,10 +42,10 @@ esquema_agendar_servicio = {
         "id_servicio": {"type": "string", "minLength": 1, "maxLength": 36},
         "email": {"type": "string", "minLength": 1, "maxLength": 200},
         "fecha": {"type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2}$"},        
-        "descripcion": {"type": "string", "minLength": 10, "maxLength": 1000},
+        "descripcion": {"type": "string", "minLength": 1, "maxLength": 1000},
         "lugar": {"type": "string", "minLength": 6, "maxLength": 200}                
     },
-    "required": ["id_usuario", "id_servicio", "fecha", "descripcion", "lugar"]
+    "required": ["id_usuario", "id_servicio", "fecha", "descripcion", "lugar", "email"]
 }
 
 # Función que valida el http-response-code del consumo de un servicio
