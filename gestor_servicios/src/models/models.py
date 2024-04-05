@@ -18,7 +18,7 @@ class Notificaciones(db.Model):
     latitud = db.Column(db.String(200), nullable=True)
     longitud = db.Column(db.String(200), nullable=True)
     descripcion = db.Column(db.String(200), nullable=True)
-    tipo = db.Column(db.String(30), nullable=True)   
+    tipo = db.Column(db.String(30), nullable=True)
     fecha_creacion = db.Column(db.DateTime, default=datetime.utcnow)
     fecha_actualizacion = db.Column(db.DateTime, default=datetime.utcnow)
 
@@ -38,16 +38,16 @@ class Notificaciones(db.Model):
 class Servicios(db.Model):
     __tablename__ = "servicios"
     id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
-    nombre = db.Column(db.String, nullable=False)
-    descripcion = db.Column(db.String, nullable=False)
-    frecuencia = db.Column(db.String, nullable=False)
-    costo = db.Column(db.String, nullable=False)
+    nombre = db.Column(db.String(200), nullable=False)
+    descripcion = db.Column(db.String(600), nullable=False)
+    frecuencia = db.Column(db.String(100), nullable=False)
+    costo = db.Column(db.String(100), nullable=False)
     numero_minimo_participantes = db.Column(db.Integer, nullable=False)
     numero_maximo_participantes = db.Column(db.Integer, nullable=False)
-    lugar = db.Column(db.String, nullable=True)
+    lugar = db.Column(db.String(600), nullable=True)
     fecha = db.Column(db.DateTime, nullable=False)
-    id_usuario = db.Column(db.String, nullable=False)
-    estado = db.Column(db.String, default='ACT')
+    id_usuario = db.Column(db.String(36), nullable=False)
+    estado = db.Column(db.String(10), default='ACT')
     # Llave compuesta
     __table_args__ = (
         UniqueConstraint('nombre', 'fecha', 'id_usuario', name='ck_servicio_fecha_usuario'),
@@ -68,7 +68,6 @@ class Servicios(db.Model):
                     "id_usuario": self.id_usuario,
                     "estado": self.estado
                 }
-    
 
 class AgendaServicios(db.Model):
     __tablename__ = "agendas"
