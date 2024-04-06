@@ -1,5 +1,6 @@
 FROM python:3.10 AS base
 LABEL author="h.galindos@uniandes.edu.co and jm.carillo@uniandes.edu.co"
+LABEL app="gestor usuarios"
 RUN apt-get update && apt-get install -y
 RUN apt-get install telnet -y
 RUN pip install --upgrade pip
