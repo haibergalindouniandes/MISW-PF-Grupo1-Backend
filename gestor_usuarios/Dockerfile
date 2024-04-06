@@ -26,6 +26,12 @@ CMD ["python", "main.py"]
 FROM release AS prod
 ENV PYTHONBUFFERED=1
 ENV FLASK_DEBUG=1
+ENV DB_HOST=34.136.51.44
+ENV DB_USER=postgres
+ENV DB_PASSWORD=postgres
+ENV DB_NAME=postgres
+ENV DB_PORT=5432
+ENV JWT_SECRET_KEY=JwBGj2B4XFAKhYmn8Pgk0vH2w7UvgYfXAJ32e5rs8vI=
 RUN pipenv install --system --deploy
 USER appusuarios
 CMD ["gunicorn", "-w", "2", "--bind", ":80", "main:app"]
