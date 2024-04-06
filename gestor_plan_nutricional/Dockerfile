@@ -27,3 +27,18 @@ RUN pipenv install --system --deploy
 USER appnutricion
 CMD ["gunicorn", "-w", "2", "--bind", ":3000", "main:app"]
 
+FROM app AS cloudrelease
+EXPOSE 80
+
+
+FROM cloudrelease AS cloudprod
+ENV PYTHONBUFFERED=1
+ENV FLASK_DEBUG=1
+ENV DB_HOST=34.136.51.44
+ENV DB_USER=postgres
+ENV DB_PASSWORD=postgres
+ENV DB_NAME=postgres
+ENV DB_PORT=5432
+RUN pipenv install --system --deploy
+USER appnutricion
+CMD ["gunicorn", "--bind", ":80", "main:app"]
