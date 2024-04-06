@@ -24,24 +24,25 @@ class RegistrarUsuario(BaseCommannd):
     # Función que valida el request del servicio
     def asignar_datos_usuario(self, json_payload):
         # Asignacion de variables
+        self.usuario = json_payload['usuario']
+        self.contrasena = hashlib.md5(json_payload['contrasena'].encode('utf-8')).hexdigest()
         self.nombres = json_payload['nombres']
+        self.peso = int(json_payload['peso'])
         self.apellidos = json_payload['apellidos']
-        self.tipo_identificacion = json_payload['tipo_identificacion']
-        self.numero_identificacion = json_payload['numero_identificacion']
-        self.sexo = json_payload['sexo']
         self.edad = int(json_payload['edad'])
-        self.peso = float(json_payload['peso'])
-        self.estatura = float(json_payload['estatura'])
-        self.enfermedades_cardiovasculares = bool(json_payload['enfermedades_cardiovasculares'])
-        self.proposito = json_payload['proposito']
-        self.practica_deporte = bool(json_payload['practica_deporte'])
-        self.pais = json_payload['pais']
-        self.departamento = json_payload['departamento']
-        self.ciudad = json_payload['ciudad']
-        self.email = json_payload['email']
-        self.password = hashlib.md5(json_payload['password'].encode('utf-8')).hexdigest()
-        self.rol = json_payload['rol']
-        self.plan = json_payload['plan']
+        self.tipo_documento = json_payload['tipo_documento']
+        self.altura = int(json_payload['altura'])
+        self.numero_documento = json_payload['numero_documento']
+        self.pais_nacimiento = json_payload['pais_nacimiento']
+        self.ciudad_nacimiento = json_payload['ciudad_nacimiento']
+        self.genero = json_payload['genero']
+        self.pais_residencia = json_payload['pais_residencia']
+        self.ciudad_residencia = json_payload['ciudad_residencia']
+        self.deportes = bool(json_payload['deportes'])
+        self.antiguedad = bool(json_payload['antiguedad'])
+        self.tipo_plan = json_payload['tipo_plan']
+        self.tipo_usuario = json_payload['tipo_usuario']
+        
         
     # Función que asigna  plan nutricional
     def agregar_plan_nutricional(self, resultados, resultado_legado):
@@ -124,10 +125,10 @@ class RegistrarUsuario(BaseCommannd):
     def execute(self):
         try:
             # Logica de negocio
-            #resultado = self.ejecutar_batch_servicios()
+            resultado = self.ejecutar_batch_servicios()
             usuario_registrado = self.registrar_usuario_bd().to_dict()
-            #usuario_registrado = self.agregar_plan_de_entrenamiento(usuario_registrado, resultado)
-            #usuario_registrado = self.agregar_plan_nutricional(usuario_registrado, resultado)
+            usuario_registrado = self.agregar_plan_de_entrenamiento(usuario_registrado, resultado)
+            usuario_registrado = self.agregar_plan_nutricional(usuario_registrado, resultado)
             return usuario_registrado
         except SQLAlchemyError as e:# pragma: no cover
             traceback.print_exc()

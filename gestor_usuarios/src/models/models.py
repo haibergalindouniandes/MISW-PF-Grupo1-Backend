@@ -5,6 +5,7 @@ from marshmallow_sqlalchemy import SQLAlchemyAutoSchema
 from marshmallow import fields
 from sqlalchemy import DateTime
 from sqlalchemy.dialects.postgresql import UUID
+from sqlalchemy.dialects.postgresql import JSONB
 from marshmallow import fields, Schema
 import uuid
 
@@ -15,26 +16,26 @@ db = SQLAlchemy()
 class Usuario(db.Model):
     __tablename__ = "users"
     id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    usuario = db.Column(db.String(100), nullable=False, default=None)
+    contrasena = db.Column(db.String(250), nullable=False, default=None)
     nombres = db.Column(db.String(100), nullable=False)
-    apellidos = db.Column(db.String(100), nullable=True)
-    tipo_identificacion = db.Column(db.String(30), nullable=True)
-    numero_identificacion = db.Column(db.String(30), nullable=True)
-    sexo = db.Column(db.String(30), nullable=True)
-    edad = db.Column(db.Integer, nullable=True)
-    peso = db.Column(db.Numeric(precision=5, scale=2), nullable=True)
-    estatura = db.Column(db.Numeric(precision=5, scale=2), nullable=True)
-    enfermedades_cardiovasculares = db.Column(db.Boolean, default=False)
-    pais = db.Column(db.String(50), nullable=True)
-    departamento = db.Column(db.String(90), nullable=True)
-    ciudad = db.Column(db.String(90), nullable=True)
-    id_entrenamiento = db.Column(db.String(90), nullable=True, default=None)
-    id_plan_nutricional = db.Column(db.String(90), nullable=True, default=None)
+    peso = db.Column(db.Integer, nullable=False)
+    apellidos = db.Column(db.String(100), nullable=False)
+    edad = db.Column(db.Integer, nullable=False)
+    tipo_documento = db.Column(db.String(30), nullable=False)
+    altura = db.Column(db.Integer, nullable=False)
+    numero_documento = db.Column(db.String(30), nullable=False)
+    pais_nacimiento = db.Column(db.String(50), nullable=False)
+    ciudad_nacimiento = db.Column(db.String(90), nullable=False)
+    genero = db.Column(db.String(30), nullable=False)
+    pais_residencia = db.Column(db.String(50), nullable=False)
+    ciudad_residencia = db.Column(db.String(90), nullable=False)
+    deportes = db.Column(JSONB, nullable=False)
+    antiguedad = db.Column(db.Integer, nullable=False)
+    tipo_plan = db.Column(db.String(30), nullable=False)
+    tipo_usuario = db.Column(db.String(30), nullable=False)
     fecha_creacion = db.Column(db.DateTime, default=datetime.utcnow)
     fecha_actualizacion = db.Column(db.DateTime, default=datetime.utcnow)
-    email = db.Column(db.String(100), nullable=False, default=None)
-    password = db.Column(db.String(250), nullable=False, default=None)
-    rol = db.Column(db.String(30), nullable=False, default=None)
-    plan = db.Column(db.String(30), nullable=False, default=None)
 
     # Función que retorna un diccionario a partir del modelo
     def to_dict(self):
