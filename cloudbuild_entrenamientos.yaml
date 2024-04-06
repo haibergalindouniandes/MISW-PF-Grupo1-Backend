@@ -1,5 +1,5 @@
 steps:
-  # Install dependencies entrenamientos
+  # Install dependencies 
   - name: python
     entrypoint: pipenv
     args: ["shelll"]
