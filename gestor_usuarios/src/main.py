@@ -20,7 +20,7 @@ DB_HOST = os.environ["DB_HOST"]
 DB_PORT = os.environ["DB_PORT"]
 DB_NAME =  os.environ["DB_NAME"]
 JWT_SECRET_KEY =  os.environ["JWT_SECRET_KEY"]
-APP_PORT =  int(os.getenv("APP_PORT", default=80))
+APP_PORT =  int(os.getenv("APP_PORT", default=3000))
 
 # Configuracion app
 app = Flask(__name__)
@@ -47,4 +47,4 @@ def handle_exception(err):
     return jsonify(response), err.code
 
 if __name__ == "__main__":
-    app.run(debug=True, host="0.0.0.0", port=80)
+    app.run(debug=True, host="0.0.0.0", port=APP_PORT)
