@@ -15,8 +15,8 @@ db = SQLAlchemy()
 # Clase que cotiene la definición del modelo de base de datos de Usuario
 class Usuario(db.Model):
     __tablename__ = "users"
-    id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
-    usuario = db.Column(db.String(100), nullable=False, default=None)
+    id = db.Column(UUID(as_uuid=True), unique=True, default=uuid.uuid1)
+    usuario = db.Column(db.String(100), primary_key=True, nullable=False, default=None)
     contrasena = db.Column(db.String(250), nullable=False, default=None)
     nombres = db.Column(db.String(100), nullable=False)
     peso = db.Column(db.Integer, nullable=False)
@@ -41,22 +41,22 @@ class Usuario(db.Model):
     def to_dict(self):
         return {
             "id": str(self.id),
+            "usuario": self.usuario,
+            "contrasena": str(self.contrasena),
             "nombres": self.nombres,
+            "peso": int(self.peso),
             "apellidos": self.apellidos,
-            "tipo_identificacion": self.tipo_identificacion,
-            "numero_identificacion": self.numero_identificacion,
-            "sexo": self.sexo,
             "edad": int(self.edad),
-            "peso": float(self.peso),
-            "estatura": float(self.estatura),
-            "enfermedades_cardiovasculares": bool(self.enfermedades_cardiovasculares),
-            "pais": self.pais,
-            "departamento": self.departamento,
-            "ciudad": self.ciudad,
-            "fecha_creacion": str(self.fecha_creacion),
-            "fecha_actualizacion": str(self.fecha_actualizacion),
-            "email": str(self.email),
-            "password": str(self.password),
-            "rol": str(self.rol),
-            "plan": str(self.plan)
+            "tipo_documento": self.tipo_documento,
+            "altura": int(self.altura),
+            "numero_documento": self.numero_documento,
+            "pais_nacimiento": self.pais_nacimiento,
+            "ciudad_nacimiento": self.ciudad_nacimiento,
+            "genero": self.genero,
+            "pais_residencia": self.pais_residencia,
+            "ciudad_residencia": self.ciudad_residencia,
+            "deportes": self.deportes,
+            "antiguedad": self.antiguedad,
+            "tipo_plan": self.tipo_plan,
+            "tipo_usuario": self.tipo_usuario           
         }
