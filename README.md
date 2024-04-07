@@ -106,3 +106,4 @@ Para este reppsitorio se tiene implementado un sistema de CI/CD basado en GitHub
 * Si el build es exitoso procede a crear la imagen del contenerdor para ese microservicio.
 * Si la imagen se crea exitosamente se procede a cargarla en el container-registry de GCP.
 * Si la carga es exitosa, se continua con el deploy en cloud Run y redireccion detrafico a la nueva implementacion realizada.
+![image](https://github.com/shiomar-salazar/MISW-PF-Grupo1-Backend/assets/65821560/b93b7696-5b97-4f14-89e4-798a1c5d0a1b)
