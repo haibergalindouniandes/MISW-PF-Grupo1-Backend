@@ -31,11 +31,7 @@ class ConsultarUsuario(BaseCommannd):
             logging.info(self)
             # Logica de negocio
             contrasena_encriptada = hashlib.md5(self.password.encode('utf-8')).hexdigest()
-            #result = db.session.query(Usuario).filter_by(email = self.email,
-            #                    password = contrasena_encriptada).first()
-            #result= Usuario.query.filter(Usuario.email == self.email,
-            #                    Usuario.password == contrasena_encriptada).first()
-            result = db.session.query(Usuario).filter_by(email = self.email, password = contrasena_encriptada).first()
+            result = db.session.query(Usuario).filter_by(usuario = self.email, contrasena = contrasena_encriptada).first()
             if result!=None:
 
                 logging.info("resultado")
@@ -44,22 +40,26 @@ class ConsultarUsuario(BaseCommannd):
                 logging.info(result.nombres)
                 usuario = Usuario(
                     id=result.id,
+                    usuario=result.usuario,
+                    contrasena=result.contrasena,
                     nombres=result.nombres,
-                    apellidos=result.apellidos,
-                    tipo_identificacion=result.tipo_identificacion,
-                    numero_identificacion=result.numero_identificacion,
-                    sexo=result.sexo,
-                    edad=result.edad,
                     peso=result.peso,
-                    estatura=result.estatura,
-                    enfermedades_cardiovasculares=result.enfermedades_cardiovasculares,
-                    pais=result.pais,
-                    departamento=result.departamento,
-                    ciudad=result.ciudad,
-                    email=result.email,
-                    password=result.password,
-                    rol=result.rol,
-                    plan=result.plan
+                    apellidos=result.apellidos,
+                    edad=result.edad,
+                    tipo_documento=result.tipo_documento,
+                    altura=result.altura,                    
+                    numero_documento=result.numero_documento,
+                    pais_nacimiento=result.pais_nacimiento,
+                    ciudad_nacimiento=result.ciudad_nacimiento,
+                    genero=result.genero,
+                    pais_residencia=result.pais_residencia,
+                    ciudad_residencia=result.ciudad_residencia,
+                    deportes=result.deportes,
+                    antiguedad=result.antiguedad,
+                    tipo_plan=result.tipo_plan,
+                    tipo_usuario=result.tipo_usuario,
+                    fecha_creacion=result.fecha_creacion,
+                    fecha_actualizacion=result.fecha_actualizacion                                   
                 )
                 logging.info(usuario)
             else:

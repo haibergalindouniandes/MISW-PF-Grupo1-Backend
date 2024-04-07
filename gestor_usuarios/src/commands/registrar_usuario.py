@@ -32,7 +32,7 @@ class RegistrarUsuario(BaseCommannd):
         self.pais_residencia = json_payload['pais_residencia']
         self.ciudad_residencia = json_payload['ciudad_residencia']
         self.deportes = bool(json_payload['deportes'])
-        self.antiguedad = bool(json_payload['antiguedad'])
+        self.antiguedad = json_payload['antiguedad']
         self.tipo_plan = json_payload['tipo_plan']
         self.tipo_usuario = json_payload['tipo_usuario']
 
