@@ -85,3 +85,24 @@ microservice
 	├── blueprints => Contiene las pruebas enfocadas en la capa de exposición del servicio.
 	└── commands => Contiene las pruebas enfocadas en la capa lógica del servicio.
 ```
+### Flujo de Trabajo
+Para este repositorio se utilizara un proceso de GitFlow Modificado, en donde se tendran 3  tipos de ramas:
+
+* Rama ```main```: Rama principal en donde vivira el codigo mas actualizado y sincronizado de todos los microservicios, la cual esta protegida para que solo mediante un Pull Request Validado se pueda meter nuevo codigo.
+* Ramas ``` hotfix_``` en donde estan los cambios menores o correcciones realizadas despues de hacer merge de una las ramas de Historias de Usuario.
+* Ramas de ```feature_{nombre_microservicio}``` Ramas para el desarrollo de las Historias de Usuario planeadas por cada microservicio.
+
+En el siguiente diagrama se puede observar este Flujo de Trabajo:
+
+![FlujoTrabajo_Movil](https://github.com/shiomar-salazar/MISW-PF-Grupo1-Movil/assets/111320185/f6505f8f-2835-4306-be84-0fe2806e23e1)
+
+### Flujo de Integracion y Despliegue Continuo:
+Para este reppsitorio se tiene implementado un sistema de CI/CD basado en GitHub, CloudBuild - CGP y Cloud Run - GCP , consistendo de las siguientes caracteristicas:
+
+* * La integracion Continua arranca de dos formas
+  * cada que exista un n. evo Pull Request a la rama ```main```.
+  * cada que segenere un push hacia la rama feature_{n. mbre:microservicio}.
+* La integracion continua hace un build de cada microservicio correspondiente a su rama.
+* Si el build es exitoso procede a crear la imagen del contenerdor para ese microservicio.
+* Si la imagen se crea exitosamente se procede a cargarla en el container-registry de GCP.
+* Si la carga es exitosa, se continua con el deploy en cloud Run y redireccion detrafico a la nueva implementacion realizada.
