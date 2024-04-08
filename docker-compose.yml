@@ -21,7 +21,29 @@ services:
       timeout: 5s
       retries: 5
 
-  # Servicios de sportapp
+  gestorusuarios:
+    container_name: gusuarios
+    hostname: gusuarios
+    restart: on-failure
+    build:
+      context: ./gestor_usuarios
+      dockerfile: Dockerfile
+    environment:
+      - JWT_SECRET_KEY=JwBGj2B4XFAKhYmn8Pgk0vH2w7UvgYfXAJ32e5rs8vI=
+      - DB_USER=postgres
+      - DB_PASSWORD=postgres
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_NAME=sportapp
+      - APP_PORT=5000
+    ports:
+      - "5000:5000"
+    networks:
+      - sportapp
+    depends_on:
+      postgres:
+        condition: service_healthy   
+
   gestorentrenamientos:
     container_name: gentrenamientos
     hostname: gentrenamientos
@@ -41,7 +63,7 @@ services:
       - DB_NAME=sportapp
       - APP_PORT=5000
     ports:
-      - "5000:3000"
+      - "5001:5000"
     networks:
       - sportapp
     depends_on:
@@ -65,11 +87,11 @@ services:
       - DB_HOST=postgres
       - DB_PORT=5432
       - DB_NAME=sportapp
-      - APP_PORT=5002
+      - APP_PORT=5000
     ports:
-      - "5002:3000"
+      - "5002:5000"
     networks:
       - sportapp
     depends_on:
       postgres:
-        condition: service_healthy
+        condition: service_healthy     
