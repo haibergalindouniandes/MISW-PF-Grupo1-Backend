@@ -27,7 +27,10 @@ def obtener_endpoint_usuarios():
 # Funcion que hace el consumo GET de un servicio externo
 def consumir_servicio_usuarios(headers):
     try:
-        response = requests.get(obtener_endpoint_usuarios(), headers=headers)
+        headers_servicio_usuario = {
+            "Authorization": headers['Authorization']
+        }
+        response = requests.get(url=obtener_endpoint_usuarios(), headers=headers_servicio_usuario)
         validar_resultado_consumo_servicio(response)
         return response.json()
     except requests.exceptions.HTTPError as e:

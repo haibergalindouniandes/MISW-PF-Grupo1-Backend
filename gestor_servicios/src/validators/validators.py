@@ -51,6 +51,7 @@ esquema_agendar_servicio = {
 
 # Función que valida el http-response-code del consumo de un servicio
 def validar_resultado_consumo_servicio(response):
+    print(response)
     if response.status_code != 200:
         traceback.print_exc()
         raise Unauthorized
