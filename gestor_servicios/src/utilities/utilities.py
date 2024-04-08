@@ -28,7 +28,6 @@ def obtener_endpoint_usuarios():
 def consumir_servicio_usuarios(headers):
     try:
         response = requests.get(obtener_endpoint_usuarios(), headers=headers)
-        response.raise_for_status()
         validar_resultado_consumo_servicio(response)
         return response.json()
     except requests.exceptions.HTTPError as e:

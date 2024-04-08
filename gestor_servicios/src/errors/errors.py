@@ -15,7 +15,7 @@ class BadRequest(ApiError):
 
 class Unauthorized(ApiError):
     code = 401
-    description = "El token proporcionado no es valido, por favor suministre unas credenciales correctas."  
+    description = "El token proporcionado no es valido o esta vencido, por favor valide e intente nuevamente."
 
 class TokenNotFound(ApiError):
     code = 401
