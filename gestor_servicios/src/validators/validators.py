@@ -1,8 +1,9 @@
 # Importación de dependencias
-from errors.errors import BadRequest, Forbidden, CallExternalServiceError
-from jsonschema import validate
+import os
 import traceback
 import jsonschema
+from errors.errors import BadRequest, Forbidden, Unauthorized
+from jsonschema import validate
 
 # Esquemas
 # Esquema para las alertas
@@ -52,11 +53,11 @@ esquema_agendar_servicio = {
 def validar_resultado_consumo_servicio(response):
     if response.status_code != 200:
         traceback.print_exc()
-        raise CallExternalServiceError
+        raise Unauthorized
 
-# Función que valida el http-response-code del consumo de un servicio
+# Función que valida que un usuario tenga el rol necesario para consumir los servicios
 def validar_permisos_usuario(response_json):
-    if response_json['rol'] != 'PRO':
+    if response_json['rol'] != os.getenv('ROL_PERMITIDO'):
         raise Forbidden
 
 # Función que valida los esquemas de las peticiones

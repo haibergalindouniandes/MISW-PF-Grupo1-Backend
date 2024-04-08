@@ -13,6 +13,10 @@ class BadRequest(ApiError):
     code = 400
     description = "Párametros de entrada invalidos, por favor revise los logs."
 
+class Unauthorized(ApiError):
+    code = 401
+    description = "El token proporcionado no es valido, por favor suministre unas credenciales correctas."  
+
 class TokenNotFound(ApiError):
     code = 401
     description = "El token es obligatorio, por favor valide e intente nuevamente."
