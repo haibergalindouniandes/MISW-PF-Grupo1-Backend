@@ -2,7 +2,7 @@
 import os
 import traceback
 import jsonschema
-from errors.errors import BadRequest, Forbidden, CallExternalServiceError
+from errors.errors import BadRequest, Forbidden, Unauthorized
 from jsonschema import validate
 
 # Esquemas
@@ -53,7 +53,7 @@ esquema_agendar_servicio = {
 def validar_resultado_consumo_servicio(response):
     if response.status_code != 200:
         traceback.print_exc()
-        raise CallExternalServiceError
+        raise Unauthorized
 
 # Función que valida que un usuario tenga el rol necesario para consumir los servicios
 def validar_permisos_usuario(response_json):
