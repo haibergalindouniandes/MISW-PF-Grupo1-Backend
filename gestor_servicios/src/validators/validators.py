@@ -57,7 +57,7 @@ def validar_resultado_consumo_servicio(response):
 
 # Función que valida que un usuario tenga el rol necesario para consumir los servicios
 def validar_permisos_usuario(response_json):
-    if response_json['tipo_usuario'] == os.getenv('ROL_PERMITIDO'):
+    if response_json['tipo_usuario'] != os.getenv('ROL_PERMITIDO'):
         raise Forbidden
 
 # Función que valida los esquemas de las peticiones
