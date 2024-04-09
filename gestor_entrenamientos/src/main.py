@@ -4,7 +4,6 @@ from flask_restful import Api
 from flask_cors import CORS
 from blueprints.resources import entrenamientos_blueprint
 from errors.errors import ApiError
-from utilities.utilities import cargue_inicial
 from models.models import db
 
 import logging
@@ -33,9 +32,6 @@ cors = CORS(app)
 db.init_app(app)
 db.create_all()
 api = Api(app)
-
-# Cargue inicial
-cargue_inicial()
 
 # Manejador de errores
 @app.errorhandler(ApiError)

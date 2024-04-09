@@ -3,7 +3,6 @@ from datetime import datetime
 from flask_sqlalchemy import SQLAlchemy
 from marshmallow_sqlalchemy import SQLAlchemyAutoSchema
 from marshmallow import fields
-from sqlalchemy import DateTime
 from sqlalchemy.dialects.postgresql import UUID
 import uuid
 
@@ -16,6 +15,8 @@ class Entrenamientos(db.Model):
     entrenamiento = db.Column(db.String, nullable=False)
     numero_semanas = db.Column(db.Integer, nullable=False)
     id_usuario = db.Column(db.String, nullable=False)
+    fecha_creacion = db.Column(db.DateTime, default=datetime.utcnow)
+    fecha_actualizacion = db.Column(db.DateTime, default=datetime.utcnow)
     # Relación uno a uno con la tabla PlanEntrenamiento
     plan_entrenamiento = db.relationship('PlanEntrenamiento', uselist=False, back_populates='entrenamiento')
        
@@ -30,7 +31,7 @@ class PlanEntrenamiento(db.Model):
     sabado = db.Column(db.Integer, nullable=False)
     domingo = db.Column(db.Integer, nullable=False)        
     # Relación uno a uno con la tabla Entrenamientos
-    entrenamiento_id = db.Column(db.UUID(as_uuid=True), db.ForeignKey('entrenamientos.id'))
+    entrenamiento_id = db.Column(UUID(as_uuid=True), db.ForeignKey('entrenamientos.id'))
     entrenamiento = db.relationship('Entrenamientos', back_populates='plan_entrenamiento')
     
 class PlanEntrenamientoSchema(SQLAlchemyAutoSchema):
