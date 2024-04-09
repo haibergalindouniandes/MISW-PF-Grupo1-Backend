@@ -51,14 +51,13 @@ esquema_agendar_servicio = {
 
 # Función que valida el http-response-code del consumo de un servicio
 def validar_resultado_consumo_servicio(response):
-    print(response)
     if response.status_code != 200:
         traceback.print_exc()
         raise Unauthorized
 
 # Función que valida que un usuario tenga el rol necesario para consumir los servicios
 def validar_permisos_usuario(response_json):
-    if response_json['tipo_usuario'] != os.getenv('ROL_PERMITIDO'):
+    if response_json['tipo_usuario'] == os.getenv('ROL_PERMITIDO'):
         raise Forbidden
 
 # Función que valida los esquemas de las peticiones
