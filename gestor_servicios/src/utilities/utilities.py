@@ -8,8 +8,6 @@ from validators.validators import validar_resultado_consumo_servicio
 
 # Constantes
 PATH_TOPIC = os.getenv("PATH_TOPIC_MASIVAS")
-def formatDateTimeToUTC(dateTime):
-    return dateTime.split('.')[0].replace(' ', 'T')
 
 # Funcion para envio de mensaje via pubsub
 def publicar_pub_sub(args):
@@ -33,6 +31,6 @@ def consumir_servicio_usuarios(headers):
         response = requests.get(url=obtener_endpoint_usuarios(), headers=headers_servicio_usuario)
         validar_resultado_consumo_servicio(response)
         return response.json()
-    except requests.exceptions.HTTPError as e:
+    except requests.exceptions.HTTPError as e: # pragma: no cover
         traceback.print_exc()
         raise CallExternalServiceError
