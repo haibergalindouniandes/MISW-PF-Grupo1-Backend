@@ -35,6 +35,6 @@ def consumir_servicio_usuarios(headers):
         response = requests.get(url=obtener_endpoint_usuarios(), headers=headers_servicio_usuario)
         validar_resultado_consumo_servicio(response)
         return response.json()
-    except requests.exceptions.HTTPError as e:
+    except requests.exceptions.HTTPError as e: # pragma: no cover
         traceback.print_exc()
         raise CallExternalServiceError      

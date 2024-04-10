@@ -22,8 +22,8 @@ planEntrenamientoEsquema = {
     "type": "object",
     "properties": {
         "sexo": {"type": "string", "enum" : ["MASCULINO", "FEMENINO"]},
-        "peso": {"type": "integer", "minimum": 40, "maximum": 200},  #kilogramos
-        "estatura": {"type": "integer", "minimum": 140, "maximum": 200},  #centimetros
+        "peso": {"type": "integer", "minimum": 40, "maximum": 200}, 
+        "estatura": {"type": "integer", "minimum": 140, "maximum": 200},
         "edad": {"type": "integer", "minimum": 18, "maximum": 90},
         "enfermedades_cardiovasculares": {"type": "string", "enum" : ["SI", "NO"]},
         "practica_deporte": {"type": "string", "enum" : ["SI", "NO"]},
@@ -35,7 +35,7 @@ planEntrenamientoEsquema = {
 crear_plan_entrenamiento_esquema = {
     "type": "object",
     "properties": {
-        "entrenamiento": {"type": "string", "enum" : ["Ciclismo", "Atletismo "]},
+        "entrenamiento": {"type": "string", "enum" : ["Ciclismo", "Carreras"]},
         "numero_semanas": {"type": "integer", "minimum": 1},
         "id_usuario": {"type": "string", "format": "uuid"},
         "plan_entrenamiento": {

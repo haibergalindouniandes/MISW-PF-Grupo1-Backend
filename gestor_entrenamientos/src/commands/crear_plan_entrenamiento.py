@@ -69,7 +69,6 @@ class CrearPlanEntrenamiento(BaseCommannd):
         entrenamiento.plan_entrenamiento = plan_entrenamiento
         db.session.add(entrenamiento)
         db.session.commit()
-        # db.session.refresh(entrenamiento)
         return entrenamiento
 
     # Función que retorna la recomendación de entrenamiento
@@ -85,5 +84,6 @@ class CrearPlanEntrenamiento(BaseCommannd):
             traceback.print_exc()
             raise ApiError(e) 
         except SQLAlchemyError as e:# pragma: no cover
+            db.session.rollback()
             traceback.print_exc()
             raise ApiError(e)
