@@ -2,7 +2,8 @@ import os
 import traceback
 import jwt
 import datetime
-from errors.errors import ApiError, LoginFailed, ExpiredToken
+from errors.errors import ApiError, LoginFailed, ExpiredToken, InvalidEmail
+import re
 
 JWT_SECRET_KEY =  os.environ["JWT_SECRET_KEY"]
 def generar_token(data):
@@ -31,3 +32,21 @@ def validar_token(token):
         raise ExpiredToken
     except jwt.InvalidTokenError:
         raise LoginFailed
+
+def is_valid_email(email):
+    # Regular expression for validating an Email
+    regex = r'^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w+$'
+    # If the string matches the regex, it is a valid email
+    if re.match(regex, email):
+        return True
+    else:
+        raise InvalidEmail
+    
+def is_valid_contrasena(contrasena):
+    # Regular expression for validating an Email
+    regex = r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!#%*?&]{8,64}$'
+    # If the string matches the regex, it is a valid email
+    if re.match(regex, contrasena):
+        return True
+    else:
+        raise InvalidEmail

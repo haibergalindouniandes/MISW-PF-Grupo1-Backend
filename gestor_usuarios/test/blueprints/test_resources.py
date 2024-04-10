@@ -133,7 +133,7 @@ class TestResources():
         # Generación Login
         dataAuthenticate = {
             "email": f"{self.usuario}",
-            "password": f"{self.contrasena}"
+            "password": f"Falso123.*"
         }
         print("resultado")
         print(self.usuario)
@@ -147,6 +147,28 @@ class TestResources():
         dataAuthenticate = {
             "email": f"noexisto@no.com",
             "password": f"Falso123.*"
+        }
+        self.execute_login(dataAuthenticate)
+        self.validate_failed_login()   
+
+
+    # Función que falla la generacion de login email invalido
+    def test_generate_login_fail_invalid_email(self):
+        # Generación token
+        dataAuthenticate = {
+            "email": f"noexisto@",
+            "password": f"Falso123.*"
+        }
+        self.execute_login(dataAuthenticate)
+        self.validate_failed_login()   
+
+
+    # Función que falla la generacion de login contreasena invalido
+    def test_generate_login_fail_invalid_contrasena(self):
+        # Generación token
+        dataAuthenticate = {
+            "email": f"noexisto@",
+            "password": f"Falso"
         }
         self.execute_login(dataAuthenticate)
         self.validate_failed_login()   
