@@ -122,12 +122,31 @@ class TestResources():
     def validate_success_login(self):
         assert self.responseToken.status_code == 200
 
-    # Función que genera el token exitosamente
-    def generate_token_success(self):
-        # Generación token
+    # Función que valida la generacion exitosa del token
+    def validate_failed_login(self):
+        assert self.responseToken.status_code == 400        
+
+    # Función que genera el login exitosamente
+    def test_generate_login_success(self):
+        #CreateUser
+        self.create_user_success()
+        # Generación Login
         dataAuthenticate = {
             "email": f"{self.usuario}",
             "password": f"{self.contrasena}"
         }
-        self.execute_generate_token(dataAuthenticate)
+        print("resultado")
+        print(self.usuario)
+        print(self.execute_login(dataAuthenticate))
         self.validate_success_login()   
+
+
+    # Función que falla la generacion de login
+    def test_generate_login_fail_invalid_user(self):
+        # Generación token
+        dataAuthenticate = {
+            "email": f"noexisto@no.com",
+            "password": f"Falso123.*"
+        }
+        self.execute_login(dataAuthenticate)
+        self.validate_failed_login()   
