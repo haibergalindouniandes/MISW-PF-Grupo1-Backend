@@ -19,5 +19,6 @@ pwd
 cd /workspace/gestor_usuarios
 pytest --cov-fail-under=80 --cov=src --cov-report=html:cov_report --junitxml=${SHORT_SHA}_usuarios_test_log.xml
 
+
 echo "Se mueve directorio [$COVERAGE_PATH] a [$TEST_PATH/$COVERAGE_PATH]"
 echo "<================== [Fin][Exitoso] Ejecucion test ==================>"
