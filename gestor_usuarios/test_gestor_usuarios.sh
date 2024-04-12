@@ -17,8 +17,8 @@ echo "<================== [Fin][Exitoso] instalacion dependencias ==============
 echo "<================== [Inicio] Ejecucion test ==================>"
 pwd
 cd /workspace/gestor_usuarios
+git checkout feature_gestor_usuarios
 pytest --cov-fail-under=80 --cov=src --cov-report=html:cov_report
-
 
 echo "Se mueve directorio [$COVERAGE_PATH] a [$TEST_PATH/$COVERAGE_PATH]"
 echo "<================== [Fin][Exitoso] Ejecucion test ==================>"
