@@ -15,6 +15,7 @@ echo "<================== [Fin][Exitoso] instalacion dependencias ==============
 echo "<================== [Inicio] Ejecucion test ==================>"
 pwd
 cd /workspace/gestor_usuarios
+pwd
 git pull
 git checkout feature_gestor_usuarios
 git pull
