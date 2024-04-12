@@ -2,7 +2,7 @@ import os
 import traceback
 import jwt
 import datetime
-from errors.errors import ApiError, LoginFailed, ExpiredToken, InvalidEmail
+from errors.errors import ApiError, LoginFailed, ExpiredToken, InvalidEmail,InvalidContrasena
 import re
 
 JWT_SECRET_KEY =  os.environ["JWT_SECRET_KEY"]
@@ -49,4 +49,4 @@ def is_valid_contrasena(contrasena):
     if re.match(regex, contrasena):
         return True
     else:
-        raise InvalidEmail
+        raise InvalidContrasena
