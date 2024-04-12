@@ -15,7 +15,7 @@ class TestResources:
     
     # Función que genera data inicial
     def set_up(self):
-        data_login = {"email": "prestador0001@gmail.com", "password": "prestador0001"}   
+        data_login = {"email": "prestador2024@uniandes.edu.co", "password": "Prestador2*24"}    
         lista_frecuencia = ['Diario', 'Semanal', 'Mensual', 'Trimestral','Semestral', 'Anual']    
         id_usuario = "6da46c66-f5ee-11ee-a0c6-c9ae58811c0e"
         self.ejecucion_generar_token(data_login) 
@@ -30,7 +30,19 @@ class TestResources:
             "numero_minimo_participantes": random.randint(1, 10),
             "numero_maximo_participantes": random.randint(11, 40),
             "lugar": f"{lugar}",
-            "fecha": f"{fecha_futura} 08:00:00",
+            "fecha": f"{fecha_futura}",
+            "horario": [
+                "8:00:00 a. m.",
+                "9:00:00 a. m.",
+                "10:00:00 a. m.",
+                "11:00:00 a. m.",
+                "12:00:00 p. m.",
+                "1:00:00 p. m.",
+                "2:00:00 p. m.",
+                "3:00:00 p. m.",
+                "4:00:00 p. m.",
+                "5:00:00 p. m."
+            ],
             "id_usuario": f"{id_usuario}"
         }
         
