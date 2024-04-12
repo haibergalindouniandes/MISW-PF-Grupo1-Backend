@@ -3,7 +3,7 @@ import traceback
 from commands.base_command import BaseCommannd
 from validators.validators import validar_permisos_usuario, validar_esquema, crear_plan_entrenamiento_esquema
 from sqlalchemy.exc import SQLAlchemyError, IntegrityError
-from errors.errors import ApiError, BadRequest, TokenNotFound, TrainingPlanAlreadyRegistered
+from errors.errors import ApiError, BadRequest, TokenNotFound
 from models.models import db, Entrenamientos, PlanEntrenamiento, EntrenamientoSchema
 from utilities.utilities import consumir_servicio_usuarios
 
@@ -51,6 +51,12 @@ class CrearPlanEntrenamiento(BaseCommannd):
 
    # Función que realiza el registro del usuario en BD
     def registrar_plan_entrenamiento_bd(self):
+        # Validar y eliminar si existe un plan de entrenamiento con el id_usaurio
+        entrenamiento = Entrenamientos.query.filter_by(id_usuario=self.id_usuario).first()
+        if entrenamiento:
+            db.session.delete(entrenamiento)
+            db.session.commit()
+        
         # Registrar en BD
         entrenamiento = Entrenamientos(
             entrenamiento=self.entrenamiento, 
@@ -82,7 +88,7 @@ class CrearPlanEntrenamiento(BaseCommannd):
         except IntegrityError as e:# pragma: no cover
             db.session.rollback()
             traceback.print_exc()
-            raise TrainingPlanAlreadyRegistered
+            raise ApiError(e)
         except SQLAlchemyError as e:# pragma: no cover
             db.session.rollback()
             traceback.print_exc()

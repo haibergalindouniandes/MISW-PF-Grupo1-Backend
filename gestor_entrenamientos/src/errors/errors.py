@@ -33,7 +33,3 @@ class TrainingPlanNotFound(ApiError):
     code = 404
     description = "No se encontro información con los parámetros ingresados, por favor valide e intente nuevamente."  
     
-# Clase que contiene la estructura de un error de tipo id_usuario debe ser unico
-class TrainingPlanAlreadyRegistered(ApiError):
-    code = 409
-    description = "Ya se encuentra registrado un plan de entrenamiento con usuario ingresado, por favor valide e intente nuevamente."      

@@ -11,6 +11,7 @@ class TestResources:
     response_healthcheck = {}
     response_token = {}
     response_creacion_plan_entrenamiento = {}
+    response_consulta_plan_entrenamiento_por_usuario = {}
     
     # Función que genera data inicial
     def set_up(self):
@@ -55,6 +56,13 @@ class TestResources:
             self.response_creacion_plan_entrenamiento = test_client.post(
                 '/entrenamientos/plan-entrenamiento', json=data, headers=headers
             )    
+
+    # Función consume el API de consulta de plan de entrenamiento por usuario
+    def ejecucion_consultar_plan_entrenamiento_por_usuario(self, headers):
+        with app.test_client() as test_client:
+            self.response_consulta_plan_entrenamiento_por_usuario = test_client.get(
+                f"/entrenamientos/plan-entrenamiento/usuario/{self.data['id_usuario']}", headers=headers
+            )    
     
     # Función que valida el healthcheck
     def test_validar_healthcheck(self):
@@ -66,3 +74,9 @@ class TestResources:
         self.set_up()
         self.ejecucion_crear_plan_entrenamiento(self.data, self.headers)
         assert self.response_creacion_plan_entrenamiento.status_code == 200
+        
+    # Función que valida la creación exitosa de un plan de entrenamiento
+    def test_validar_consulta_plan_entrenamiento_por_usuario(self):
+        self.set_up()
+        self.ejecucion_consultar_plan_entrenamiento_por_usuario(self.data, self.headers)
+        assert self.response_consulta_plan_entrenamiento_por_usuario.status_code == 200        
