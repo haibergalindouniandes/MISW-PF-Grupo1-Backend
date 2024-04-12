@@ -17,7 +17,7 @@ echo "<================== [Fin][Exitoso] instalacion dependencias ==============
 echo "<================== [Inicio] Ejecucion test ==================>"
 pwd
 cd /workspace/gestor_usuarios
-pytest --cov-fail-under=80 --cov=src --cov-report=html:cov_report --junitxml=${SHORT_SHA}_usuarios_test_log.xml
+pytest --cov-fail-under=80 --cov=src --cov-report=html:cov_report
 
 
 echo "Se mueve directorio [$COVERAGE_PATH] a [$TEST_PATH/$COVERAGE_PATH]"
