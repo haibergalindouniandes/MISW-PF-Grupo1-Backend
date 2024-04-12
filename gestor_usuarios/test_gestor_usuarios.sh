@@ -9,9 +9,10 @@ MIN_COVERAGE=80
 echo "La cobertura minima establecida para pasar las pruebas es [$MIN_COVERAGE]"
 echo "<================== [Fin] Configuración ==================>"
 echo "<================== [Inicio] instalacion de dependencias ==================>"
-echo pwd
+pwd
 pip install -r gestor_usuarios/requirements.txt
 echo "<================== [Fin][Exitoso] instalacion dependencias ==================>"
 echo "<================== [Inicio] Ejecucion test ==================>"
-pytest --cov-fail-under=80 --cov=src --cov-report=html:cov_report --junitxml=${SHORT_SHA}_usuarios__test_log.xml
+pwd
+pytest /workspace/gestor_usuarios --cov-fail-under=80 --cov=src --cov-report=html:cov_report
 echo "<================== [Fin][Exitoso] Ejecucion test ==================>"
