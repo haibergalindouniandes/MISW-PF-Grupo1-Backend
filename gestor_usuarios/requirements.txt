@@ -29,3 +29,4 @@ google-cloud-pubsub==2.16.1
 jwt
 flask-jwt-extended
 PyJWT
+JWTManager
