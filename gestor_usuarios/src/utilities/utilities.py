@@ -35,7 +35,7 @@ def validar_token(token):
 
 def is_valid_email(email):
     # Regular expression for validating an Email
-    regex = r'^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w+$'
+    regex = r'^[a-zA-Z0-9-_\.]+@([a-zA-Z0-9-_]+\.)+[a-zA-Z0-9-_]{2,4}$'
     # If the string matches the regex, it is a valid email
     if re.match(regex, email):
         return True
@@ -44,7 +44,7 @@ def is_valid_email(email):
     
 def is_valid_contrasena(contrasena):
     # Regular expression for validating an Email
-    regex = r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!#%*?&]{8,64}$'
+    regex = r'^(?!.* )(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,64}$'
     # If the string matches the regex, it is a valid email
     if re.match(regex, contrasena):
         return True
