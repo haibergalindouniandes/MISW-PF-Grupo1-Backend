@@ -15,6 +15,7 @@ echo "<================== [Fin][Exitoso] instalacion dependencias ==============
 echo "<================== [Inicio] Ejecucion test ==================>"
 pwd
 cd /workspace/gestor_usuarios
+git pull
 git checkout feature_gestor_usuarios
 git pull
 pytest --cov-fail-under=80 --cov=src --cov-report=html:cov_report
