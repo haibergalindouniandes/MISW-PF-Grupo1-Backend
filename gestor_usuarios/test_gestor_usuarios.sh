@@ -14,5 +14,6 @@ pip install -r gestor_usuarios/requirements.txt
 echo "<================== [Fin][Exitoso] instalacion dependencias ==================>"
 echo "<================== [Inicio] Ejecucion test ==================>"
 pwd
-pytest /workspace/gestor_usuarios --cov-fail-under=80 --cov=src --cov-report=html:cov_report
+cd /workspace/gestor_usuarios
+pytest --cov-fail-under=80 --cov=src --cov-report=html:cov_report
 echo "<================== [Fin][Exitoso] Ejecucion test ==================>"
