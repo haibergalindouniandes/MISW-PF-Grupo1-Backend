@@ -3,7 +3,7 @@ import traceback
 from commands.base_command import BaseCommannd
 from validators.validators import validar_permisos_usuario, validar_esquema, crear_plan_entrenamiento_esquema
 from sqlalchemy.exc import SQLAlchemyError, IntegrityError
-from errors.errors import ApiError, BadRequest, TokenNotFound
+from errors.errors import ApiError, BadRequest, TokenNotFound, TrainingPlanAlreadyRegistered
 from models.models import db, Entrenamientos, PlanEntrenamiento, EntrenamientoSchema
 from utilities.utilities import consumir_servicio_usuarios
 
@@ -82,7 +82,7 @@ class CrearPlanEntrenamiento(BaseCommannd):
         except IntegrityError as e:# pragma: no cover
             db.session.rollback()
             traceback.print_exc()
-            raise ApiError(e) 
+            raise TrainingPlanAlreadyRegistered
         except SQLAlchemyError as e:# pragma: no cover
             db.session.rollback()
             traceback.print_exc()

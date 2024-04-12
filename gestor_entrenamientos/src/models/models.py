@@ -14,7 +14,7 @@ class Entrenamientos(db.Model):
     id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
     entrenamiento = db.Column(db.String, nullable=False)
     numero_semanas = db.Column(db.Integer, nullable=False)
-    id_usuario = db.Column(db.String, nullable=False)
+    id_usuario = db.Column(db.String, nullable=False, unique=True)
     fecha_creacion = db.Column(db.DateTime, default=datetime.utcnow)
     fecha_actualizacion = db.Column(db.DateTime, default=datetime.utcnow)
     # Relación uno a uno con la tabla PlanEntrenamiento
