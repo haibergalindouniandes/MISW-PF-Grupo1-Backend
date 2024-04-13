@@ -7,6 +7,7 @@ from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.exc import SQLAlchemyError, IntegrityError
 from errors.errors import ApiError, UserAlreadyRegistered
 import hashlib
+import json
 
 
 class RegistrarUsuario(BaseCommannd):

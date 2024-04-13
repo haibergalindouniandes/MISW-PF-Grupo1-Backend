@@ -6,7 +6,7 @@ import random
 
 # Clase que contiene la logica del test
 class TestResources():
-        # Declaración constantes
+    # Declaración constantes
     dataFactory = Faker()
     usuario = None
     contrasena = None
@@ -28,6 +28,8 @@ class TestResources():
     tipo_usuario = None
     data = {}
     responseLogin = {}
+    response_healthcheck = {}
+    response_create_user = {}
 
     # Función que genera data del usuario
     def set_up(self):

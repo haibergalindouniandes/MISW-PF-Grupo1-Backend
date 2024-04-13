@@ -8,6 +8,7 @@ from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.dialects.postgresql import JSONB
 from marshmallow import fields, Schema
 import uuid
+import json
 
 # Creación de variable db
 db = SQLAlchemy()
