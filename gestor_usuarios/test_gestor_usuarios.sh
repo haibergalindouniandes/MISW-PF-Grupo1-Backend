@@ -10,11 +10,13 @@ echo "La cobertura minima establecida para pasar las pruebas es [$MIN_COVERAGE]"
 echo "<================== [Fin] Configuración ==================>"
 echo "<================== [Inicio] instalacion de dependencias ==================>"
 pwd
+cd /workspace/gestor_usuarios
+pwd
 pip install -r gestor_usuarios/requirements.txt
 echo "<================== [Fin][Exitoso] instalacion dependencias ==================>"
 echo "<================== [Inicio] Ejecucion test ==================>"
-pwd
-cd /workspace/gestor_usuarios
+#pwd
+#cd /workspace/gestor_usuarios
 pwd
 git pull
 git checkout feature_gestor_usuarios

@@ -120,24 +120,30 @@ class TestResources():
 
     # Función que valida la generacion exitosa del token
     def validate_success_login(self):
+        print("validate_success_login")
+        print(self.responseToken.status_code)
         assert self.responseToken.status_code == 200
 
     # Función que valida la generacion exitosa del token
     def validate_failed_login(self):
+        print("validate_failed_login")
+        print(self.responseToken.status_code)
         assert self.responseToken.status_code == 400        
 
     # Función que genera el login exitosamente
     def test_generate_login_success(self):
         #CreateUser
         self.create_user_success()
+        print("resultado test_generate_login_success")
+        print(self.usuario)
+        print("resultado crear usuario")
+        print(self.responseCreateUser.status_code)
         # Generación Login
         dataAuthenticate = {
             "email": f"{self.usuario}",
-            "password": f"Falso123.*"
-        }
-        print("resultado")
-        print(self.usuario)
-        print(self.execute_login(dataAuthenticate))
+            "password": f"{self.contrasena}"#Falso123.*"
+        }        
+        self.execute_login(dataAuthenticate)
         self.validate_success_login()   
 
 
@@ -148,6 +154,7 @@ class TestResources():
             "email": f"noexisto@no.com",
             "password": f"Falso123.*"
         }
+        print("resultado test_generate_login_fail_invalid_user")        
         self.execute_login(dataAuthenticate)
         self.validate_failed_login()   
 
@@ -159,6 +166,7 @@ class TestResources():
             "email": f"noexisto@",
             "password": f"Falso123.*"
         }
+        print("resultado test_generate_login_fail_invalid_email")
         self.execute_login(dataAuthenticate)
         self.validate_failed_login()   
 
@@ -170,5 +178,6 @@ class TestResources():
             "email": f"noexisto@",
             "password": f"Falso"
         }
+        print("resultado test_generate_login_fail_invalid_contrasena")
         self.execute_login(dataAuthenticate)
         self.validate_failed_login()   
