@@ -16,24 +16,24 @@ db = SQLAlchemy()
 class Usuario(db.Model):
     __tablename__ = "users"
     id = db.Column(UUID(as_uuid=True), unique=True, default=uuid.uuid1)
-    usuario = db.Column(db.String(100), primary_key=True, nullable=False, default=None)
-    contrasena = db.Column(db.String(250), nullable=False, default=None)
-    nombres = db.Column(db.String(100), nullable=False)
-    peso = db.Column(db.Integer, nullable=False)
-    apellidos = db.Column(db.String(100), nullable=False)
+    usuario = db.Column(db.String(128), primary_key=True, nullable=False)
+    contrasena = db.Column(db.String(64), nullable=False)
+    nombres = db.Column(db.String(32), nullable=False)
+    peso = db.Column(db.Float(precision=32), nullable=False)
+    apellidos = db.Column(db.String(32), nullable=False)
     edad = db.Column(db.Integer, nullable=False)
-    tipo_documento = db.Column(db.String(30), nullable=False)
-    altura = db.Column(db.Integer, nullable=False)
-    numero_documento = db.Column(db.String(30), nullable=False)
-    pais_nacimiento = db.Column(db.String(50), nullable=False)
-    ciudad_nacimiento = db.Column(db.String(90), nullable=False)
-    genero = db.Column(db.String(30), nullable=False)
-    pais_residencia = db.Column(db.String(50), nullable=False)
-    ciudad_residencia = db.Column(db.String(90), nullable=False)
+    tipo_documento = db.Column(db.String(16), nullable=False)
+    altura = db.Column(db.Float(precision=32), nullable=False)
+    numero_documento = db.Column(db.String(16), nullable=False)
+    pais_nacimiento = db.Column(db.String(64), nullable=False)
+    ciudad_nacimiento = db.Column(db.String(64), nullable=False)
+    genero = db.Column(db.String(8), nullable=False)
+    pais_residencia = db.Column(db.String(64), nullable=False)
+    ciudad_residencia = db.Column(db.String(64), nullable=False)
     deportes = db.Column(JSONB, nullable=False)
     antiguedad = db.Column(db.Integer, nullable=False)
-    tipo_plan = db.Column(db.String(30), nullable=False)
-    tipo_usuario = db.Column(db.String(30), nullable=False)
+    tipo_plan = db.Column(db.String(32), nullable=False)
+    tipo_usuario = db.Column(db.String(32), nullable=False)
     fecha_creacion = db.Column(db.DateTime, default=datetime.utcnow)
     fecha_actualizacion = db.Column(db.DateTime, default=datetime.utcnow)
 
@@ -42,13 +42,13 @@ class Usuario(db.Model):
         return {
             "id": str(self.id),
             "usuario": self.usuario,
-            "contrasena": str(self.contrasena),
+            "contrasena": self.contrasena,
             "nombres": self.nombres,
-            "peso": int(self.peso),
+            "peso": float(self.peso),
             "apellidos": self.apellidos,
             "edad": int(self.edad),
             "tipo_documento": self.tipo_documento,
-            "altura": int(self.altura),
+            "altura": float(self.altura),
             "numero_documento": self.numero_documento,
             "pais_nacimiento": self.pais_nacimiento,
             "ciudad_nacimiento": self.ciudad_nacimiento,
@@ -56,7 +56,7 @@ class Usuario(db.Model):
             "pais_residencia": self.pais_residencia,
             "ciudad_residencia": self.ciudad_residencia,
             "deportes": self.deportes,
-            "antiguedad": self.antiguedad,
+            "antiguedad": int(self.antiguedad),
             "tipo_plan": self.tipo_plan,
-            "tipo_usuario": self.tipo_usuario           
+            "tipo_usuario": self.tipo_usuario
         }
