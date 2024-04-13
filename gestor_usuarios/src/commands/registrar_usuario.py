@@ -73,8 +73,7 @@ class RegistrarUsuario(BaseCommannd):
             db.session.rollback()
             raise UserAlreadyRegistered(e)
         except SQLAlchemyError as e:# pragma: no cover
+            db.session.rollback()
             traceback.print_exc()
             raise ApiError(e)
-        
-
         

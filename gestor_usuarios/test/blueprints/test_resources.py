@@ -32,11 +32,11 @@ class TestResources():
         self.usuario = self.dataFactory.email()
         self.contrasena = self.dataFactory.password(length=10, special_chars=True, upper_case=True, lower_case=True, digits=True)
         self.nombres = self.dataFactory.name()
-        self.peso = random.randint(40, 500)
+        self.peso = random.uniform(40,500) #random.randint(40, 500)
         self.apellidos = self.dataFactory.name()
         self.edad = random.randint(18, 90)
         self.tipo_documento = "CC"
-        self.altura = random.randint(130, 230)        
+        self.altura = random.uniform(130,230)  #random.randint(130, 230)        
         self.numero_documento = str(self.dataFactory.random_int(10000000, 99999999))
         self.pais_nacimiento=self.dataFactory.country()
         self.ciudad_nacimiento = self.dataFactory.country()
