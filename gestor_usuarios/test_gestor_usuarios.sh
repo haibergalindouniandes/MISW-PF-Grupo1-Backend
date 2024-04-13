@@ -26,6 +26,7 @@ pip install pytest
 pip install pytest-cov
 pip install pytest-env
 pip install python-dotenv
+pip install flask
 pytest --cov-fail-under=80 --cov=src --cov-report=html:cov_report
 echo "fin ejecucion de pruebas"
 echo "<================== [Fin][Exitoso] Ejecucion test ==================>"
