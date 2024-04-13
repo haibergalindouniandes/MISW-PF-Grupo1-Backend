@@ -1,7 +1,9 @@
 import uuid
-from src.main import app
 from faker import Faker
+from src.commands.registrar_usuario import RegistrarUsuario
 import random
+import hashlib
+import src.main
 import json
 
 class TestResources():       
@@ -25,8 +27,7 @@ class TestResources():
     antiguedad = None
     tipo_usuario = None
     data = {}
-    response_healthcheck = {}
-    response_create_user = {}
+
 
     def set_up(self):
         self.usuario = self.dataFactory.email()
@@ -69,20 +70,29 @@ class TestResources():
             "tipo_usuario": f"{self.tipo_usuario}"
         }
 
-    def execute_healthcheck(self):
-        with app.test_client() as test_client:
-            self.response_healthcheck = test_client.get('/usuarios/ping')
-
-    def execute_create_user(self, data):
-        with app.test_client() as test_client:
-                self.response_create_user = test_client.post('/usuarios', json=data)
-
-    def test_validar_healthcheck(self):
-        self.execute_healthcheck()
-        assert self.response_healthcheck.status_code == 200
-        
-    def test_validar_create_user(self):
+    def test_create_user(self):
         self.set_up()
-        self.execute_create_user(self.data)
-        assert self.response_create_user.status_code == 200    
-   
+        response = RegistrarUsuario(self.data).execute()
+        assert response != None
+        assert response["usuario"] == self.data["usuario"]
+        assert response["contrasena"] == hashlib.md5(self.data["contrasena"].encode('utf-8')).hexdigest()
+        assert response["nombres"] == self.data["nombres"]
+        assert response["peso"] == self.data["peso"]
+        assert response["apellidos"] == self.data["apellidos"]
+        assert response["edad"] == self.data["edad"]
+        assert response["tipo_documento"] == self.data["tipo_documento"]
+        assert response["altura"] == self.data["altura"]
+        assert response["numero_documento"] == self.data["numero_documento"]
+        assert response["pais_nacimiento"] == self.data["pais_nacimiento"]
+        assert response["ciudad_nacimiento"] == self.data["ciudad_nacimiento"]
+        assert response["genero"] == self.data["genero"]
+        assert response["pais_residencia"] == self.data["pais_residencia"]
+        assert response["ciudad_residencia"] == self.data["ciudad_residencia"]
+        assert response["deportes"] == self.data["deportes"]
+        assert response["antiguedad"] == self.data["antiguedad"]
+        assert response["tipo_plan"] == self.data["tipo_plan"]
+        assert response["tipo_usuario"] == self.data["tipo_usuario"]
+
+
+
+
