@@ -22,6 +22,8 @@ git pull
 git checkout feature_gestor_usuarios
 git pull
 echo "Se inicia ejecucion de pruebas"
+pip install pytest
+pip install pytest-cov
 pytest --cov-fail-under=80 --cov=src --cov-report=html:cov_report
 echo "fin ejecucion de pruebas"
 echo "<================== [Fin][Exitoso] Ejecucion test ==================>"
