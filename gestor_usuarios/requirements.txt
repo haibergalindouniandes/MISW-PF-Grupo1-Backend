@@ -30,3 +30,7 @@ jwt
 flask-jwt-extended
 PyJWT
 JWTManager
+pytest
+pytest-cov
+pytest-mock
+pytest-env
