@@ -12,7 +12,7 @@ echo "<================== [Inicio] instalacion de dependencias =================
 pwd
 cd /workspace/gestor_usuarios
 pwd
-pip install -r gestor_usuarios/requirements.txt
+pip install -r requirements.txt
 echo "<================== [Fin][Exitoso] instalacion dependencias ==================>"
 echo "<================== [Inicio] Ejecucion test ==================>"
 #pwd
