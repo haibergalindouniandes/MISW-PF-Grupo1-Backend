@@ -7,6 +7,7 @@ from sqlalchemy.exc import SQLAlchemyError
 from sqlalchemy.exc import SQLAlchemyError, IntegrityError
 from errors.errors import ApiError, UserAlreadyRegistered
 import hashlib
+import json
 
 
 class RegistrarUsuario(BaseCommannd):
@@ -20,19 +21,19 @@ class RegistrarUsuario(BaseCommannd):
         self.usuario = json_payload['usuario']
         self.contrasena = hashlib.md5(json_payload['contrasena'].encode('utf-8')).hexdigest()
         self.nombres = json_payload['nombres']
-        self.peso = int(json_payload['peso'])
+        self.peso = float(json_payload['peso'])
         self.apellidos = json_payload['apellidos']
         self.edad = int(json_payload['edad'])
         self.tipo_documento = json_payload['tipo_documento']
-        self.altura = int(json_payload['altura'])
+        self.altura = float(json_payload['altura'])
         self.numero_documento = json_payload['numero_documento']
         self.pais_nacimiento = json_payload['pais_nacimiento']
         self.ciudad_nacimiento = json_payload['ciudad_nacimiento']
         self.genero = json_payload['genero']
         self.pais_residencia = json_payload['pais_residencia']
         self.ciudad_residencia = json_payload['ciudad_residencia']
-        self.deportes = bool(json_payload['deportes'])
-        self.antiguedad = json_payload['antiguedad']
+        self.deportes = json_payload['deportes']
+        self.antiguedad = int(json_payload['antiguedad'])
         self.tipo_plan = json_payload['tipo_plan']
         self.tipo_usuario = json_payload['tipo_usuario']
 
@@ -72,8 +73,7 @@ class RegistrarUsuario(BaseCommannd):
             db.session.rollback()
             raise UserAlreadyRegistered(e)
         except SQLAlchemyError as e:# pragma: no cover
+            db.session.rollback()
             traceback.print_exc()
             raise ApiError(e)
-        
-
         

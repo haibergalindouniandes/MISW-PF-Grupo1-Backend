@@ -2,10 +2,11 @@ import uuid
 from src.main import app
 from faker import Faker
 import json
+import random
 
 # Clase que contiene la logica del test
 class TestResources():
-        # Declaración constantes
+    # Declaración constantes
     dataFactory = Faker()
     usuario = None
     contrasena = None
@@ -27,6 +28,8 @@ class TestResources():
     tipo_usuario = None
     data = {}
     responseLogin = {}
+    response_healthcheck = {}
+    response_create_user = {}
 
     # Función que genera data del usuario
     def set_up(self):
@@ -34,39 +37,39 @@ class TestResources():
         self.contrasena = self.dataFactory.password(
             length=10, special_chars=True, upper_case=True, lower_case=True, digits=True)
         self.nombres = self.dataFactory.name()
-        self.peso = 80
+        self.peso = random.uniform(40,500) 
         self.apellidos = self.dataFactory.name()
-        self.edad = 30
-        self.tipo_documento = "cedula"
-        self.altura = 170        
+        self.edad = random.randint(18, 90)
+        self.tipo_documento = "CC"
+        self.altura = random.uniform(130,230) 
         self.numero_documento = str(self.dataFactory.random_int(1000, 1000000000))
         self.pais_nacimiento=self.dataFactory.country()
         self.ciudad_nacimiento = self.dataFactory.country()
-        self.genero = "MASCULINO"
+        self.genero = "M"
         self.pais_residencia = self.dataFactory.country()
         self.ciudad_residencia = self.dataFactory.country()
-        self.deportes = None
-        self.antiguedad = 12
+        self.deportes = ['Ciclismo', 'Atletismo']
+        self.antiguedad = random.randint(1, 900)
         self.tipo_plan = "BASIC"
-        self.tipo_usuario = "USUARIO"
+        self.tipo_usuario = "Deportista"
 
         self.data = {
             "usuario": f"{self.usuario}",
             "contrasena": f"{self.contrasena}",
             "nombres": f"{self.nombres}",
-            "peso": f"{self.peso}",
+            "peso": self.peso,
             "apellidos": f"{self.apellidos}",
-            "edad": f"{self.edad}",
+            "edad": self.edad,
             "tipo_documento": f"{self.tipo_documento}",
-            "altura": f"{self.altura}",
+            "altura": self.altura,
             "numero_documento": f"{self.numero_documento}",
             "pais_nacimiento": f"{self.pais_nacimiento}",
             "ciudad_nacimiento": f"{self.ciudad_nacimiento}",
             "genero": f"{self.genero}",
             "pais_residencia": f"{self.pais_residencia}",
             "ciudad_residencia": f"{self.ciudad_residencia}",
-            "deportes": f"{self.deportes}",
-            "antiguedad": f"{self.antiguedad}",
+            "deportes": self.deportes,
+            "antiguedad": self.antiguedad,
             "tipo_plan": f"{self.tipo_plan}",
             "tipo_usuario": f"{self.tipo_usuario}"
         }
