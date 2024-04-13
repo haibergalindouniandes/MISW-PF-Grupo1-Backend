@@ -12,7 +12,14 @@ echo "<================== [Inicio] instalacion de dependencias =================
 pwd
 cd /workspace/gestor_usuarios
 pwd
-pip install -r requirements.txt
+pip install virtualenv
+python3 -m venv gestor_usuarios
+source gestor_usuarios/bin/activate
+#python3 -m venv .venv
+#source .venv/bin/activate
+python3 -m pip install --upgrade pip
+python3 -m pip --version
+python3 -m pip install -r requirements.txt
 echo "<================== [Fin][Exitoso] instalacion dependencias ==================>"
 echo "<================== [Inicio] Ejecucion test ==================>"
 #pwd
@@ -22,12 +29,12 @@ git pull
 git checkout feature_gestor_usuarios
 git pull
 echo "Se inicia ejecucion de pruebas"
-pip install pytest
-pip install pytest-cov
-pip install pytest-env
-pip install python-dotenv
-pip install flask
-pip install flask_restful
+#pip install pytest
+#pip install pytest-cov
+#pip install pytest-env
+#pip install python-dotenv
+#pip install flask
+#pip install flask_restful
 pytest --cov-fail-under=80 --cov=src --cov-report=html:cov_report
 echo "fin ejecucion de pruebas"
 echo "<================== [Fin][Exitoso] Ejecucion test ==================>"
