@@ -1,8 +1,7 @@
 # Importación de dependencias
 from datetime import datetime
 from flask_sqlalchemy import SQLAlchemy
-from marshmallow_sqlalchemy import SQLAlchemyAutoSchema
-from marshmallow import fields
+from sqlalchemy.dialects.postgresql import JSON
 from sqlalchemy import UniqueConstraint
 from sqlalchemy.dialects.postgresql import UUID
 import uuid
@@ -46,6 +45,7 @@ class Servicios(db.Model):
     numero_maximo_participantes = db.Column(db.Integer, nullable=False)
     lugar = db.Column(db.String(600), nullable=True)
     fecha = db.Column(db.DateTime, nullable=False)
+    horario = db.Column(JSON, nullable=False)
     id_usuario = db.Column(db.String(36), nullable=False)
     estado = db.Column(db.String(10), default='ACT')
     # Llave compuesta
@@ -66,6 +66,7 @@ class Servicios(db.Model):
                     "lugar": self.lugar,
                     "fecha": str(self.fecha),
                     "id_usuario": self.id_usuario,
+                    "horario": self.horario,
                     "estado": self.estado
                 }
 

@@ -29,7 +29,7 @@ esquema_registro_servicio = {
         "numero_minimo_participantes": {"type": "number"},
         "numero_maximo_participantes": {"type": "number"},
         "lugar": {"type": "string", "minLength": 6, "maxLength": 200},
-        "fecha": {"type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2}$"},
+        "fecha": {"type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$"},
         "id_usuario": {"type": "string", "minLength": 1, "maxLength": 36}
     },
     "required": ["nombre", "descripcion", "frecuencia", "costo", "numero_minimo_participantes", "numero_maximo_participantes", "lugar", "fecha", "id_usuario"]
@@ -57,7 +57,7 @@ def validar_resultado_consumo_servicio(response):
 
 # Función que valida que un usuario tenga el rol necesario para consumir los servicios
 def validar_permisos_usuario(response_json):
-    if response_json['rol'] != os.getenv('ROL_PERMITIDO'):
+    if response_json['tipo_usuario'] != os.getenv('ROL_PERMITIDO'):
         raise Forbidden
 
 # Función que valida los esquemas de las peticiones

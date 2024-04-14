@@ -44,6 +44,7 @@ class RegistrarServicio(BaseCommannd):
         self.numero_maximo_participantes = json_payload['numero_maximo_participantes']
         self.lugar = json_payload['lugar']
         self.fecha = json_payload['fecha']
+        self.horario = json_payload['horario']
         self.id_usuario = json_payload['id_usuario']
 
         
@@ -59,6 +60,7 @@ class RegistrarServicio(BaseCommannd):
             numero_maximo_participantes=self.numero_maximo_participantes, 
             lugar=self.lugar, 
             fecha=self.fecha, 
+            horario=self.horario, 
             id_usuario=self.id_usuario
         )
         db.session.add(servicio)
@@ -74,6 +76,7 @@ class RegistrarServicio(BaseCommannd):
             servicio_registrado = self.registrar_servicio_bd()
             return servicio_registrado.to_dict()
         except IntegrityError as e:# pragma: no cover
+            traceback.print_exc()
             db.session.rollback()
             raise ServiceAlreadyRegistered(e)
         except SQLAlchemyError as e:# pragma: no cover
