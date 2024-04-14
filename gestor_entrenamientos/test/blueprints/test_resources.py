@@ -15,7 +15,7 @@ class TestResources:
     
     # Función que genera data inicial
     def set_up(self):
-        data_login = {"email": "cliente0001@gmail.com", "password": "cliente0001"}   
+        data_login = {"email": "usuario2024@uniandes.edu.co", "password": "Usuario2*24"}   
         lista_entrenamientos = [ "Ciclismo", "Carreras" ]    
         id_usuario = "6da46c66-f5ee-11ee-a0c6-c9ae58811c0e"
         self.ejecucion_generar_token(data_login) 
@@ -78,5 +78,5 @@ class TestResources:
     # Función que valida la creación exitosa de un plan de entrenamiento
     def test_validar_consulta_plan_entrenamiento_por_usuario(self):
         self.set_up()
-        self.ejecucion_consultar_plan_entrenamiento_por_usuario(self.data, self.headers)
+        self.ejecucion_consultar_plan_entrenamiento_por_usuario(self.headers)
         assert self.response_consulta_plan_entrenamiento_por_usuario.status_code == 200        

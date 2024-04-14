@@ -25,7 +25,7 @@ class TestCrearPlanEntrenamiento:
     
     # Función que genera data inicial
     def set_up(self):
-        data_login = {"email": "cliente0001@gmail.com", "password": "cliente0001"}   
+        data_login = {"email": "usuario2024@uniandes.edu.co", "password": "Usuario2*24"}   
         json_response = self.obtener_token(data_login)
         lista_entrenamientos = [ "Ciclismo", "Carreras" ]    
         id_usuario = "6da46c66-f5ee-11ee-a0c6-c9ae58811c0e"
@@ -93,7 +93,7 @@ class TestCrearPlanEntrenamiento:
     def test_validar_error_no_tiene_permisos(self):
         try:
             self.set_up()
-            data_login = {"email": "prestador0001", "password": "prestador0001"}   
+            data_login = {"email": "prestador2024@uniandes.edu.co", "password": "Prestador2*24"}   
             self.obtener_token(data_login)    
             CrearPlanEntrenamiento(self.data, self.headers).execute()
         except Exception as e:
