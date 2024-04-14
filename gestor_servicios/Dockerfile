@@ -28,3 +28,21 @@ ENV GOOGLE_APPLICATION_CREDENTIALS=proyecto1-experimentos-a4f693fafcec.json
 RUN pipenv install --system --deploy
 USER appservicios
 CMD ["gunicorn", "--bind", ":3000", "main:app"]
+
+FROM app AS cloudrelease
+EXPOSE 80
+
+FROM cloudrelease AS cloudprod
+ENV PYTHONBUFFERED=1
+ENV FLASK_DEBUG=1
+ENV GOOGLE_APPLICATION_CREDENTIALS=proyecto1-experimentos-a4f693fafcec.json
+ENV DB_HOST=34.136.51.44
+ENV DB_USER=postgres
+ENV DB_PASSWORD=postgres
+ENV DB_NAME=postgres
+ENV DB_PORT=5432
+ENV ROL_PERMITIDO=PRESTADOR
+ENV GESTORUSUARIOS_ADDRESS=https://my.api.mockaroo.com/v1/users
+RUN pipenv install --system --deploy
+USER appservicios
+CMD ["gunicorn", "--bind", ":80", "main:app"]

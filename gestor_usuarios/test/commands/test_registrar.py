@@ -47,7 +47,7 @@ class TestResources():
         self.deportes = ['Ciclismo', 'Atletismo']
         self.antiguedad = random.randint(1, 900)
         self.tipo_plan = "Basico"
-        self.tipo_usuario = "Deportista"
+        self.tipo_usuario = "Usuario"
 
         self.data = {
             "usuario": f"{self.usuario}",
@@ -92,7 +92,3 @@ class TestResources():
         assert response["antiguedad"] == self.data["antiguedad"]
         assert response["tipo_plan"] == self.data["tipo_plan"]
         assert response["tipo_usuario"] == self.data["tipo_usuario"]
-
-
-
-

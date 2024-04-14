@@ -76,4 +76,3 @@ class RegistrarUsuario(BaseCommannd):
             db.session.rollback()
             traceback.print_exc()
             raise ApiError(e)
-        
