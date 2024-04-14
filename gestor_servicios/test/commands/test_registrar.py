@@ -107,7 +107,7 @@ class TestRegistrar:
     def test_validar_error_no_tiene_permisos(self):
         try:
             self.set_up()
-            data_login = {"email": "cliente0001@gmail.com", "password": "cliente0001"}   
+            data_login = {"email": "usuario2024@uniandes.edu.co", "password": "Usuario2*24"}   
             self.ejecucion_generar_token(data_login)    
             RegistrarServicio(self.data, self.headers).execute()
         except Exception as e:
