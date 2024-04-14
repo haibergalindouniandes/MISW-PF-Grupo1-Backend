@@ -1,43 +1,16 @@
 # Importación de dependencias
 import traceback
 from commands.base_command import BaseCommannd
-from validators.validators import validar_permisos_usuario, validateSchema, planEntrenamientoEsquema, crearPlanEntrenamientoEsquema
+from validators.validators import validar_permisos_usuario, validar_esquema, crear_plan_entrenamiento_esquema
 from sqlalchemy.exc import SQLAlchemyError, IntegrityError
 from errors.errors import ApiError, BadRequest, TokenNotFound
 from models.models import db, Entrenamientos, PlanEntrenamiento, EntrenamientoSchema
-from utilities import utilities
+from utilities.utilities import consumir_servicio_usuarios
 
 # Esquemas
 entrenamiento_schema = EntrenamientoSchema()
 
-class DarPlanEntrenamiento(BaseCommannd):
-    def __init__(self, data):
-        self.validateRequest(data)
-
-    # Función que valida el request del servicio
-    def validateRequest(self, request_json):
-        # Validacion del request
-        validateSchema(request_json, planEntrenamientoEsquema)
-        # Asignacion de variables
-        self.sexo = request_json["sexo"]
-        self.peso = request_json["peso"]
-        self.estatura = request_json["estatura"]
-        self.edad = request_json["edad"]
-        self.enfermedades_cardiovasculares = request_json["enfermedades_cardiovasculares"]
-        self.practica_deporte = request_json["practica_deporte"]
-        self.proposito = request_json["proposito"]
-
-    # Función que retorna la recomendación de entrenamiento
-    def execute(self):
-        try:
-            utilities.dar_clasificacion(self.sexo, self.peso, self.estatura, self.edad, self.enfermedades_cardiovasculares, self.practica_deporte)           
-            planes_entrenamiento = utilities.recomendacion_planes_entrenamiento()
-            planes_entrenamiento_keys = list(planes_entrenamiento.keys())
-            return planes_entrenamiento[planes_entrenamiento_keys[0]]
-        except SQLAlchemyError as e:# pragma: no cover
-            traceback.print_exc()
-            raise ApiError(e)
-        
+# Clase que contiene la logica de creción de un plan de entrenamiento       
 class CrearPlanEntrenamiento(BaseCommannd):
     def __init__(self, data, headers):
         self.validar_headers(headers)        
@@ -47,7 +20,7 @@ class CrearPlanEntrenamiento(BaseCommannd):
     # Función que valida el request del servicio
     def validateRequest(self, request_json):
         # Validacion del request
-        validateSchema(request_json, crearPlanEntrenamientoEsquema)
+        validar_esquema(request_json, crear_plan_entrenamiento_esquema)
 
     # Función que valida los headers del servicio
     def validar_headers(self, headers):
@@ -55,11 +28,9 @@ class CrearPlanEntrenamiento(BaseCommannd):
         if 'Authorization' in headers:
             auth_header = headers['Authorization']
             # Verificar si el encabezado Authorization comienza con "Bearer"
-            if auth_header.startswith('Bearer '):
-                token = auth_header.split(' ')[1]  # Obtener el token Bearer
-                self.token = token
-            else:
+            if not auth_header.startswith('Bearer '):
                 raise BadRequest
+            self.headers = headers
         else:
             raise TokenNotFound
 
@@ -80,6 +51,12 @@ class CrearPlanEntrenamiento(BaseCommannd):
 
    # Función que realiza el registro del usuario en BD
     def registrar_plan_entrenamiento_bd(self):
+        # Validar y eliminar si existe un plan de entrenamiento con el id_usaurio
+        entrenamiento = Entrenamientos.query.filter_by(id_usuario=self.id_usuario).first()
+        if entrenamiento:
+            db.session.delete(entrenamiento)
+            db.session.commit()
+        
         # Registrar en BD
         entrenamiento = Entrenamientos(
             entrenamiento=self.entrenamiento, 
@@ -98,25 +75,21 @@ class CrearPlanEntrenamiento(BaseCommannd):
         entrenamiento.plan_entrenamiento = plan_entrenamiento
         db.session.add(entrenamiento)
         db.session.commit()
-        db.session.refresh(entrenamiento)
         return entrenamiento
 
     # Función que retorna la recomendación de entrenamiento
     def execute(self):
         try:
             # Logica de negocio
-            data = {
-                "email": "preba@gmail.com",
-                "password": "preba1223***"
-            }
-            response = utilities.consumir_servicio_usuarios(data)
+            response = consumir_servicio_usuarios(self.headers)
             validar_permisos_usuario(response)
             entrenamiento = self.registrar_plan_entrenamiento_bd()            
             return entrenamiento_schema.dump(entrenamiento)
         except IntegrityError as e:# pragma: no cover
             db.session.rollback()
             traceback.print_exc()
-            raise ApiError(e) 
+            raise ApiError(e)
         except SQLAlchemyError as e:# pragma: no cover
+            db.session.rollback()
             traceback.print_exc()
             raise ApiError(e)
