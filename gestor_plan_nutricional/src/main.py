@@ -4,7 +4,6 @@ from flask_restful import Api
 from flask_cors import CORS
 from blueprints.resources import planes_nutricionales_blueprint
 from errors.errors import ApiError
-from utilities.utilities import cargue_inicial
 from models.models import db
 import logging
 import os
@@ -30,10 +29,8 @@ app_context = app.app_context()
 app_context.push()
 cors = CORS(app)
 db.init_app(app)
+db.create_all()
 api = Api(app)
-
-# Cargue inicial
-cargue_inicial()
 
 # Manejador de errores
 @app.errorhandler(ApiError)
