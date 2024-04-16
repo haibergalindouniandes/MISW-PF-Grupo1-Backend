@@ -39,7 +39,7 @@ ENV DB_USER=postgres
 ENV DB_PASSWORD=postgres
 ENV DB_NAME=postgres
 ENV DB_PORT=5432
-ENV ROL_PERMITIDO=Usuario
+ENV ROL_PERMITIDO=Deportista
 ENV GESTORUSUARIOS_ADDRESS=https://misw-pf-grupo1-backend-gestor-usuarios-klme3r4qta-uc.a.run.app/usuarios/me
 RUN pipenv install --system --deploy
 USER appnutricion
