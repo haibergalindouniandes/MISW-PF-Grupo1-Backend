@@ -1,6 +1,6 @@
 from flask import request, Blueprint
 from flask.json import jsonify
-from commands.registrar_resultado_alimentacion import RegistrarResultadosAlimentacion
+from commands.registrar_resultados_alimentacion import RegistrarResultadosAlimentacion
 from queries.resultados_alimenticios_por_usuario import ConsultarResultadosAlimentacionPorUsuario
 from queries.resultados_alimenticios_por_fechas import ConsultarResultadosAlimentacionPorUsuarioFechas
 

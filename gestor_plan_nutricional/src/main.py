@@ -34,11 +34,11 @@ api = Api(app)
 
 # Manejador de errores
 @app.errorhandler(ApiError)
-def handle_exception(err):
+def handle_exception(err): # pragma: no cover
     response = {
         "msg": err.description,
     }
     return jsonify(response), err.code
 
-if __name__ == "__main__":
+if __name__ == "__main__": # pragma: no cover
     app.run(debug=True, use_reloader=False, host="0.0.0.0", port=APP_PORT)
