@@ -55,7 +55,7 @@ services:
       target: prod
     environment:
       - GESTORENTRENAMIENTOS_ADDRESS=gentrenamientos
-      - GESTORUSUARIOS_ADDRESS=https://my.api.mockaroo.com/v1/users
+      - GESTORUSUARIOS_ADDRESS=https://misw-pf-grupo1-backend-gestor-usuarios-klme3r4qta-uc.a.run.app/usuarios/me
       - PATH_PUBSUB_KEY=proyecto1-experimentos-a4f693fafcec.json
       - PATH_TOPIC_ALERTAS=projects/proyecto1-experimentos/topics/alarmas
       - DB_USER=postgres
@@ -64,6 +64,7 @@ services:
       - DB_PORT=5432
       - DB_NAME=sportapp
       - APP_PORT=3000
+      - ROL_PERMITIDO=USUARIO
     ports:
       - "5001:3000"
     networks:

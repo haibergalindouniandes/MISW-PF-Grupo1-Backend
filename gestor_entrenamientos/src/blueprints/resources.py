@@ -1,6 +1,7 @@
 from flask import request, Blueprint
 from commands.alertas import CrearAlerta
 from commands.crear_plan_entrenamiento import CrearPlanEntrenamiento
+from commands.registrar_resultados_entrenamiento import RegistrarResultadosEntrenamiento
 from flask.json import jsonify
 from queries.consultar_por_usuario import ConsultarPlanEntrenamientoPorUsuario
 
@@ -32,3 +33,11 @@ def consultar_plan_entrenamiento_por_usuario(id_usuario):
     headers = request.headers
     plan_entrenamiento = ConsultarPlanEntrenamientoPorUsuario(id_usuario, headers).query()
     return  jsonify(plan_entrenamiento)
+
+# Recurso que expone la funcionalidad de registro de los resultados de entrenamiento
+@entrenamientos_blueprint.route('/resultados-plan-entrenamiento', methods=['POST'])
+def registrar_resultados_entrenamiento():
+    headers = request.headers
+    data = request.get_json()
+    resultados_entrenamiento = RegistrarResultadosEntrenamiento(data, headers).execute()
+    return jsonify(resultados_entrenamiento)
