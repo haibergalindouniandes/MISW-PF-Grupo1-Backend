@@ -2,119 +2,63 @@
 import asyncio
 import traceback
 from commands.base_command import BaseCommannd
-from utilities.utilities import booleano_a_string, obtener_endpoint_entrenamientos, obtener_endpoint_plan_nutricional, agregar_servicio_a_batch, limpiar_batch_de_servicios, ejecucion_batch_en_paralelo, string_a_booleano
 from models.models import db, Usuario
-from validators.validators import validar_esquema, esquema_registro_usuario
 from sqlalchemy.exc import SQLAlchemyError
-from errors.errors import ApiError
+from sqlalchemy.exc import SQLAlchemyError, IntegrityError
+from errors.errors import ApiError, UserAlreadyRegistered
 import hashlib
+import json
 
-# Clase que contiene la logica de creción de Alerta
+
 class RegistrarUsuario(BaseCommannd):
     # Constructor
-    def __init__(self, data):
-        self.validar_request(data)
+    def __init__(self, data):        
         self.asignar_datos_usuario(data)
-
-    # Función que valida el request del servicio
-    def validar_request(self, json_payload):
-        # Validacion del request
-        validar_esquema(json_payload, esquema_registro_usuario)
 
     # Función que valida el request del servicio
     def asignar_datos_usuario(self, json_payload):
         # Asignacion de variables
+        self.usuario = json_payload['usuario']
+        self.contrasena = hashlib.md5(json_payload['contrasena'].encode('utf-8')).hexdigest()
         self.nombres = json_payload['nombres']
-        self.apellidos = json_payload['apellidos']
-        self.tipo_identificacion = json_payload['tipo_identificacion']
-        self.numero_identificacion = json_payload['numero_identificacion']
-        self.sexo = json_payload['sexo']
-        self.edad = int(json_payload['edad'])
         self.peso = float(json_payload['peso'])
-        self.estatura = float(json_payload['estatura'])
-        self.enfermedades_cardiovasculares = bool(json_payload['enfermedades_cardiovasculares'])
-        self.proposito = json_payload['proposito']
-        self.practica_deporte = bool(json_payload['practica_deporte'])
-        self.pais = json_payload['pais']
-        self.departamento = json_payload['departamento']
-        self.ciudad = json_payload['ciudad']
-        self.email = json_payload['email']
-        self.password = hashlib.md5(json_payload['password'].encode('utf-8')).hexdigest()
-        self.rol = json_payload['rol']
-        self.plan = json_payload['plan']
-        
-    # Función que asigna  plan nutricional
-    def agregar_plan_nutricional(self, resultados, resultado_legado):
-        # Asignacion plan nutricional
-        resultados['plan_alimentacion'] = resultado_legado[0]
-        return resultados
+        self.apellidos = json_payload['apellidos']
+        self.edad = int(json_payload['edad'])
+        self.tipo_documento = json_payload['tipo_documento']
+        self.altura = float(json_payload['altura'])
+        self.numero_documento = json_payload['numero_documento']
+        self.pais_nacimiento = json_payload['pais_nacimiento']
+        self.ciudad_nacimiento = json_payload['ciudad_nacimiento']
+        self.genero = json_payload['genero']
+        self.pais_residencia = json_payload['pais_residencia']
+        self.ciudad_residencia = json_payload['ciudad_residencia']
+        self.deportes = json_payload['deportes']
+        self.antiguedad = int(json_payload['antiguedad'])
+        self.tipo_plan = json_payload['tipo_plan']
+        self.tipo_usuario = json_payload['tipo_usuario']
 
-    # Función que asigna  plan de entrenamientos
-    def agregar_plan_de_entrenamiento(self, resultados, resultado_legado):
-        # Asignacion  plan de entrenamientos
-        resultados['plan_entrenamiento'] = resultado_legado[1]
-        return resultados
-
-    # Función que realiza el mapeo de información para el consumo del servicio de Entrenamientos
-    def agregar_servicio_entrenamientos(self):
-        # Mapeo de información
-        headers = {'Content-Type': 'application/json'}
-        data = {
-            "sexo": self.sexo,
-            "edad": self.edad,
-            "peso": int(self.peso),
-            "estatura": int(self.estatura),
-            "tipo_identificacion": self.tipo_identificacion,
-            "enfermedades_cardiovasculares": booleano_a_string(self.enfermedades_cardiovasculares),
-            "practica_deporte": booleano_a_string(self.practica_deporte),
-            "proposito": self.proposito
-        }
-        agregar_servicio_a_batch((obtener_endpoint_entrenamientos(), 'POST', data, headers))
-
-    # Función que realiza el mapeo de información para el consumo del servicio de plan nutricional
-    def agregar_servicio_plan_nutricional(self):
-        # Mapeo de información
-        headers = {'Content-Type': 'application/json'}
-        data = {
-            "sexo": self.sexo,
-            "edad": self.edad,
-            "peso": int(self.peso),
-            "estatura": int(self.estatura),
-            "tipo_identificacion": self.tipo_identificacion,
-            "enfermedades_cardiovasculares": booleano_a_string(self.enfermedades_cardiovasculares),
-            "practica_deporte": booleano_a_string(self.practica_deporte),
-            "proposito": self.proposito
-        }
-        agregar_servicio_a_batch((obtener_endpoint_plan_nutricional(), 'POST', data, headers))
-
-    # Función que ejecuta el consumo en paralelo de servicios
-    def ejecutar_batch_servicios(self):
-        self.agregar_servicio_plan_nutricional()
-        self.agregar_servicio_entrenamientos()
-        resultados = asyncio.run(ejecucion_batch_en_paralelo())
-        limpiar_batch_de_servicios()
-        return resultados
-
-        # Función que realiza el registro del usuario en BD
+    # Función que realiza el registro del usuario en BD
     def registrar_usuario_bd(self):
         # Registrar en BD
         usuario = Usuario(
-            nombres=self.nombres,
-            apellidos=self.apellidos,
-            tipo_identificacion=self.tipo_identificacion,
-            numero_identificacion=self.numero_identificacion,
-            sexo=self.sexo,
-            edad=self.edad,
-            peso=self.peso,
-            estatura=self.estatura,
-            enfermedades_cardiovasculares=self.enfermedades_cardiovasculares,
-            pais=self.pais,
-            departamento=self.departamento,
-            ciudad=self.ciudad,
-            email=self.email,
-            password=self.password,
-            rol=self.rol,
-            plan=self.plan
+            usuario = self.usuario,
+            contrasena = self.contrasena,
+            nombres = self.nombres,
+            peso = self.peso,
+            apellidos = self.apellidos,
+            edad = self.edad,
+            tipo_documento = self.tipo_documento,
+            altura = self.altura,
+            numero_documento = self.numero_documento,
+            pais_nacimiento = self.pais_nacimiento,
+            ciudad_nacimiento = self.ciudad_nacimiento,
+            genero = self.genero,
+            pais_residencia = self.pais_residencia,
+            ciudad_residencia = self.ciudad_residencia,
+            deportes = self.deportes,
+            antiguedad = self.antiguedad,
+            tipo_plan = self.tipo_plan,
+            tipo_usuario = self.tipo_usuario            
         )
         db.session.add(usuario)
         db.session.commit()
@@ -122,16 +66,13 @@ class RegistrarUsuario(BaseCommannd):
 
     # Función que realiza creación de la Alerta
     def execute(self):
-        try:
-            # Logica de negocio
-            #resultado = self.ejecutar_batch_servicios()
-            usuario_registrado = self.registrar_usuario_bd().to_dict()
-            #usuario_registrado = self.agregar_plan_de_entrenamiento(usuario_registrado, resultado)
-            #usuario_registrado = self.agregar_plan_nutricional(usuario_registrado, resultado)
+        try:            
+            usuario_registrado = self.registrar_usuario_bd().to_dict()            
             return usuario_registrado
+        except IntegrityError as e:# pragma: no cover
+            db.session.rollback()
+            raise UserAlreadyRegistered(e)
         except SQLAlchemyError as e:# pragma: no cover
+            db.session.rollback()
             traceback.print_exc()
             raise ApiError(e)
-        
-
-        

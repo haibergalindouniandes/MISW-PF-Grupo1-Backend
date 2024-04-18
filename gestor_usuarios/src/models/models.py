@@ -5,8 +5,10 @@ from marshmallow_sqlalchemy import SQLAlchemyAutoSchema
 from marshmallow import fields
 from sqlalchemy import DateTime
 from sqlalchemy.dialects.postgresql import UUID
+from sqlalchemy.dialects.postgresql import JSONB
 from marshmallow import fields, Schema
 import uuid
+import json
 
 # Creación de variable db
 db = SQLAlchemy()
@@ -14,48 +16,48 @@ db = SQLAlchemy()
 # Clase que cotiene la definición del modelo de base de datos de Usuario
 class Usuario(db.Model):
     __tablename__ = "users"
-    id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
-    nombres = db.Column(db.String(100), nullable=False)
-    apellidos = db.Column(db.String(100), nullable=True)
-    tipo_identificacion = db.Column(db.String(30), nullable=True)
-    numero_identificacion = db.Column(db.String(30), nullable=True)
-    sexo = db.Column(db.String(30), nullable=True)
-    edad = db.Column(db.Integer, nullable=True)
-    peso = db.Column(db.Numeric(precision=5, scale=2), nullable=True)
-    estatura = db.Column(db.Numeric(precision=5, scale=2), nullable=True)
-    enfermedades_cardiovasculares = db.Column(db.Boolean, default=False)
-    pais = db.Column(db.String(50), nullable=True)
-    departamento = db.Column(db.String(90), nullable=True)
-    ciudad = db.Column(db.String(90), nullable=True)
-    id_entrenamiento = db.Column(db.String(90), nullable=True, default=None)
-    id_plan_nutricional = db.Column(db.String(90), nullable=True, default=None)
+    id = db.Column(UUID(as_uuid=True), unique=True, default=uuid.uuid1)
+    usuario = db.Column(db.String(128), primary_key=True, nullable=False)
+    contrasena = db.Column(db.String(64), nullable=False)
+    nombres = db.Column(db.String(32), nullable=False)
+    peso = db.Column(db.Float(precision=32), nullable=False)
+    apellidos = db.Column(db.String(32), nullable=False)
+    edad = db.Column(db.Integer, nullable=False)
+    tipo_documento = db.Column(db.String(16), nullable=False)
+    altura = db.Column(db.Float(precision=32), nullable=False)
+    numero_documento = db.Column(db.String(16), nullable=False)
+    pais_nacimiento = db.Column(db.String(64), nullable=False)
+    ciudad_nacimiento = db.Column(db.String(64), nullable=False)
+    genero = db.Column(db.String(8), nullable=False)
+    pais_residencia = db.Column(db.String(64), nullable=False)
+    ciudad_residencia = db.Column(db.String(64), nullable=False)
+    deportes = db.Column(JSONB, nullable=False)
+    antiguedad = db.Column(db.Integer, nullable=False)
+    tipo_plan = db.Column(db.String(32), nullable=False)
+    tipo_usuario = db.Column(db.String(32), nullable=False)
     fecha_creacion = db.Column(db.DateTime, default=datetime.utcnow)
     fecha_actualizacion = db.Column(db.DateTime, default=datetime.utcnow)
-    email = db.Column(db.String(100), nullable=False, default=None)
-    password = db.Column(db.String(250), nullable=False, default=None)
-    rol = db.Column(db.String(30), nullable=False, default=None)
-    plan = db.Column(db.String(30), nullable=False, default=None)
 
     # Función que retorna un diccionario a partir del modelo
     def to_dict(self):
         return {
             "id": str(self.id),
+            "usuario": self.usuario,
+            "contrasena": self.contrasena,
             "nombres": self.nombres,
-            "apellidos": self.apellidos,
-            "tipo_identificacion": self.tipo_identificacion,
-            "numero_identificacion": self.numero_identificacion,
-            "sexo": self.sexo,
-            "edad": int(self.edad),
             "peso": float(self.peso),
-            "estatura": float(self.estatura),
-            "enfermedades_cardiovasculares": bool(self.enfermedades_cardiovasculares),
-            "pais": self.pais,
-            "departamento": self.departamento,
-            "ciudad": self.ciudad,
-            "fecha_creacion": str(self.fecha_creacion),
-            "fecha_actualizacion": str(self.fecha_actualizacion),
-            "email": str(self.email),
-            "password": str(self.password),
-            "rol": str(self.rol),
-            "plan": str(self.plan)
+            "apellidos": self.apellidos,
+            "edad": int(self.edad),
+            "tipo_documento": self.tipo_documento,
+            "altura": float(self.altura),
+            "numero_documento": self.numero_documento,
+            "pais_nacimiento": self.pais_nacimiento,
+            "ciudad_nacimiento": self.ciudad_nacimiento,
+            "genero": self.genero,
+            "pais_residencia": self.pais_residencia,
+            "ciudad_residencia": self.ciudad_residencia,
+            "deportes": self.deportes,
+            "antiguedad": int(self.antiguedad),
+            "tipo_plan": self.tipo_plan,
+            "tipo_usuario": self.tipo_usuario
         }

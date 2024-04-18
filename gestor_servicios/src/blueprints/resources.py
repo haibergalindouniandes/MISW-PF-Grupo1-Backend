@@ -1,5 +1,4 @@
 from flask import request, Blueprint
-from flask.json import jsonify
 from commands.notificaciones import CrearNotificaiconMasiva
 from commands.registrar import RegistrarServicio 
 from commands.agendar import AgendarServicio

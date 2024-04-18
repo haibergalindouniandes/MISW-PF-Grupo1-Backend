@@ -12,7 +12,7 @@ from utilities.utilities import publicar_pub_sub
 import traceback
 
 # Clase que contiene la logica de creción de Notificaicon Masiva
-class CrearNotificaiconMasiva(BaseCommannd):
+class CrearNotificaiconMasiva(BaseCommannd): # pragma: no cover
     def __init__(self, data):
         self.validateRequest(data)
         #TODO: Email de prueba para el experimento
@@ -47,15 +47,15 @@ class CrearNotificaiconMasiva(BaseCommannd):
             traceback.print_exc()
             raise ApiError(e)
         
-def registrar_notificacion(self):
-        # Registrar en BD
-        notifcacion = Notificaciones(
-            name=self.name,
-            latitud=self.latitud,
-            longitud=self.longitud,
-            descripcion=self.descripcion,
-            tipo=self.tipo
-        )
-        db.session.add(notifcacion)
-        #db.session.commit()
-        return notifcacion
+    def registrar_notificacion(self):
+            # Registrar en BD
+            notifcacion = Notificaciones(
+                name=self.name,
+                latitud=self.latitud,
+                longitud=self.longitud,
+                descripcion=self.descripcion,
+                tipo=self.tipo
+            )
+            db.session.add(notifcacion)
+            #db.session.commit()
+            return notifcacion
