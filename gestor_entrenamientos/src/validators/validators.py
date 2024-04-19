@@ -86,14 +86,14 @@ def validar_permisos_usuario(response_json):
 # Función que valida el formato de fecha
 def validar_formato_fecha(fecha):
     try:
-        time.fromisoformat(fecha)
+        date.fromisoformat(fecha)
     except ValueError:
         raise BadDates
 
 # Función que valida el formato de hora
-def validar_formato_fecha(hora):
+def validar_formato_fecha(tiempo):
     try:
-        time.fromisoformat(hora)
+        time.fromisoformat(tiempo)
     except ValueError:
         raise BadTime
 
