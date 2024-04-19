@@ -12,7 +12,7 @@ db = SQLAlchemy()
 
 class Alimentacion(db.Model):
     __tablename__ = 'alimentacion'
-    id = db.Column(db.Integer, primary_key=True)   
+    id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4) 
     id_usuario = db.Column(db.String, nullable=False)
     numero_semanas = db.Column(db.Integer, nullable=False)
     fecha_creacion = db.Column(db.DateTime, default=datetime.utcnow)
