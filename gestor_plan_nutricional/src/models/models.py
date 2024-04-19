@@ -10,19 +10,44 @@ import uuid
 # Creación de variable db
 db = SQLAlchemy()
 
-# class PlanNutricional(db.Model):
-#     __tablename__ = 'plan_nutricional'
-#     id = db.Column(db.Integer, primary_key=True)
-#     plan_nutricional = db.Column(db.String(50), unique=True)
-#     menus = db.Column(JSONB)    
-#     proposito = db.Column(db.String(50))
-#     clasificacion = db.Column(db.String(50))
+class Alimentacion(db.Model):
+    __tablename__ = 'alimentacion'
+    id = db.Column(db.Integer, primary_key=True)   
+    id_usuario = db.Column(db.String, nullable=False)
+    numero_semanas = db.Column(db.Integer, nullable=False)
+    fecha_creacion = db.Column(db.DateTime, default=datetime.utcnow)
+    fecha_actualizacion = db.Column(db.DateTime, default=datetime.utcnow) 
+    # Relación uno a uno con la tabla PlanAlimentacion
+    plan_alimentacion = db.relationship('PlanAlimentacion', uselist=False, back_populates='alimentacion')
+    
 
-# class PlanNutricionalSchema(SQLAlchemyAutoSchema):
-#     class Meta:
-#         model = PlanNutricional
-#         id = fields.String()
-        
+class PlanAlimentacion(db.Model):
+    __tablename__ = "plan_alimentacion"
+    id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    lunes = db.Column(db.Integer, nullable=False)
+    martes = db.Column(db.Integer, nullable=False)
+    miercoles = db.Column(db.Integer, nullable=False)
+    jueves = db.Column(db.Integer, nullable=False)
+    viernes = db.Column(db.Integer, nullable=False)
+    sabado = db.Column(db.Integer, nullable=False)
+    domingo = db.Column(db.Integer, nullable=False)        
+    # Relación uno a uno con la tabla Alimentacion
+    alimentacion_id = db.Column(UUID(as_uuid=True), db.ForeignKey('alimentacion.id'))
+    alimentacion = db.relationship('Alimentacion', back_populates='plan_alimentacion')
+    
+class PlanAlimentacionSchema(SQLAlchemyAutoSchema):
+    class Meta:
+        model = PlanAlimentacion
+        include_relationships = True     
+
+class AlimentacionSchema(SQLAlchemyAutoSchema):
+    plan_alimentacion = fields.Nested(PlanAlimentacionSchema)
+    class Meta:
+        model = Alimentacion
+        include_relationships = True
+        load_instance = True
+   
+
 class ResultadosAlimentacion(db.Model):
     __tablename__ = 'resultados_alimentacion'
     id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)

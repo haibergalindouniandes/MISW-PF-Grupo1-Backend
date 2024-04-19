@@ -1,6 +1,7 @@
 from flask import request, Blueprint
 from flask.json import jsonify
 from commands.registrar_resultados_alimentacion import RegistrarResultadosAlimentacion
+from commands.crear_plan_alimentacion import CrearPlanAlimentacion
 from queries.resultados_alimenticios_por_usuario import ConsultarResultadosAlimentacionPorUsuario
 from queries.resultados_alimenticios_por_fechas import ConsultarResultadosAlimentacionPorUsuarioFechas
 
@@ -33,3 +34,10 @@ def consultar_resultados_alimentacion_por_usuario(id_usuario):
     resultados_alimentacion = ConsultarResultadosAlimentacionPorUsuario(id_usuario, headers).query()
     return jsonify(resultados_alimentacion)
 
+# Recurso que expone la creación de plan de entrenamiento
+@planes_nutricionales_blueprint.route('/plan-nutricional', methods=['POST'])
+def crear_plan_alimentacion():
+    data = request.get_json()
+    headers = request.headers
+    plan_alimentacion = CrearPlanAlimentacion(data, headers).execute()
+    return  jsonify(plan_alimentacion)
