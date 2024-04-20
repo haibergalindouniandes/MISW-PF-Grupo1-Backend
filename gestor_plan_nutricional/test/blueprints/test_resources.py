@@ -34,24 +34,34 @@ class TestResources:
             "id_usuario": f"{id_usuario}"
         }
 
-
-        self.plan_alimentacion = {    
-            "plan_alimentacion":{
-                "lunes": f"{random.randint(100, 2000)}",
-                "martes": f"{random.randint(100, 2000)}",
-                "miercoles": f"{random.randint(100, 2000)}",
-                "jueves": f"{random.randint(100, 2000)}",
-                "viernes": f"{random.randint(100, 2000)}",
-                "sabado": f"{random.randint(100, 2000)}",
-                "domingo": f"{random.randint(100, 2000)}"
-            }     
-        }
+        #Objeto para crear Usuario Exitoso
         self.alimentacion = {
             "id_usuario": f"{id_usuario}",
-            "numero_semanas": {random.randint(1, 10)},
-            "plan_alimentacion":f"{self.plan_alimentacion}"
-      
+            "numero_semanas": random.randint(1, 10),
+            "plan_alimentacion": {
+                "lunes": f"{random.randint(100, 10000)}",
+                "martes": f"{random.randint(10, 10000)}",
+                "miercoles": f"{random.randint(100, 1000)}",
+                "jueves": f"{random.randint(100, 1000)}",
+                "viernes": f"{random.randint(100, 1000)}",
+                "sabado": f"{random.randint(100, 1000)}",
+                "domingo": f"{random.randint(100, 1000)}"
+            }
         }
+
+        #Objeto con usuario  no valido
+        self.alimentacion_no_valid = {
+            "id_usuario": f"{id_usuario}",
+            "numero_semanas": random.randint(1, 10),
+            "plan_alimentacion": {
+                "lunes": f"{random.randint(100, 10000)}",
+                "martes": f"{random.randint(10, 10000)}",
+                "miercoles": f"{random.randint(100, 1000)}",
+                "jueves": f"{random.randint(100, 1000)}",
+                "viernes": f"{random.randint(100, 1000)}"
+            }
+        }
+        
         
         self.headers["Authorization"] = f"Bearer {self.response_token['token']}"
 
@@ -129,7 +139,13 @@ class TestResources:
     def test_validar_creacion_plan_alimentacion(self):
         self.set_up()
         self.ejecucion_creacion_plan_alimentacion(self.alimentacion, self.headers)
+        assert self.response_crear_plan_alimentacion.status_code == 200      
+
+    # Función que valida la creacion de un plan de alimentacion request no valido
+    def test_validar_creacion_plan_alimentacion_request_no_valido(self):
+        self.set_up()
+        self.ejecucion_creacion_plan_alimentacion(self.alimentacion_no_valid, self.headers)
         print("=======CrearPlanAlimentacion========")
-        print(self.alimentacion)
+        print(self.alimentacion_no_valid)
         print(self.response_crear_plan_alimentacion)
-        assert self.response_crear_plan_alimentacion.status_code == 200                           
+        assert self.response_crear_plan_alimentacion.status_code == 400                                 

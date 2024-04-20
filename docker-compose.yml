@@ -82,7 +82,7 @@ services:
       target: prod
     environment:
       - GESTORENTRENAMIENTOS_ADDRESS=gservicios
-      - GESTORUSUARIOS_ADDRESS=https://misw-pf-grupo1-backend-gestor-usuarios-klme3r4qta-uc.a.run.app/usuarios/me
+      - GESTORUSUARIOS_ADDRESS=http://misw-pf-grupo1-backend-gestor-usuarios-klme3r4qta-uc.a.run.app/usuarios/me
       - PATH_PUBSUB_KEY=proyecto1-experimentos-a4f693fafcec.json
       - PATH_TOPIC_MASIVAS=projects/proyecto1-experimentos/topics/notifications
       - DB_USER=postgres
@@ -113,9 +113,9 @@ services:
       - GESTORUSUARIOS_ADDRESS=https://misw-pf-grupo1-backend-gestor-usuarios-klme3r4qta-uc.a.run.app/usuarios/me
       - DB_USER=postgres
       - DB_PASSWORD=postgres
-      - DB_HOST=34.136.51.44
+      - DB_HOST=postgres
       - DB_PORT=5432
-      - DB_NAME=postgres
+      - DB_NAME=sportapp
       - APP_PORT=3000
       - ROL_PERMITIDO=Usuario
     ports:
