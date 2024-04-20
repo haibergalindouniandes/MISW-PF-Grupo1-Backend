@@ -37,6 +37,7 @@ class ResultadosEntrenamiento(db.Model):
     __tablename__ = 'resultados_entrenamiento'
     id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid1)
     actividad = db.Column(db.String(32), nullable=False)
+    distancia = db.Column(db.Float(precision=32), nullable=False)
     vo2max = db.Column(db.Float(precision=32), nullable=True)
     ftp = db.Column(db.Float(precision=32), nullable=True)
     tiempo = db.Column(db.Time, nullable=False)

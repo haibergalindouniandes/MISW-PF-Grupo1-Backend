@@ -62,6 +62,7 @@ resultados_entrenamiento_esquema = {
     "type": "object",
     "properties": {
         "actividad": {"type": "string", "enum" : ["Ciclismo", "Atletismo"]},
+        "distancia": {"type": "number", "minimum": 0},
         "vo2max": {"type": "number", "minimum": 0, "maximum": 100},
         "ftp": {"type": "number", "minimum": 0, "maximum": 600},
         "tiempo": {"type": "string"},
@@ -69,7 +70,7 @@ resultados_entrenamiento_esquema = {
         "fecha": {"type": "string", "format": "date"},
         "id_usuario": {"type": "string"}
     },
-    "required": ["actividad", "tiempo", "retroalimentacion", "fecha", "id_usuario"]
+    "required": ["actividad", "distancia", "tiempo", "retroalimentacion", "fecha", "id_usuario"]
 }
 
 # Función que valida el http-response-code del consumo de un servicio
@@ -91,7 +92,7 @@ def validar_formato_fecha(fecha):
         raise BadDates
 
 # Función que valida el formato de hora
-def validar_formato_fecha(tiempo):
+def validar_formato_hora(tiempo):
     try:
         time.fromisoformat(tiempo)
     except ValueError:

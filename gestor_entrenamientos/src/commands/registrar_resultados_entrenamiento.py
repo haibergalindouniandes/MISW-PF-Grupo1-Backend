@@ -1,7 +1,7 @@
 # Importación de dependencias
 import traceback
 from commands.base_command import BaseCommannd
-from validators.validators import validar_permisos_usuario, validar_resultado_entrenamiento, validar_esquema, resultados_entrenamiento_esquema
+from validators.validators import validar_permisos_usuario, validar_resultado_entrenamiento, validar_esquema, validar_formato_fecha, validar_formato_hora, resultados_entrenamiento_esquema
 from sqlalchemy.exc import SQLAlchemyError, IntegrityError
 from errors.errors import ApiError, BadRequest, TokenNotFound
 from models.models import db, ResultadosEntrenamiento, ResultadosEntrenamientoSchema
@@ -23,6 +23,8 @@ class RegistrarResultadosEntrenamiento(BaseCommannd):
     # Función que valida el request del servicio
     def validateRequest(self, request_json):
         validar_esquema(request_json, resultados_entrenamiento_esquema)
+        validar_formato_fecha(request_json['fecha'])
+        validar_formato_hora(request_json['tiempo'])
 
     # Función que valida el request del servicio
     def validar_resultados(self, request_json):
@@ -42,6 +44,7 @@ class RegistrarResultadosEntrenamiento(BaseCommannd):
     def asignar_datos(self, json_payload):
         # Asignacion de variables
         self.actividad = json_payload['actividad']
+        self.distancia = json_payload['distancia']
         if json_payload['actividad'] == 'Ciclismo':
             self.ftp = float(json_payload['ftp'])
             self.vo2max = None
@@ -65,6 +68,7 @@ class RegistrarResultadosEntrenamiento(BaseCommannd):
         # Registrar en BD
         nuevo_resultados_entrenamiento = ResultadosEntrenamiento(
             actividad = self.actividad,
+            distancia = self.distancia
             vo2max = self.vo2max,
             ftp = self.ftp,
             tiempo = self.tiempo,
