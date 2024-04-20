@@ -38,7 +38,7 @@ planEntrenamientoEsquema = {
 crear_plan_entrenamiento_esquema = {
     "type": "object",
     "properties": {
-        "entrenamiento": {"type": "string", "enum" : ["Ciclismo", "Carreras"]},
+        "entrenamiento": {"type": "string", "enum" : ["Atletismo", "Ciclismo", "Carreras"]},
         "numero_semanas": {"type": "integer", "minimum": 1},
         "id_usuario": {"type": "string", "format": "uuid"},
         "plan_entrenamiento": {
