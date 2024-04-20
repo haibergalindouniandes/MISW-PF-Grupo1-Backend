@@ -68,7 +68,7 @@ class RegistrarResultadosEntrenamiento(BaseCommannd):
         # Registrar en BD
         nuevo_resultados_entrenamiento = ResultadosEntrenamiento(
             actividad = self.actividad,
-            distancia = self.distancia
+            distancia = self.distancia,
             vo2max = self.vo2max,
             ftp = self.ftp,
             tiempo = self.tiempo,
