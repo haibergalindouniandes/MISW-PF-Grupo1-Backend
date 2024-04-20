@@ -27,11 +27,9 @@ class RegistrarServicio(BaseCommannd):
         if 'Authorization' in headers:
             auth_header = headers['Authorization']
             # Verificar si el encabezado Authorization comienza con "Bearer"
-            if auth_header.startswith('Bearer '):
-                token = auth_header.split(' ')[1]  # Obtener el token Bearer
-                self.token = token
-            else:
+            if not auth_header.startswith('Bearer '):
                 raise BadRequest
+            self.headers = headers
         else:
             raise TokenNotFound
 
@@ -46,6 +44,7 @@ class RegistrarServicio(BaseCommannd):
         self.numero_maximo_participantes = json_payload['numero_maximo_participantes']
         self.lugar = json_payload['lugar']
         self.fecha = json_payload['fecha']
+        self.horario = json_payload['horario']
         self.id_usuario = json_payload['id_usuario']
 
         
@@ -61,6 +60,7 @@ class RegistrarServicio(BaseCommannd):
             numero_maximo_participantes=self.numero_maximo_participantes, 
             lugar=self.lugar, 
             fecha=self.fecha, 
+            horario=self.horario, 
             id_usuario=self.id_usuario
         )
         db.session.add(servicio)
@@ -71,15 +71,12 @@ class RegistrarServicio(BaseCommannd):
     def execute(self):
         try:
             # Logica de negocio
-            data = {
-                "email": "preba@gmail.com",
-                "password": "preba1223***"
-            }
-            response = consumir_servicio_usuarios(data)
+            response = consumir_servicio_usuarios(self.headers)
             validar_permisos_usuario(response)
             servicio_registrado = self.registrar_servicio_bd()
             return servicio_registrado.to_dict()
         except IntegrityError as e:# pragma: no cover
+            traceback.print_exc()
             db.session.rollback()
             raise ServiceAlreadyRegistered(e)
         except SQLAlchemyError as e:# pragma: no cover

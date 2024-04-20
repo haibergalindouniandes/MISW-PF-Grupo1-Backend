@@ -1,7 +1,7 @@
 # Importación de dependencias
 import traceback
 from commands.base_command import BaseCommannd
-from validators.validators import validateSchema, alertaSchema
+from validators.validators import validar_esquema, alertaSchema
 from sqlalchemy.exc import SQLAlchemyError
 from utilities.utilities import publicar_pub_sub
 from errors.errors import ApiError
@@ -18,7 +18,7 @@ class CrearAlerta(BaseCommannd):
     # Función que valida el request del servicio
     def validateRequest(self, alertaJSON):
         # Validacion del request
-        validateSchema(alertaJSON, alertaSchema)
+        validar_esquema(alertaJSON, alertaSchema)
         # Asignacion de variables
         self.id_trigger = alertaJSON['id_trigger']
         self.latitud = alertaJSON['latitud']
