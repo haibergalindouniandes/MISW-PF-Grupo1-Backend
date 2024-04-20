@@ -4,6 +4,7 @@ from commands.registrar_resultados_alimentacion import RegistrarResultadosAlimen
 from commands.crear_plan_alimentacion import CrearPlanAlimentacion
 from queries.resultados_alimenticios_por_usuario import ConsultarResultadosAlimentacionPorUsuario
 from queries.resultados_alimenticios_por_fechas import ConsultarResultadosAlimentacionPorUsuarioFechas
+from queries.consultar_plan_alimentacion import ConsultarPlanAlimentacionPorUsuario
 
 planes_nutricionales_blueprint = Blueprint(name='nutricion', import_name=__name__, url_prefix='/nutricion')
 
@@ -40,4 +41,12 @@ def crear_plan_alimentacion():
     data = request.get_json()
     headers = request.headers
     plan_alimentacion = CrearPlanAlimentacion(data, headers).execute()
+    return  jsonify(plan_alimentacion)
+
+
+# Recurso que expone la creación de plan de entrenamiento
+@planes_nutricionales_blueprint.route('/plan-nutricional/<id_usuario>', methods=['GET'])
+def consultar_plan_alimentacion(id_usuario):    
+    headers = request.headers
+    plan_alimentacion = ConsultarPlanAlimentacionPorUsuario(id_usuario, headers).execute()
     return  jsonify(plan_alimentacion)
