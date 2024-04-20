@@ -4,7 +4,6 @@ from flask_restful import Api
 from flask_cors import CORS
 from blueprints.resources import planes_nutricionales_blueprint
 from errors.errors import ApiError
-from utilities.utilities import cargue_inicial
 from models.models import db
 import logging
 import os
@@ -30,18 +29,16 @@ app_context = app.app_context()
 app_context.push()
 cors = CORS(app)
 db.init_app(app)
+db.create_all()
 api = Api(app)
-
-# Cargue inicial
-cargue_inicial()
 
 # Manejador de errores
 @app.errorhandler(ApiError)
-def handle_exception(err):
+def handle_exception(err): # pragma: no cover
     response = {
         "msg": err.description,
     }
     return jsonify(response), err.code
 
-if __name__ == "__main__":
+if __name__ == "__main__": # pragma: no cover
     app.run(debug=True, use_reloader=False, host="0.0.0.0", port=APP_PORT)

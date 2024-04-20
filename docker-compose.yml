@@ -98,4 +98,30 @@ services:
       - sportapp
     depends_on:
       postgres:
-        condition: service_healthy     
+        condition: service_healthy   
+
+  gestorplannutricional:
+    container_name: gplannutricional
+    hostname: gplannutricional
+    restart: on-failure
+    build:
+      context: ./gestor_plan_nutricional
+      dockerfile: Dockerfile
+      target: prod
+    environment:
+      - GESTORENTRENAMIENTOS_ADDRESS=gplannutricional
+      - GESTORUSUARIOS_ADDRESS=https://misw-pf-grupo1-backend-gestor-usuarios-klme3r4qta-uc.a.run.app/usuarios/me
+      - DB_USER=postgres
+      - DB_PASSWORD=postgres
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_NAME=sportapp
+      - APP_PORT=3000
+      - ROL_PERMITIDO=Usuario
+    ports:
+      - "5003:3000"
+    networks:
+      - sportapp
+    depends_on:
+      postgres:
+        condition: service_healthy        
