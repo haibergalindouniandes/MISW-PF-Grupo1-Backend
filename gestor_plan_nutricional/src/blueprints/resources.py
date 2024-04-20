@@ -48,5 +48,5 @@ def crear_plan_alimentacion():
 @planes_nutricionales_blueprint.route('/plan-nutricional/<id_usuario>', methods=['GET'])
 def consultar_plan_alimentacion(id_usuario):    
     headers = request.headers
-    plan_alimentacion = ConsultarPlanAlimentacionPorUsuario(id_usuario, headers).execute()
+    plan_alimentacion = ConsultarPlanAlimentacionPorUsuario(id_usuario, headers).query()
     return  jsonify(plan_alimentacion)

@@ -17,6 +17,7 @@ class TestResources:
     response_consulta_resultados_alimentacion_id_usuario = {}
     response_consulta_resultados_alimentacion_fechas = {}
     response_crear_plan_alimentacion = {}
+    response_consultar_plan_alimentacion_por_usuario = {}
     
     # Función que genera data inicial
     def set_up(self):
@@ -111,6 +112,14 @@ class TestResources:
                 '/nutricion/plan-nutricional', json=alimentacion, headers=headers
             )            
     
+    # Función consume el API de ccreacion plan de alimentacion
+    def ejecucion_consultar_plan_alimentacion_por_usuario(self,id_usuario, headers):
+        with app.test_client() as test_client:
+            self.response_consultar_plan_alimentacion_por_usuario = test_client.get(
+                f'/nutricion/plan-nutricional/{id_usuario}',  headers=headers
+            )            
+    
+
     # Función que valida el healthcheck
     def test_validar_healthcheck(self):
         self.ejecucion_healthcheck()
@@ -145,7 +154,20 @@ class TestResources:
     def test_validar_creacion_plan_alimentacion_request_no_valido(self):
         self.set_up()
         self.ejecucion_creacion_plan_alimentacion(self.alimentacion_no_valid, self.headers)
+        assert self.response_crear_plan_alimentacion.status_code == 400                                 
+
+
+    # Función que valida la creacion de un plan de alimentacion
+    def test_validar_consultar_plan_alimentacion(self):
+        self.set_up()
+        self.ejecucion_consultar_plan_alimentacion_por_usuario(self.alimentacion['id_usuario'], self.headers)
+        assert self.response_consultar_plan_alimentacion_por_usuario.status_code == 200      
+
+    # Función que valida la creacion de un plan de alimentacion request no valido
+    def test_validar_consultar_plan_alimentacion_user_no_encontrado(self):
+        self.set_up()
+        self.ejecucion_consultar_plan_alimentacion_por_usuario('789456', self.headers)
         print("=======CrearPlanAlimentacion========")
         print(self.alimentacion_no_valid)
         print(self.response_crear_plan_alimentacion)
-        assert self.response_crear_plan_alimentacion.status_code == 400                                 
+        assert self.response_consultar_plan_alimentacion_por_usuario.status_code == 404                                 

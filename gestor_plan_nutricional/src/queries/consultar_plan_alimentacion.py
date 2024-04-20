@@ -3,15 +3,16 @@ import traceback
 from validators.validators import validar_permisos_usuario
 from utilities.utilities import consumir_servicio_usuarios
 from queries.base_query import BaseQuery
-from models.models import db, Alimentacion, PlanAlimentacion, PlanAlimentacionSchema
+from models.models import db, Alimentacion, PlanAlimentacion, AlimentacionSchema
 from sqlalchemy.exc import SQLAlchemyError
 from errors.errors import ApiError, BadRequest, TokenNotFound, FeedingResultsNotFound
 
 # Esquemas
-plan_alimentacion_schema = PlanAlimentacionSchema()
+alimentacion_schema = AlimentacionSchema()
 
 # Clase que contiene la logica de consulta de usuarios
 class ConsultarPlanAlimentacionPorUsuario(BaseQuery):
+    id_usuario: str
     # Constructor
     def __init__(self, id_usuario, headers):
         self.validar_request(id_usuario)
@@ -42,10 +43,10 @@ class ConsultarPlanAlimentacionPorUsuario(BaseQuery):
             # Logica de negocio
             response = consumir_servicio_usuarios(self.headers)
             validar_permisos_usuario(response)
-            plan_alimentacion =  Alimentacion.query.filter_by(id_usuario=self.id_usuario).first()
-            if len(plan_alimentacion) == 0:
+            alimentacion =  Alimentacion.query.filter_by(id_usuario=self.id_usuario).first()
+            if alimentacion == None:
                 raise FeedingResultsNotFound
-            return plan_alimentacion_schema.dump(plan_alimentacion)
+            return alimentacion_schema.dump(alimentacion)
         except SQLAlchemyError as e:# pragma: no cover
             traceback.print_exc()
             raise ApiError(e)
