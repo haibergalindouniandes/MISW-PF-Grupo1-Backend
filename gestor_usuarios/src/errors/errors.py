@@ -22,3 +22,8 @@ class ErrorMetodoNoPermitido(ApiError):
 class LoginFailed(ApiError):
     code = 400
     description = "Login Failed, corrija los datos ingresados e intente nuevamente."    
+
+# Clase que contiene la estructura de un error de tipo Usuario debe ser unico
+class UserAlreadyRegistered(ApiError):
+    code = 409
+    description = "El usuario ingresado ya se encuentra registrado, por favor valide e intente nuevamente."
