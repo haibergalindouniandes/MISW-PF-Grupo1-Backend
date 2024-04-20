@@ -41,7 +41,7 @@ crear_plan_alimentacion_esquema = {
             "required": ["lunes", "martes", "miercoles", "jueves", "viernes", "sabado", "domingo"]
         }
     },
-    "required": ["id_usuario", "numero_semanas",  "plan_entrenamiento"]
+    "required": ["id_usuario", "numero_semanas",  "plan_alimentacion"]
 }
 
 # Función que valida el http-response-code del consumo de un servicio

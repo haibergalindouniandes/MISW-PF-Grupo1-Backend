@@ -8,12 +8,15 @@ class TestResources:
     # Declaración constantes
     dataFactory = Faker()    
     data = {}
+    alimentacion = {}
+    plan_alimentacion = {}
     headers = {}
     response_healthcheck = {}
     response_token = {}
     response_resultados_alimentacion = {}
     response_consulta_resultados_alimentacion_id_usuario = {}
     response_consulta_resultados_alimentacion_fechas = {}
+    response_crear_plan_alimentacion = {}
     
     # Función que genera data inicial
     def set_up(self):
@@ -29,6 +32,25 @@ class TestResources:
             "ml_agua": f"{random.randint(300, 400)}",
             "fecha": f"{fecha_actual }",
             "id_usuario": f"{id_usuario}"
+        }
+
+
+        self.plan_alimentacion = {    
+            "plan_alimentacion":{
+                "lunes": f"{random.randint(100, 2000)}",
+                "martes": f"{random.randint(100, 2000)}",
+                "miercoles": f"{random.randint(100, 2000)}",
+                "jueves": f"{random.randint(100, 2000)}",
+                "viernes": f"{random.randint(100, 2000)}",
+                "sabado": f"{random.randint(100, 2000)}",
+                "domingo": f"{random.randint(100, 2000)}"
+            }     
+        }
+        self.alimentacion = {
+            "id_usuario": f"{id_usuario}",
+            "numero_semanas": {random.randint(1, 10)},
+            "plan_alimentacion":f"{self.plan_alimentacion}"
+      
         }
         
         self.headers["Authorization"] = f"Bearer {self.response_token['token']}"
@@ -70,7 +92,14 @@ class TestResources:
         with app.test_client() as test_client:
             self.response_consulta_resultados_alimentacion_fechas = test_client.get(
                 f"/nutricion/resultados-alimentacion/{self.data['id_usuario']}/{self.data['fecha']}/{self.data['fecha']}", headers=headers
-            )    
+            ) 
+    
+    # Función consume el API de ccreacion plan de alimentacion
+    def ejecucion_creacion_plan_alimentacion(self, alimentacion, headers):
+        with app.test_client() as test_client:
+            self.response_crear_plan_alimentacion = test_client.post(
+                '/nutricion/plan-nutricional', json=alimentacion, headers=headers
+            )            
     
     # Función que valida el healthcheck
     def test_validar_healthcheck(self):
@@ -93,4 +122,14 @@ class TestResources:
     def test_validar_consulta_resultados_alimentacion_fechas(self):
         self.set_up()
         self.ejecucion_consultar_resultados_alimentacion_fechas(self.headers)
-        assert self.response_consulta_resultados_alimentacion_fechas.status_code == 200                
+        assert self.response_consulta_resultados_alimentacion_fechas.status_code == 200      
+
+
+    # Función que valida la creacion de un plan de alimentacion
+    def test_validar_creacion_plan_alimentacion(self):
+        self.set_up()
+        self.ejecucion_creacion_plan_alimentacion(self.alimentacion, self.headers)
+        print("=======CrearPlanAlimentacion========")
+        print(self.alimentacion)
+        print(self.response_crear_plan_alimentacion)
+        assert self.response_crear_plan_alimentacion.status_code == 200                           

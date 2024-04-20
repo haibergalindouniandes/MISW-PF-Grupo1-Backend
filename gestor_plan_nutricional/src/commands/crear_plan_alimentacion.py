@@ -4,11 +4,11 @@ from commands.base_command import BaseCommannd
 from validators.validators import validar_permisos_usuario, validar_esquema, crear_plan_alimentacion_esquema
 from sqlalchemy.exc import SQLAlchemyError, IntegrityError
 from errors.errors import ApiError, BadRequest, TokenNotFound
-from models.models import db, Alimentacion, PlanAlimentacion, PlanAlimentacionSchema
+from models.models import db, Alimentacion, PlanAlimentacion, PlanAlimentacionSchema, AlimentacionSchema
 from utilities.utilities import consumir_servicio_usuarios
 
 # Esquemas
-plan_alimentacion_schema = PlanAlimentacionSchema()
+alimentacion_schema = AlimentacionSchema()
 
 # Clase que contiene la logica de creción de un plan de entrenamiento       
 class CrearPlanAlimentacion(BaseCommannd):
@@ -58,10 +58,7 @@ class CrearPlanAlimentacion(BaseCommannd):
             db.session.commit()
         
         # Registrar en BD
-        alimentacion = Alimentacion(
-            id_usuario=self.id_usuario,
-            numero_semanas=self.numero_semanas 
-        )
+
         plan_alimentacion = PlanAlimentacion(
             lunes=self.lunes,
             martes=self.martes,
@@ -71,7 +68,12 @@ class CrearPlanAlimentacion(BaseCommannd):
             sabado=self.sabado,
             domingo=self.domingo
         )
-        alimentacion.plan_alimentacion = plan_alimentacion
+        alimentacion = Alimentacion(
+            id_usuario=self.id_usuario,
+            numero_semanas=self.numero_semanas ,
+            plan_alimentacion = plan_alimentacion
+        )
+
         db.session.add(alimentacion)
         db.session.commit()
         return alimentacion
@@ -83,7 +85,7 @@ class CrearPlanAlimentacion(BaseCommannd):
             response = consumir_servicio_usuarios(self.headers)
             validar_permisos_usuario(response)
             alimentacion = self.registrar_plan_nutricional_bd()            
-            return plan_alimentacion_schema.dump(alimentacion)
+            return alimentacion_schema.dump(alimentacion)
         except IntegrityError as e:# pragma: no cover
             db.session.rollback()
             traceback.print_exc()
