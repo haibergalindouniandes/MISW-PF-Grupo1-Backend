@@ -33,6 +33,23 @@ class PlanEntrenamiento(db.Model):
     entrenamiento_id = db.Column(UUID(as_uuid=True), db.ForeignKey('entrenamientos.id'))
     entrenamiento = db.relationship('Entrenamientos', back_populates='plan_entrenamiento')
     
+class ResultadosEntrenamiento(db.Model):
+    __tablename__ = 'resultados_entrenamiento'
+    id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid1)
+    actividad = db.Column(db.String(32), nullable=False)
+    distancia = db.Column(db.Float(precision=32), nullable=False)
+    vo2max = db.Column(db.Float(precision=32), nullable=True)
+    ftp = db.Column(db.Float(precision=32), nullable=True)
+    tiempo = db.Column(db.Time, nullable=False)
+    retroalimentacion = db.Column(db.String(32), nullable=False)
+    fecha = db.Column(db.Date, nullable=False)
+    id_usuario = db.Column(db.String, nullable=False)
+
+class ResultadosEntrenamientoSchema(SQLAlchemyAutoSchema):
+    class Meta:
+        model = ResultadosEntrenamiento
+        id = fields.String()
+
 class PlanEntrenamientoSchema(SQLAlchemyAutoSchema):
     class Meta:
         model = PlanEntrenamiento
