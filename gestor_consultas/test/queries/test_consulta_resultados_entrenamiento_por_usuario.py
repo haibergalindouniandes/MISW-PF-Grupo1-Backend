@@ -3,10 +3,10 @@ import requests
 from datetime import datetime
 from faker import Faker
 from src.errors.errors import BadRequest, NoRecordsFound, TokenNotFound
-from src.queries.consultar_plan_alimentacion_por_usuario import ConsultarPlanAlimentacionPorUsuario
+from src.queries.consultar_resultado_entrenamiento_por_usuario import ConsultarResultadoEntrenamientoPorUsuario
 import src.main
 
-class TestConsultarPlanAlimentacionPorUsuario:
+class TestConsultarResultadoEntrenamientoPorUsuario:
     # Declaración constantes
     dataFactory = Faker()    
     data = {}
@@ -15,7 +15,7 @@ class TestConsultarPlanAlimentacionPorUsuario:
     # Función que genera data inicial
     def set_up(self):
         data_login = {"email": "usuario2024@uniandes.edu.co", "password": "Usuario2*24"}     
-        self.id_usuario = "d0d85122-eafd-11ee-a951-0242ac120002"
+        self.id_usuario = "031ea802-fe54-11ee-8470-01e0aa2bcd86"
         self.ejecucion_generar_token(data_login) 
         
     # Función que permite obtener la fecha actual
@@ -36,7 +36,7 @@ class TestConsultarPlanAlimentacionPorUsuario:
         try:
             self.set_up()
             id_usuario = None
-            ConsultarPlanAlimentacionPorUsuario(id_usuario, self.headers).query()
+            ConsultarResultadoEntrenamientoPorUsuario(id_usuario, self.headers).query()
         except Exception as e:
             assert e.code == BadRequest.code
             assert e.description == BadRequest.description
@@ -45,7 +45,7 @@ class TestConsultarPlanAlimentacionPorUsuario:
     def test_validar_token_no_enviado(self):
         try:
             self.set_up()
-            ConsultarPlanAlimentacionPorUsuario(self.id_usuario, {}).query()
+            ConsultarResultadoEntrenamientoPorUsuario(self.id_usuario, {}).query()
         except Exception as e:
             assert e.code == TokenNotFound.code
             
@@ -55,7 +55,7 @@ class TestConsultarPlanAlimentacionPorUsuario:
             self.set_up()
             headers = {}
             headers["Authorization"] = "token_invalido"
-            ConsultarPlanAlimentacionPorUsuario(self.id_usuario, headers).query()
+            ConsultarResultadoEntrenamientoPorUsuario(self.id_usuario, headers).query()
         except Exception as e:
             assert e.code == BadRequest.code
             assert e.description == BadRequest.description              
@@ -65,7 +65,7 @@ class TestConsultarPlanAlimentacionPorUsuario:
         try:
             self.set_up()
             id_usuario = "00000000-0000-0000-0000-000000000000"
-            ConsultarPlanAlimentacionPorUsuario(id_usuario, self.headers).query()
+            ConsultarResultadoEntrenamientoPorUsuario(id_usuario, self.headers).query()
         except Exception as e:
             assert e.code == NoRecordsFound.code
             assert e.description == NoRecordsFound.description

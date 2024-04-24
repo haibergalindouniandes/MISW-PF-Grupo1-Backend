@@ -40,12 +40,30 @@ class PlanAlimentacion(db.Model):
     alimentacion = db.relationship('Alimentacion', back_populates='plan_alimentacion')
 
 
+class ResultadosEntrenamiento(db.Model):
+    __tablename__ = 'resultados_entrenamiento'
+    id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid1)
+    actividad = db.Column(db.String(32), nullable=False)
+    distancia = db.Column(db.Float(precision=32), nullable=False)
+    vo2max = db.Column(db.Float(precision=32), nullable=True)
+    ftp = db.Column(db.Float(precision=32), nullable=True)
+    tiempo = db.Column(db.Time, nullable=False)
+    retroalimentacion = db.Column(db.String(32), nullable=False)
+    fecha = db.Column(db.Date, nullable=False)
+    id_usuario = db.Column(db.String, nullable=False)
+
+
+
 ma = Marshmallow()
 class ConsultaPlanAlimentacionPorUsuarioSchema(ma.Schema):
     class Meta:
         fields = ('id_usuario', 'numero_semanas', 'fecha_creacion', 'fecha_actualizacion', 'alimentacion_id', 'lunes', 'martes', 'miercoles', 'jueves', 'viernes', 'sabado', 'domingo')
 
 
+class ConsultaResultadosEntrenamientoSchema(SQLAlchemyAutoSchema):
+    class Meta:
+        model = ResultadosEntrenamiento
+        id = fields.String()
 
 
 

@@ -28,8 +28,8 @@ class Forbidden(ApiError):
     code = 403
     description = "No esta autorizado para realizar esta operación, por favor valide con el administrador del sistema."      
 
-# Clase que contiene la estructura de un error cuando se encuentra información del plan de entrenamiento
-class PlanNotFound(ApiError):
+# Clase que contiene la estructura de un error cuando la consulta no retorna registros
+class NoRecordsFound(ApiError):
     code = 404
     description = "No se encontro información con los parámetros ingresados, por favor valide e intente nuevamente."  
 

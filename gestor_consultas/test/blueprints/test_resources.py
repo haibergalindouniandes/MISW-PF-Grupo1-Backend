@@ -10,6 +10,7 @@ class TestResources:
     response_healthcheck = {}
     response_token = {}
     response_consulta_plan_alimentacion_por_usuario = {}
+    response_consulta_resultados_entrenamiento_por_usuario = {}
     
     # Función que genera data inicial
     def set_up(self):
@@ -24,25 +25,36 @@ class TestResources:
         response = requests.post(url, json=data)
         self.response_token  = response.json()
 
-    # Función consume el API de generación de healthcheck de entrenamientos
+    # Función consume el API de generación de healthcheck del servicio consultas
     def ejecucion_healthcheck(self):
         with app.test_client() as test_client:
             self.response_healthcheck = test_client.get('/consultas/ping')
     
-    # Función consume el API de consulta de plan de entrenamiento por usuario
+    # Función consume el API de consulta de plan de alimentacion por usuario
     def ejecucion_consultar_plan_alimentacion_por_usuario(self, headers):
         with app.test_client() as test_client:
-            self.response_consulta_plan_alimentacion_por_usuario = test_client.get(f"/consultas/plan-alimentacion/usuario/{self.id_usuario}", headers=headers)    
+            self.response_consulta_plan_alimentacion_por_usuario = test_client.get(f"/consultas/plan-alimentacion/usuario/{self.id_usuario}", headers=headers)
+
+    # Función consume el API de consulta de resultados de entrenamiento por usuario
+    def ejecucion_consultar_resultados_entrenamiento_por_usuario(self, headers):
+        with app.test_client() as test_client:
+            self.response_consulta_resultados_entrenamiento_por_usuario = test_client.get(f"/consultas/resultado-entrenamiento/usuario/{self.id_usuario}", headers=headers)
     
     # Función que valida el healthcheck
     def test_validar_healthcheck(self):
         self.ejecucion_healthcheck()
         assert self.response_healthcheck.status_code == 200
 
-    # # Función que valida consulta
+    # Función que valida consulta de plan de alimentacion por usuario
     def test_validar_consulta_plan_alimentacion_por_usuario(self):
         self.set_up()
         self.ejecucion_consultar_plan_alimentacion_por_usuario(self.headers)
+        assert self.response_consulta_plan_alimentacion_por_usuario.status_code == 200
+
+    # Función que valida consulta de resultados de entrenamiento por usuario
+    def test_validar_consulta_resultados_entrenamiento_por_usuario(self):
+        self.set_up()
+        self.ejecucion_consultar_resultados_entrenamiento_por_usuario(self.headers)
         assert self.response_consulta_plan_alimentacion_por_usuario.status_code == 200
         
    

@@ -2,15 +2,15 @@ import traceback
 from validators.validators import validar_permisos_usuario
 from utilities.utilities import consumir_servicio_usuarios
 from queries.base_query import BaseQuery
-from models.models import db, Alimentacion, PlanAlimentacion, ConsultaPlanAlimentacionPorUsuarioSchema
+from models.models import db, ResultadosEntrenamiento, ConsultaResultadosEntrenamientoSchema
 from sqlalchemy.exc import SQLAlchemyError
-from errors.errors import ApiError, BadRequest, TokenNotFound, PlanNotFound
+from errors.errors import ApiError, BadRequest, TokenNotFound, NoRecordsFound
 
 
-consulta_plan_alimentacion_schema = ConsultaPlanAlimentacionPorUsuarioSchema()
+consulta_resultado_entrenamiento_schema = ConsultaResultadosEntrenamientoSchema()
 
 # Clase que contiene la logica de consulta de usuarios
-class ConsultarPlanAlimentacionPorUsuario(BaseQuery):
+class ConsultarResultadoEntrenamientoPorUsuario(BaseQuery):
     # Constructor
     def __init__(self, id_usuario, headers):
         self.validate_request(id_usuario)
@@ -40,13 +40,10 @@ class ConsultarPlanAlimentacionPorUsuario(BaseQuery):
             # Logica de negocio
             response = consumir_servicio_usuarios(self.headers)
             validar_permisos_usuario(response)
-            plan_alimentacion_usuario = db.session.query(Alimentacion.id_usuario, Alimentacion.numero_semanas, Alimentacion.fecha_creacion, Alimentacion.fecha_actualizacion, PlanAlimentacion.alimentacion_id, \
-                                                  PlanAlimentacion.lunes, PlanAlimentacion.martes, PlanAlimentacion.miercoles, PlanAlimentacion.jueves, PlanAlimentacion.viernes, PlanAlimentacion.sabado, \
-                                                  PlanAlimentacion.domingo).join(PlanAlimentacion, Alimentacion.id==PlanAlimentacion.alimentacion_id).filter(Alimentacion.id_usuario == self.id_usuario).first()
-
-            if plan_alimentacion_usuario == None:
-                raise PlanNotFound
-            return consulta_plan_alimentacion_schema.dump(plan_alimentacion_usuario)
+            resultado_entrenamiento_usuario = db.session.query(ResultadosEntrenamiento).filter(ResultadosEntrenamiento.id_usuario == self.id_usuario).all()
+            if resultado_entrenamiento_usuario == None:
+                raise NoRecordsFound
+            return [consulta_resultado_entrenamiento_schema.dump(resultado) for resultado in resultado_entrenamiento_usuario]
         except SQLAlchemyError as e:# pragma: no cover
             traceback.print_exc()
             raise ApiError(e)
