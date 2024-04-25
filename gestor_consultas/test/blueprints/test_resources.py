@@ -55,6 +55,6 @@ class TestResources:
     def test_validar_consulta_resultados_entrenamiento_por_usuario(self):
         self.set_up()
         self.ejecucion_consultar_resultados_entrenamiento_por_usuario(self.headers)
-        assert self.response_consulta_plan_alimentacion_por_usuario.status_code == 200
+        assert self.response_consulta_resultados_entrenamiento_por_usuario.status_code == 200
         
    
