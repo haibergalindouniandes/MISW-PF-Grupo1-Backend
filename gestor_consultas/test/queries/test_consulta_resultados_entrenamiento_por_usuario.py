@@ -60,7 +60,7 @@ class TestConsultarResultadoEntrenamientoPorUsuario:
             assert e.code == BadRequest.code
             assert e.description == BadRequest.description              
             
-    # Función que valida la consulta de informacion con un usaurio no existente
+    # Función que valida la consulta de informacion con un usuario no existente
     def test_validar_id_usuario_inexistente(self):
         try:
             self.set_up()

@@ -5,6 +5,7 @@ from marshmallow_sqlalchemy import SQLAlchemyAutoSchema
 from marshmallow import fields
 from flask_marshmallow import Marshmallow
 from sqlalchemy.dialects.postgresql import UUID
+from sqlalchemy.dialects.postgresql import JSONB
 import uuid
 from sqlalchemy import MetaData
 from sqlalchemy.ext.automap import automap_base
@@ -52,7 +53,29 @@ class ResultadosEntrenamiento(db.Model):
     fecha = db.Column(db.Date, nullable=False)
     id_usuario = db.Column(db.String, nullable=False)
 
-
+class Usuario(db.Model):
+    __tablename__ = "users"
+    id = db.Column(UUID(as_uuid=True), unique=True, default=uuid.uuid1)
+    usuario = db.Column(db.String(128), primary_key=True, nullable=False)
+    contrasena = db.Column(db.String(64), nullable=False)
+    nombres = db.Column(db.String(32), nullable=False)
+    peso = db.Column(db.Float(precision=32), nullable=False)
+    apellidos = db.Column(db.String(32), nullable=False)
+    edad = db.Column(db.Integer, nullable=False)
+    tipo_documento = db.Column(db.String(16), nullable=False)
+    altura = db.Column(db.Float(precision=32), nullable=False)
+    numero_documento = db.Column(db.String(16), nullable=False)
+    pais_nacimiento = db.Column(db.String(64), nullable=False)
+    ciudad_nacimiento = db.Column(db.String(64), nullable=False)
+    genero = db.Column(db.String(8), nullable=False)
+    pais_residencia = db.Column(db.String(64), nullable=False)
+    ciudad_residencia = db.Column(db.String(64), nullable=False)
+    deportes = db.Column(JSONB, nullable=False)
+    antiguedad = db.Column(db.Integer, nullable=False)
+    tipo_plan = db.Column(db.String(32), nullable=False)
+    tipo_usuario = db.Column(db.String(32), nullable=False)
+    fecha_creacion = db.Column(db.DateTime, default=datetime.utcnow)
+    fecha_actualizacion = db.Column(db.DateTime, default=datetime.utcnow)
 
 ma = Marshmallow()
 class ConsultaPlanAlimentacionPorUsuarioSchema(ma.Schema):
@@ -65,6 +88,10 @@ class ConsultaResultadosEntrenamientoSchema(SQLAlchemyAutoSchema):
         model = ResultadosEntrenamiento
         id = fields.String()
 
+class ConsultaUsuariosSchema(SQLAlchemyAutoSchema):
+    class Meta:
+        model = Usuario
+        id = fields.String()
 
 
 

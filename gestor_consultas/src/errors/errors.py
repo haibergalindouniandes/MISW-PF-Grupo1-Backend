@@ -42,3 +42,7 @@ class BadDates(ApiError):
 class BadTime(ApiError):
     code = 400
     description = "el tiempo ingresado es invalido, el formato correto es 'HH:MM:SS'."
+
+class ExpiredToken(ApiError):
+    code = 401
+    description = "El token ha expirado, por favor vuelva a iniciar sesión." 

@@ -9,7 +9,7 @@ from errors.errors import ApiError, BadRequest, TokenNotFound, NoRecordsFound
 
 consulta_resultado_entrenamiento_schema = ConsultaResultadosEntrenamientoSchema()
 
-# Clase que contiene la logica de consulta de usuarios
+# Clase que contiene la logica de consulta resultados de entrenamiento con base al id_usuario
 class ConsultarResultadoEntrenamientoPorUsuario(BaseQuery):
     # Constructor
     def __init__(self, id_usuario, headers):
@@ -34,7 +34,7 @@ class ConsultarResultadoEntrenamientoPorUsuario(BaseQuery):
             raise BadRequest
         self.id_usuario = id_usuario
     
-    # Función que realiza de consulta de un plan de entrenamiento con base al id_usuario
+    # Función que realiza la consulta resultados de entrenamiento con base al id_usuario
     def query(self):
         try:
             # Logica de negocio

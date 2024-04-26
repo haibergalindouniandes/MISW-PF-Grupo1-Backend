@@ -11,6 +11,7 @@ class TestResources:
     response_token = {}
     response_consulta_plan_alimentacion_por_usuario = {}
     response_consulta_resultados_entrenamiento_por_usuario = {}
+    response_consulta_usuario = {}
     
     # Función que genera data inicial
     def set_up(self):
@@ -39,6 +40,11 @@ class TestResources:
     def ejecucion_consultar_resultados_entrenamiento_por_usuario(self, headers):
         with app.test_client() as test_client:
             self.response_consulta_resultados_entrenamiento_por_usuario = test_client.get(f"/consultas/resultado-entrenamiento/usuario/{self.id_usuario}", headers=headers)
+
+    # Función consume el API de consulta de usuario por id
+    def ejecucion_consultar_usuario_por_id(self, headers):
+        with app.test_client() as test_client:            
+            self.response_consulta_usuario = test_client.get("/usuarios/me", headers=headers)
     
     # Función que valida el healthcheck
     def test_validar_healthcheck(self):
@@ -56,5 +62,11 @@ class TestResources:
         self.set_up()
         self.ejecucion_consultar_resultados_entrenamiento_por_usuario(self.headers)
         assert self.response_consulta_resultados_entrenamiento_por_usuario.status_code == 200
+
+    # Función que valida consulta de usuario por id
+    def test_validar_consulta_usuario_por_id(self):
+        self.set_up()        
+        self.ejecucion_consultar_usuario_por_id(self.headers)
+        assert self.response_consulta_usuario.status_code == 200
         
    
