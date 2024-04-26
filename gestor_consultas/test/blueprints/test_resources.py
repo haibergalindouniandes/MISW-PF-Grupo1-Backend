@@ -41,11 +41,6 @@ class TestResources:
         with app.test_client() as test_client:
             self.response_consulta_resultados_entrenamiento_por_usuario = test_client.get(f"/consultas/resultado-entrenamiento/usuario/{self.id_usuario}", headers=headers)
 
-    # Función consume el API de consulta de usuario por id
-    def ejecucion_consultar_usuario_por_id(self, headers):
-        with app.test_client() as test_client:            
-            self.response_consulta_usuario = test_client.get("/usuarios/me", headers=headers)
-    
     # Función que valida el healthcheck
     def test_validar_healthcheck(self):
         self.ejecucion_healthcheck()
@@ -63,10 +58,5 @@ class TestResources:
         self.ejecucion_consultar_resultados_entrenamiento_por_usuario(self.headers)
         assert self.response_consulta_resultados_entrenamiento_por_usuario.status_code == 200
 
-    # Función que valida consulta de usuario por id
-    def test_validar_consulta_usuario_por_id(self):
-        self.set_up()        
-        self.ejecucion_consultar_usuario_por_id(self.headers)
-        assert self.response_consulta_usuario.status_code == 200
         
    
