@@ -43,6 +43,12 @@ class BadTime(ApiError):
     code = 400
     description = "el tiempo ingresado es invalido, el formato correto es 'HH:MM:SS'."
 
+# Clase que contiene la estructura de un error cuando el token esta expirado
 class ExpiredToken(ApiError):
     code = 401
     description = "El token ha expirado, por favor vuelva a iniciar sesión." 
+
+# Clase que contiene la estructura de un error de tipo Bad Request
+class InvalidToken(ApiError):
+    code = 400
+    description = "Token Invalido"

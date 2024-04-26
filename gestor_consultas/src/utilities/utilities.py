@@ -4,7 +4,7 @@ import requests
 import traceback
 import datetime
 import jwt
-from errors.errors import CallExternalServiceError, ExpiredToken
+from errors.errors import CallExternalServiceError, ExpiredToken, InvalidToken
 from validators.validators import validar_resultado_consumo_servicio
 
 
@@ -23,7 +23,9 @@ def validar_token(token):
             raise ExpiredToken
         return payload
     except jwt.ExpiredSignatureError:
-        raise ExpiredToken    
+        raise ExpiredToken
+    except jwt.InvalidTokenError:
+        raise InvalidToken       
 
 # Funcion que hace el consumo GET de gestor de usuarios
 def consumir_servicio_usuarios(headers):
