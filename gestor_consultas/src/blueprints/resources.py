@@ -1,8 +1,8 @@
 from flask import request, Blueprint
 from flask.json import jsonify
-from src.queries.consultar_plan_alimentacion_por_usuario import ConsultarPlanAlimentacionPorUsuario
-from src.queries.consultar_resultado_entrenamiento_por_usuario import ConsultarResultadoEntrenamientoPorUsuario
-from src.queries.consultar_usuario import ConsultarUsuario
+from queries.consultar_plan_alimentacion_por_usuario import ConsultarPlanAlimentacionPorUsuario
+from queries.consultar_resultado_entrenamiento_por_usuario import ConsultarResultadoEntrenamientoPorUsuario
+from queries.consultar_usuario import ConsultarUsuario
 
 
 consultas_blueprint = Blueprint(name='consultas', import_name=__name__, url_prefix='/consultas')
