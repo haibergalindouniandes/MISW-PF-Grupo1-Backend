@@ -8,6 +8,7 @@ class TestResources:
     # Declaración constantes
     data_factory = Faker()    
     data = {}
+    data_agendar_login_success = {}
     headers = {}
     response_healthcheck = {}
     response_token = {}
@@ -46,8 +47,40 @@ class TestResources:
             "id_usuario": f"{id_usuario}"
         }
         
+        self.data_agendar = {
+            "id_usuario":f"{id_usuario}",
+            "id_servicio":"d84894cb-583b-4805-9fbe-6c16eb21daf0",
+            "email":"prestador2024@uniandes.edu.co",
+            "fecha":f"{fecha_futura}",
+            "hora":"12:01:01"
+        }
+
         self.headers["Authorization"] = f"Bearer {self.response_token['token']}"
     
+    # Función que genera data inicial
+    def set_up2(self): 
+        data_agendar_login_success = {"email": "usuario2024@uniandes.edu.co", "password": "Usuario2*24"}           
+        self.ejecucion_generar_token(data_agendar_login_success) 
+        id_usuario='8e8239b0-0762-11ef-89fc-2b0cac54c9b4'
+        fecha_futura = self.generar_fecha_futura(2)
+
+        self.data_agendar_success = {
+            "id_usuario":f"{id_usuario}",
+            "id_servicio":"5080dbb9-f442-4275-a7a4-b5c7df33acc8",
+            "email":"usuario2024@uniandes.edu.co",
+            "fecha":f"{fecha_futura}",
+            "hora":"12:01:01"
+        }
+
+        print(self.data_agendar_success)
+        print(self.headers)
+        print(self.response_token)
+
+        self.headers["Authorization"] = f"Bearer {self.response_token['token']}"
+        print(self.data_agendar_success)
+        print(self.headers)
+        print(self.response_token)
+
     # Función que permite generar una fecha futura
     def generar_fecha_futura(self, dias):
         fecha_actual = datetime.now()
@@ -68,12 +101,19 @@ class TestResources:
             )
     
     # Función que consume el API de registro de servicios
+    def ejecucion_agendar_servicio(self, data, headers):
+        with app.test_client() as test_client:
+            self.response_agendar_servicio = test_client.post(
+                '/servicios/agendar', json=data, headers=headers
+            )    
+    
+    # Función que consume el API de registro de servicios
     def ejecucion_registrar_servicio(self, data, headers):
         with app.test_client() as test_client:
             self.response_registro_servicio = test_client.post(
                 '/servicios', json=data, headers=headers
             )    
-    
+
     # Función que valida el healthcheck
     def test_validar_healthcheck(self):
         self.ejecucion_healthcheck()
@@ -84,3 +124,15 @@ class TestResources:
         self.set_up()
         self.ejecucion_registrar_servicio(self.data, self.headers)
         assert self.response_registro_servicio.status_code == 200
+
+    # Función que valida el registro exitoso de un servicio
+    def test_validar_agenda_servicio_fail(self):
+        self.set_up()
+        self.ejecucion_agendar_servicio(self.data_agendar, self.headers)
+        assert self.response_agendar_servicio.status_code == 403
+
+    # Función que valida el registro exitoso de un servicio
+    def test_validar_agenda_servicio(self):
+        self.set_up2()
+        self.ejecucion_agendar_servicio(self.data_agendar_success, self.headers)
+        assert self.response_agendar_servicio.status_code == 200

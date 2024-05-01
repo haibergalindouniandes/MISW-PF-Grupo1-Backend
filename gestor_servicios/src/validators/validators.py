@@ -39,14 +39,15 @@ esquema_registro_servicio = {
 esquema_agendar_servicio = {
     "type": "object",
     "properties": {
-        "id_usuario": {"type": "string", "minLength": 1, "maxLength": 36},
-        "id_servicio": {"type": "string", "minLength": 1, "maxLength": 36},
+        "id_usuario": {"type": "string", "minLength": 1, "maxLength": 60},
+        "id_servicio": {"type": "string", "minLength": 1, "maxLength": 60},
         "email": {"type": "string", "minLength": 1, "maxLength": 200},
-        "fecha": {"type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2}$"},        
-        "descripcion": {"type": "string", "minLength": 1, "maxLength": 1000},
-        "lugar": {"type": "string", "minLength": 6, "maxLength": 200}                
+        "fecha": {"type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}$"},        
+        "hora": {"type": "string", "pattern": "^\\d{2}:\\d{2}:\\d{2}$"},        
+        #"descripcion": {"type": "string", "minLength": 1, "maxLength": 1000},
+        #"lugar": {"type": "string", "minLength": 6, "maxLength": 200}                
     },
-    "required": ["id_usuario", "id_servicio", "fecha", "descripcion", "lugar", "email"]
+    "required": ["id_usuario", "id_servicio", "fecha", "email", "hora"]
 }
 
 # Función que valida el http-response-code del consumo de un servicio
@@ -58,6 +59,11 @@ def validar_resultado_consumo_servicio(response):
 # Función que valida que un usuario tenga el rol necesario para consumir los servicios
 def validar_permisos_usuario(response_json):
     if response_json['tipo_usuario'] != os.getenv('ROL_PERMITIDO'):
+        raise Forbidden
+
+# Función que valida que un usuario tenga el rol necesario para consumir los servicios
+def validar_permisos_agendar_usuario(response_json):
+    if response_json['tipo_usuario'] == os.getenv('ROL_PERMITIDO'):
         raise Forbidden
 
 # Función que valida los esquemas de las peticiones

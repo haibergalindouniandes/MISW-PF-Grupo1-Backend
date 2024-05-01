@@ -2,7 +2,7 @@
 import os
 from commands.base_command import BaseCommannd
 from utilities.utilities import consumir_servicio_usuarios
-from validators.validators import validar_esquema, esquema_agendar_servicio, validar_permisos_usuario
+from validators.validators import validar_esquema, esquema_agendar_servicio, validar_permisos_agendar_usuario
 from sqlalchemy.exc import SQLAlchemyError, IntegrityError
 from errors.errors import ApiError, BadRequest, ServiceAlreadyRegistered, TokenNotFound
 from models.models import db, AgendaServicios
@@ -30,6 +30,7 @@ class AgendarServicio(BaseCommannd):
             if auth_header.startswith('Bearer '):
                 token = auth_header.split(' ')[1]  # Obtener el token Bearer
                 self.token = token
+                self.headers = headers
             else:
                 raise BadRequest
         else:
@@ -42,8 +43,9 @@ class AgendarServicio(BaseCommannd):
         self.id_servicio = json_payload['id_servicio']
         self.email = json_payload['email']
         self.fecha = json_payload['fecha']
-        self.descripcion = json_payload['descripcion']
-        self.lugar = json_payload['lugar']
+        self.hora = json_payload['hora']
+        #self.descripcion = json_payload['descripcion']
+        #self.lugar = json_payload['lugar']
         
         
     # Función que realiza el registro del usuario en BD
@@ -54,8 +56,9 @@ class AgendarServicio(BaseCommannd):
             id_servicio=self.id_servicio,  
             email=self.email,
             fecha=self.fecha,  
-            lugar=self.lugar,
-            descripcion=self.descripcion            
+            hora=self.hora  
+            #lugar=self.lugar,
+            #descripcion=self.descripcion            
         )
         db.session.add(servicio)
         db.session.commit()
@@ -65,12 +68,8 @@ class AgendarServicio(BaseCommannd):
     def execute(self):
         try:
             # Logica de negocio
-            # data = {
-            #     "email": "preba@gmail.com",
-            #     "password": "preba1223***"
-            # }
-            # response = consumir_servicio_usuarios(data)
-            #validar_permisos_usuario(response)
+            response = consumir_servicio_usuarios(self.headers)
+            validar_permisos_agendar_usuario(response)
             servicio_agendado = self.agendar_servicio_bd()
             return servicio_agendado.to_dict()
         except IntegrityError as e:# pragma: no cover
