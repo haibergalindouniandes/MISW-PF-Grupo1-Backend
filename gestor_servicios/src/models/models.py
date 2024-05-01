@@ -77,7 +77,7 @@ class AgendaServicios(db.Model):
     id_servicio = db.Column(db.String, nullable=False)
     email = db.Column(db.String, nullable=False)
     fecha = db.Column(db.Date, nullable=False)
-    hora = db.Column(db.Time, nullable=False)
+    hora = db.Column(db.String, nullable=False)
     #descripcion = db.Column(db.String, nullable=False)
     #lugar = db.Column(db.String, nullable=True)    
     # Llave compuesta
