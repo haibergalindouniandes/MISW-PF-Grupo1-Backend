@@ -13,7 +13,7 @@ db = SQLAlchemy()
 class Notificaciones(db.Model):
     __tablename__ = "notificaciones"
     id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
-    name = db.Column(db.String(100), nullable=True)
+    usuario = db.Column(db.String(100), nullable=True)
     latitud = db.Column(db.String(200), nullable=True)
     longitud = db.Column(db.String(200), nullable=True)
     descripcion = db.Column(db.String(200), nullable=True)
@@ -25,7 +25,7 @@ class Notificaciones(db.Model):
     def to_dict(self):
         return {
             "id": str(self.id),
-            "name": self.name,
+            "usuario": self.name,
             "latitud": self.latitud,
             "longitud": self.longitud,
             "descripcion": self.descripcion,
