@@ -109,7 +109,7 @@ def alarmas(event, context):
     if data_dict["tipo"] == "notificacion_alarma_emergencia":
         enviar_alarma(
             data_dict["emails"],
-            data_dict["name"],
+            data_dict["usuario"],
             data_dict["latitud"],
             data_dict["longitud"],
             data_dict["descripcion"]

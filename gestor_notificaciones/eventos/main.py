@@ -105,7 +105,7 @@ def eventos(event, context):
     if data_dict["tipo"] == "notificacion_masiva_eventos":
         enviar_evento(
             data_dict["emails"],
-            data_dict["name"],
+            data_dict["usuario"],
             data_dict["descripcion"]
             )
         registrar_notificacion_bd(data_dict)
