@@ -12,17 +12,18 @@ class TestResources:
     response_consulta_plan_alimentacion_por_usuario = {}
     response_consulta_resultados_entrenamiento_por_usuario = {}
     response_consulta_usuario = {}
+    response_consulta_servicios = {}
     
     # Función que genera data inicial
     def set_up(self):
         data_login = {"email": "usuario2024@uniandes.edu.co", "password": "Usuario2*24"}
-        self.id_usuario = "50e4d92c-fdef-11ee-8470-01e0aa2bcd86"
+        self.id_usuario = "8e8239b0-0762-11ef-89fc-2b0cac54c9b4"
         self.ejecucion_generar_token(data_login)
         self.headers["Authorization"] = f"Bearer {self.response_token['token']}"
     
     # Función consume el API de generación del token
     def ejecucion_generar_token(self, data):
-        url = "https://misw-pf-grupo1-backend-gestor-usuarios-klme3r4qta-uc.a.run.app/usuarios/login"             
+        url = "https://misw-pf-grupo1-backend-gestor-usuarios-klme3r4qta-uc.a.run.app/usuarios/login"
         response = requests.post(url, json=data)
         self.response_token  = response.json()
 
@@ -41,6 +42,16 @@ class TestResources:
         with app.test_client() as test_client:
             self.response_consulta_resultados_entrenamiento_por_usuario = test_client.get(f"/consultas/resultado-entrenamiento/usuario/{self.id_usuario}", headers=headers)
 
+    # Función consume el API de consulta de usuario
+    def ejecucion_consultar_usuario(self, headers):
+        with app.test_client() as test_client:
+            self.response_consulta_usuario = test_client.get(f"/consultas/usuarios/me", headers=headers)
+
+    # Función consume el API de consulta de servicios
+    def ejecucion_consultar_servicios(self, headers):
+        with app.test_client() as test_client:
+            self.response_consulta_servicios = test_client.get(f"/consultas/servicios", headers=headers)
+
     # Función que valida el healthcheck
     def test_validar_healthcheck(self):
         self.ejecucion_healthcheck()
@@ -57,6 +68,18 @@ class TestResources:
         self.set_up()
         self.ejecucion_consultar_resultados_entrenamiento_por_usuario(self.headers)
         assert self.response_consulta_resultados_entrenamiento_por_usuario.status_code == 200
+
+    # Función que valida consulta usuario
+    def test_validar_consulta_de_usuario(self):
+        self.set_up()
+        self.ejecucion_consultar_usuario(self.headers)
+        assert self.response_consulta_usuario.status_code == 200
+
+    # Función que valida consulta usuario
+    def test_validar_consulta_servicios(self):
+        self.set_up()
+        self.ejecucion_consultar_servicios(self.headers)
+        assert self.response_consulta_servicios.status_code == 200
 
         
    

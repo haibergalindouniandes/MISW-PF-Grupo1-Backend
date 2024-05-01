@@ -37,7 +37,7 @@ class ConsultarUsuario(BaseQuery):
             usuario = db.session.query(Usuario).filter_by(id = payload['id_usuario']).first()
             if usuario == None:
                 raise NoRecordsFound
-            return usuario
+            return consulta_usuario_schema.dump(usuario)
         except SQLAlchemyError as e:# pragma: no cover
             traceback.print_exc()
             raise ApiError(e)

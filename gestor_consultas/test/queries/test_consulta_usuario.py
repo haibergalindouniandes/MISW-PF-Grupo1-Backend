@@ -14,8 +14,7 @@ class TestConsultarUsuario:
     
     # Función que genera data inicial
     def set_up(self):
-        data_login = {"email": "usuario2024@uniandes.edu.co", "password": "Usuario2*24"}     
-        self.id_usuario = "50e4d92c-fdef-11ee-8470-01e0aa2bcd86"
+        data_login = {"email": "usuario2024@uniandes.edu.co", "password": "Usuario2*24"}        
         self.ejecucion_generar_token(data_login) 
         
     # Función que permite obtener la fecha actual

@@ -5,7 +5,8 @@ from marshmallow_sqlalchemy import SQLAlchemyAutoSchema
 from marshmallow import fields
 from flask_marshmallow import Marshmallow
 from sqlalchemy.dialects.postgresql import UUID
-from sqlalchemy.dialects.postgresql import JSONB
+from sqlalchemy.dialects.postgresql import JSONB, JSON
+from sqlalchemy import UniqueConstraint
 import uuid
 from sqlalchemy import MetaData
 from sqlalchemy.ext.automap import automap_base
@@ -74,8 +75,29 @@ class Usuario(db.Model):
     antiguedad = db.Column(db.Integer, nullable=False)
     tipo_plan = db.Column(db.String(32), nullable=False)
     tipo_usuario = db.Column(db.String(32), nullable=False)
+    contactos_emergencia = db.Column(JSONB, nullable=True)
     fecha_creacion = db.Column(db.DateTime, default=datetime.utcnow)
     fecha_actualizacion = db.Column(db.DateTime, default=datetime.utcnow)
+
+class Servicios(db.Model):
+    __tablename__ = "servicios"
+    id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    nombre = db.Column(db.String(200), nullable=False)
+    descripcion = db.Column(db.String(600), nullable=False)
+    frecuencia = db.Column(db.String(100), nullable=False)
+    costo = db.Column(db.String(100), nullable=False)
+    numero_minimo_participantes = db.Column(db.Integer, nullable=False)
+    numero_maximo_participantes = db.Column(db.Integer, nullable=False)
+    lugar = db.Column(db.String(600), nullable=True)
+    fecha = db.Column(db.DateTime, nullable=False)
+    horario = db.Column(JSON, nullable=False)
+    id_usuario = db.Column(db.String(36), nullable=False)
+    estado = db.Column(db.String(10), default='ACT')
+    # Llave compuesta
+    __table_args__ = (
+        UniqueConstraint('nombre', 'fecha', 'id_usuario', name='ck_servicio_fecha_usuario'),
+    )
+
 
 ma = Marshmallow()
 class ConsultaPlanAlimentacionPorUsuarioSchema(ma.Schema):
@@ -93,5 +115,8 @@ class ConsultaUsuariosSchema(SQLAlchemyAutoSchema):
         model = Usuario
         id = fields.String()
 
+class ConsultaServiciosSchema(ma.Schema):
+    class Meta:
+        fields = ('id', 'nombre', 'costo', 'lugar')
 
 

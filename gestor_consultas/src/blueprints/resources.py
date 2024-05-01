@@ -3,6 +3,7 @@ from flask.json import jsonify
 from queries.consultar_plan_alimentacion_por_usuario import ConsultarPlanAlimentacionPorUsuario
 from queries.consultar_resultado_entrenamiento_por_usuario import ConsultarResultadoEntrenamientoPorUsuario
 from queries.consultar_usuario import ConsultarUsuario
+from queries.consultar_lista_servicios import ConsultarListaServicios
 
 
 consultas_blueprint = Blueprint(name='consultas', import_name=__name__, url_prefix='/consultas')
@@ -32,3 +33,10 @@ def consultar_usuario():
     headers = request.headers
     resultado_consulta_usuario = ConsultarUsuario(headers).query()
     return jsonify(resultado_consulta_usuario)
+
+# Recurso que expone consulta de todos los servicios
+@consultas_blueprint.route('/servicios', methods=['GET'])
+def consultar_lista_servicios():
+    headers = request.headers
+    resultado_consulta_servicios = ConsultarListaServicios(headers).query()
+    return jsonify(resultado_consulta_servicios)
