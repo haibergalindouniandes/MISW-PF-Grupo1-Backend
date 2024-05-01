@@ -32,7 +32,7 @@ def registrar_notificacion_bd(data_dict):
     db = generar_conexion_bd()
     try:
         with db.connect() as conn:
-            query = 'insert into notificaciones (id, name, latitud, longitud, descripcion, tipo, fecha_creacion, fecha_actualizacion) values (:id, :name, :latitud, :longitud, :descripcion, :tipo, :fecha_creacion, :fecha_actualizacion)'
+            query = 'insert into notificaciones (id, usuario, latitud, longitud, descripcion, tipo, fecha_creacion, fecha_actualizacion) values (:id, :usuario, :latitud, :longitud, :descripcion, :tipo, :fecha_creacion, :fecha_actualizacion)'
             stmt = sqlalchemy.text(query)
             conn.execute(stmt, data_dict)
             logger.info('Se registro la notificación correctamente')
