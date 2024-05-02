@@ -117,7 +117,7 @@ class ConsultaUsuariosSchema(SQLAlchemyAutoSchema):
 
 class ConsultaServiciosSchema(ma.Schema):
     class Meta:
-        fields = ('id', 'nombre', 'costo', 'lugar')
+        fields = ('id', 'nombre', 'fecha', 'horario', 'costo', 'lugar')
 
 class ConsultaDetalleServicioSchema(SQLAlchemyAutoSchema):
     class Meta:
