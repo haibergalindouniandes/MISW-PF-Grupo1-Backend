@@ -13,11 +13,13 @@ class TestResources:
     response_consulta_resultados_entrenamiento_por_usuario = {}
     response_consulta_usuario = {}
     response_consulta_servicios = {}
+    response_consulta_detalle_servicio = {}
     
     # Función que genera data inicial
     def set_up(self):
         data_login = {"email": "usuario2024@uniandes.edu.co", "password": "Usuario2*24"}
         self.id_usuario = "8e8239b0-0762-11ef-89fc-2b0cac54c9b4"
+        self.id_servicio = "98f2a2e9-e396-412b-a4ca-0c0cab729c27"
         self.ejecucion_generar_token(data_login)
         self.headers["Authorization"] = f"Bearer {self.response_token['token']}"
     
@@ -52,6 +54,11 @@ class TestResources:
         with app.test_client() as test_client:
             self.response_consulta_servicios = test_client.get(f"/consultas/servicios", headers=headers)
 
+    # Función consume el API de consulta de detalle de servicio
+    def ejecucion_consultar_detalle_servicio(self, headers):
+        with app.test_client() as test_client:
+            self.response_consulta_detalle_servicio = test_client.get(f"/consultas/servicios/{self.id_servicio}", headers=headers)
+
     # Función que valida el healthcheck
     def test_validar_healthcheck(self):
         self.ejecucion_healthcheck()
@@ -75,11 +82,17 @@ class TestResources:
         self.ejecucion_consultar_usuario(self.headers)
         assert self.response_consulta_usuario.status_code == 200
 
-    # Función que valida consulta usuario
+    # Función que valida consulta de servicios
     def test_validar_consulta_servicios(self):
         self.set_up()
         self.ejecucion_consultar_servicios(self.headers)
         assert self.response_consulta_servicios.status_code == 200
+
+    # Función que valida consulta del detalle de un servicio
+    def test_validar_consulta_detalle_servicio(self):
+        self.set_up()
+        self.ejecucion_consultar_detalle_servicio(self.headers)
+        assert self.response_consulta_detalle_servicio.status_code == 200
 
         
    

@@ -4,6 +4,7 @@ from queries.consultar_plan_alimentacion_por_usuario import ConsultarPlanAliment
 from queries.consultar_resultado_entrenamiento_por_usuario import ConsultarResultadoEntrenamientoPorUsuario
 from queries.consultar_usuario import ConsultarUsuario
 from queries.consultar_lista_servicios import ConsultarListaServicios
+from queries.consultar_detalle_servicio import ConsultarDetalleServicio
 
 
 consultas_blueprint = Blueprint(name='consultas', import_name=__name__, url_prefix='/consultas')
@@ -40,3 +41,10 @@ def consultar_lista_servicios():
     headers = request.headers
     resultado_consulta_servicios = ConsultarListaServicios(headers).query()
     return jsonify(resultado_consulta_servicios)
+
+# Recurso que expone consulta de los detalles de un servicio con base al id del servicio
+@consultas_blueprint.route('/servicios/<id_servicio>', methods=['GET'])
+def consultar_detalle_servicio(id_servicio):
+    headers = request.headers
+    resultado_detalle_servicio = ConsultarDetalleServicio(id_servicio, headers).query()
+    return jsonify(resultado_detalle_servicio)

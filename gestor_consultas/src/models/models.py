@@ -119,4 +119,9 @@ class ConsultaServiciosSchema(ma.Schema):
     class Meta:
         fields = ('id', 'nombre', 'costo', 'lugar')
 
+class ConsultaDetalleServicioSchema(SQLAlchemyAutoSchema):
+    class Meta:
+        model = Servicios
+        id = fields.String()
+
 
