@@ -118,7 +118,7 @@ def validar_headers(headers):
 # Función que valida si el usuario tiene contactos de emergencia
 def validar_emergency_contacts(request_json):
     # Validacion contactos de emergencia
-    if 'contactos_emergencia' not in request_json or request_json['contactos_emergencia'] == None:
+    if 'contactos_emergencia' not in request_json or request_json['contactos_emergencia'] == None or request_json['contactos_emergencia'] == []:
         raise EmergencyContactsNotFound
 
 # Función que valida los esquemas de las peticiones

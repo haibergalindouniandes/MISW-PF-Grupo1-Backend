@@ -14,7 +14,7 @@ def health():
 
 # Recurso que expone la funcionalidad notificacion de Alerta
 @entrenamientos_blueprint.route('/alerta', methods=['POST'])
-def notifiacion_alerta():
+def notificacion_alerta():
     headers = request.headers
     data = request.get_json()
     return CrearAlerta(data, headers).execute()
