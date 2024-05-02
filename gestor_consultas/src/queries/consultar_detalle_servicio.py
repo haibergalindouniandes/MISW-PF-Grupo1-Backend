@@ -41,7 +41,7 @@ class ConsultarDetalleServicio(BaseQuery):
             # Logica de negocio
             response = consumir_servicio_usuarios(self.headers)
             validar_permisos_usuario(response)
-            servicio = db.session.query(Servicios).filter((Servicios.id == self.id_servicio) & (Servicios.fecha > datetime.now())).all()
+            servicio = db.session.query(Servicios).filter((Servicios.id == self.id_servicio) & (Servicios.fecha > datetime.now())).first()
             if servicio == None:
                 raise NoRecordsFound
             return consulta_detalle_servicio_schema.dump(servicio)
