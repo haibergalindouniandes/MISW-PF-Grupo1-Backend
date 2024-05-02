@@ -24,6 +24,11 @@ class TokenNotFound(ApiError):
 class Forbidden(ApiError):
     code = 403
     description = "No esta autorizado para realizar esta operación, por favor valide con el administrador del sistema."      
+
+# Clase que contiene la estructura de un error cuando se encuentra información del plan de entrenamiento
+class SchedulingResultsNotFound(ApiError):
+    code = 404
+    description = "No se encontro información de agendamiento, por favor valide con el administrador del sistema."    
     
 # Clase que contiene la estructura de un error de tipo Rut debe ser unico
 class ServiceAlreadyRegistered(ApiError):

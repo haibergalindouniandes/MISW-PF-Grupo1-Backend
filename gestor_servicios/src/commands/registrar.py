@@ -2,9 +2,9 @@
 import os
 from commands.base_command import BaseCommannd
 from utilities.utilities import consumir_servicio_usuarios
-from validators.validators import validar_esquema, esquema_registro_servicio, validar_permisos_usuario
+from validators.validators import validar_esquema, esquema_registro_servicio, validar_headers, validar_permisos_usuario
 from sqlalchemy.exc import SQLAlchemyError, IntegrityError
-from errors.errors import ApiError, BadRequest, ServiceAlreadyRegistered, TokenNotFound
+from errors.errors import ApiError, ServiceAlreadyRegistered
 from models.models import db, Servicios
 import traceback
 
@@ -12,7 +12,8 @@ import traceback
 class RegistrarServicio(BaseCommannd):
     # Constructor
     def __init__(self, data, headers):
-        self.validar_headers(headers)
+        validar_headers(headers)
+        self.headers = headers
         self.validar_request(data)
         self.asignar_datos_servicio(data)
 
@@ -21,18 +22,6 @@ class RegistrarServicio(BaseCommannd):
         # Validacion del request
         validar_esquema(json_payload, esquema_registro_servicio)
         
-    # Función que valida los headers del servicio
-    def validar_headers(self, headers):
-        # Validacion si existe el header Authorization
-        if 'Authorization' in headers:
-            auth_header = headers['Authorization']
-            # Verificar si el encabezado Authorization comienza con "Bearer"
-            if not auth_header.startswith('Bearer '):
-                raise BadRequest
-            self.headers = headers
-        else:
-            raise TokenNotFound
-
     # Función que valida el request del servicio
     def asignar_datos_servicio(self, json_payload):
         # Asignacion de variables

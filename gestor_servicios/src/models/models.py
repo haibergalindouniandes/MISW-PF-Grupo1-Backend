@@ -78,8 +78,6 @@ class AgendaServicios(db.Model):
     email = db.Column(db.String, nullable=False)
     fecha = db.Column(db.Date, nullable=False)
     hora = db.Column(db.String, nullable=False)
-    #descripcion = db.Column(db.String, nullable=False)
-    #lugar = db.Column(db.String, nullable=True)    
     # Llave compuesta
     __table_args__ = (
         UniqueConstraint('id', 'id_usuario', 'id_servicio','fecha', name='ck_agenda_servicio_fecha_usuario'),
@@ -94,6 +92,4 @@ class AgendaServicios(db.Model):
                     "email": self.email,
                     "fecha": self.fecha,
                     "hora": self.hora
-                    #"descripcion": self.descripcion,
-                    #"lugar": self.lugar
                 }

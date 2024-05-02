@@ -2,20 +2,18 @@
 import os
 import traceback
 import jsonschema
-from errors.errors import BadRequest, Forbidden, Unauthorized
+from errors.errors import BadRequest, Forbidden, TokenNotFound, Unauthorized
 from jsonschema import validate
 
 # Esquemas
-# Esquema para las alertas
-notificacionSchema = {
+# Esquema para las notificaciones masivas
+notificacion_esquema = {
     "type": "object",
     "properties": {
-        "id_trigger": {"type": "string", "minimum": 4, "maximum": 64},
-        "latitud": {"type": "string", "minimum": 6, "maximum": 64},
-        "longitud": {"type": "string", "minimum": 6, "maximum": 64},
-        "descripcion":  {"type": "string", "minimum": 3, "maximum": 64},
+        "id_servicio": {"type": "string", "minimum": 4, "maximum": 64},
+        "descripcion":  {"type": "string", "minimum": 3, "maximum": 64}
     },
-    "required": ["id_trigger", "descripcion"]
+    "required": ["id_servicio", "descripcion"]
 }
 
 # Esquema para registrar un servicio
@@ -63,8 +61,19 @@ def validar_permisos_usuario(response_json):
 
 # Función que valida que un usuario tenga el rol necesario para consumir los servicios
 def validar_permisos_agendar_usuario(response_json):
-    if response_json['tipo_usuario'] == os.getenv('ROL_PERMITIDO'):
+    if response_json['tipo_usuario'] != os.getenv('ROL_PERMITIDO_USUARIO'):
         raise Forbidden
+
+# Función que valida los headers del servicio
+def validar_headers(headers):
+    # Validacion si existe el header Authorization
+    if 'Authorization' in headers:
+        auth_header = headers['Authorization']
+        # Verificar si el encabezado Authorization comienza con "Bearer"
+        if not auth_header.startswith('Bearer '):
+            raise BadRequest        
+    else:
+        raise TokenNotFound
 
 # Función que valida los esquemas de las peticiones
 def validar_esquema(jsonData, schema):

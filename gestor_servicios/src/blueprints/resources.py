@@ -12,9 +12,10 @@ def health():
 
 # Recurso que expone la funcionalidad notificacion Masiva
 @servicios_blueprint.route('/servicios/notificacion', methods=['POST'])
-def notifiacion_masiva():
+def notificacion_masiva():
+    headers = request.headers
     data = request.get_json()
-    return CrearNotificaiconMasiva(data).execute()
+    return CrearNotificaiconMasiva(data, headers).execute()
 
 # Recurso que expone la funcionalidad registro de servicios
 @servicios_blueprint.route('/servicios', methods=['POST'])
