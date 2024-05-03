@@ -64,6 +64,12 @@ def validar_permisos_agendar_usuario(response_json):
     if response_json['tipo_usuario'] != os.getenv('ROL_PERMITIDO_USUARIO'):
         raise Forbidden
 
+# Función que valida que un usuario tenga el rol necesario para consumir los servicios
+def validar_servicio_valido(servicio, date):
+    if servicio['fecha'] >= date and servicio['estado'] != 'ACT':
+        raise Forbidden
+
+
 # Función que valida los headers del servicio
 def validar_headers(headers):
     # Validacion si existe el header Authorization
