@@ -9,6 +9,7 @@ class TestResources:
     data_factory = Faker()    
     data = {}
     data_agendar_login_success = {}
+    data_update_agendar_success = {}
     headers = {}
     response_healthcheck = {}
     response_token = {}
@@ -76,6 +77,19 @@ class TestResources:
         print(self.headers)
         print(self.response_token)
 
+        self.data_update_agendar_success= {
+            "id_usuario":f"{id_usuario}",
+            "id_servicio":"5080dbb9-f442-4275-a7a4-b5c7df33acc8",
+            "email":"usuario2024@uniandes.edu.co",
+            "fecha":f"{fecha_futura}",
+            "hora":"12:01:01"
+        }
+
+        print(self.data_update_agendar_success)
+        print(self.headers)
+        print(self.response_token)
+
+
         self.headers["Authorization"] = f"Bearer {self.response_token['token']}"
         print(self.data_agendar_success)
         print(self.headers)
@@ -135,4 +149,12 @@ class TestResources:
     def test_validar_agenda_servicio(self):
         self.set_up2()
         self.ejecucion_agendar_servicio(self.data_agendar_success, self.headers)
+        assert self.response_agendar_servicio.status_code == 200
+
+
+    # Función que valida el registro exitoso de un servicio
+    def test_validar_update_agenda_servicio(self):
+        self.set_up2()
+        self.ejecucion_agendar_servicio(self.data_agendar_success, self.headers)
+        self.ejecucion_agendar_servicio(self.data_update_agendar_success, self.headers)
         assert self.response_agendar_servicio.status_code == 200

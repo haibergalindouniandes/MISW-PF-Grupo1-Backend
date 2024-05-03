@@ -33,17 +33,24 @@ class AgendarServicio(BaseCommannd):
         
     # Función que realiza el registro del usuario en BD
     def agendar_servicio_bd(self):
-        # Registrar en BD
-        servicio = AgendaServicios(
-            id_usuario=self.id_usuario, 
-            id_servicio=self.id_servicio,  
-            email=self.email,
-            fecha=self.fecha,  
-            hora=self.hora  
-        )
-        db.session.add(servicio)
-        db.session.commit()
-        return servicio
+        # Validar y eliminar si existe un plan de entrenamiento con el id_usaurio
+        agenda_usuario = AgendaServicios.query.filter_by(id_usuario=self.id_usuario, id_servicio=self.id_servicio).first()
+        if agenda_usuario:
+            db.session.add(agenda_usuario)
+            db.session.commit()
+            return agenda_usuario
+        else:
+            # Registrar en BD
+            servicio = AgendaServicios(
+                id_usuario=self.id_usuario, 
+                id_servicio=self.id_servicio,  
+                email=self.email,
+                fecha=self.fecha,  
+                hora=self.hora        
+            )
+            db.session.add(servicio)
+            db.session.commit()
+            return servicio
 
     # Función que realiza creación del servicio
     def execute(self):
