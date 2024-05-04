@@ -1,5 +1,6 @@
 from flask import request, Blueprint
 from flask.json import jsonify
+from queries.consultar_lista_usuarios_agendados_servicio import ConsultarListaUsuariosAgendadosPorServicio
 from queries.consultar_lista_servicios_agendados import ConsultarListaServiciosAgendados
 from queries.consultar_lista_servicios_por_usuario import ConsultarListaServiciosPorUsuario
 from queries.consultar_plan_alimentacion_por_usuario import ConsultarPlanAlimentacionPorUsuario
@@ -56,6 +57,13 @@ def consultar_detalle_servicio(id_servicio):
 def consultar_lista_servicios_por_usuario():
     headers = request.headers
     resultado_consulta_servicios = ConsultarListaServiciosPorUsuario(headers).query()
+    return jsonify(resultado_consulta_servicios)
+
+# Recurso que expone consulta información de los usuarios agendados por servicio
+@consultas_blueprint.route('/servicios/agendados/<id_servicio>', methods=['GET'])
+def consultar_lista_usuarios_agendados_servicio(id_servicio):
+    headers = request.headers
+    resultado_consulta_servicios = ConsultarListaUsuariosAgendadosPorServicio(id_servicio, headers).query()
     return jsonify(resultado_consulta_servicios)
 
 # Recurso que expone consulta de todos los servicios agendados de un usuario

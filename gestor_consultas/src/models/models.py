@@ -141,3 +141,7 @@ class ConsultaServiciosPorUsuarioSchema(ma.Schema):
 class ConsultaServiciosAgendadosSchema(ma.Schema):
     class Meta:
         fields = ('id', 'nombre', 'costo', 'lugar', 'fecha', 'horario', 'descripcion', 'nombre_usuario')
+        
+class ConsultaUsuariosAgendadosServicioSchema(ma.Schema):
+    class Meta:
+        fields = ('id_usuario', 'nombre_usuario', 'email', 'fecha', 'hora', 'pais_residencia', 'ciudad_residencia')        
