@@ -7,6 +7,7 @@ from sqlalchemy.exc import SQLAlchemyError, IntegrityError
 from errors.errors import ApiError, BadRequest, ServiceAlreadyRegistered, TokenNotFound
 from models.models import db, AgendaServicios,Servicios
 import traceback
+import logging
 
 # Clase que contiene la logica del registro de un servicio
 class AgendarServicio(BaseCommannd):
@@ -16,6 +17,7 @@ class AgendarServicio(BaseCommannd):
         self.headers = headers
         self.validar_request(data)
         self.asignar_datos_agenda_servicio(data)
+        self.validar_servicio()
 
     # Función que valida el request del servicio
     def validar_request(self, json_payload):
@@ -24,9 +26,13 @@ class AgendarServicio(BaseCommannd):
 
     def validar_servicio(self):
         # Validacion del id_servicio
-        servicio = Servicios.query.filter_by(id_servicio=self.id_servicio).first()
-        validar_servicio_valido(servicio, self.fecha)
-        
+        servicio = Servicios.query.filter_by(id=self.id_servicio).first()
+        if servicio != None:
+            logging.info(servicio)
+            logging.info(servicio.fecha)
+            validar_servicio_valido(servicio, self.fecha)
+        else:
+            raise BadRequest
         
     # Función que valida el request del servicio
     def asignar_datos_agenda_servicio(self, json_payload):
@@ -63,7 +69,9 @@ class AgendarServicio(BaseCommannd):
         try:
             # Logica de negocio
             response = consumir_servicio_usuarios(self.headers)
-            validar_permisos_agendar_usuario(response)
+            print(response['tipo_usuario'])
+            logging.info(response['tipo_usuario'])
+            validar_permisos_agendar_usuario(response)            
             servicio_agendado = self.agendar_servicio_bd()
             return servicio_agendado.to_dict()
         except IntegrityError as e:# pragma: no cover

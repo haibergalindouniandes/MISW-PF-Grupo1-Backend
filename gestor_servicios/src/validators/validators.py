@@ -4,6 +4,8 @@ import traceback
 import jsonschema
 from errors.errors import BadRequest, Forbidden, TokenNotFound, Unauthorized
 from jsonschema import validate
+import logging
+from datetime import datetime
 
 # Esquemas
 # Esquema para las notificaciones masivas
@@ -61,12 +63,21 @@ def validar_permisos_usuario(response_json):
 
 # Función que valida que un usuario tenga el rol necesario para consumir los servicios
 def validar_permisos_agendar_usuario(response_json):
-    if response_json['tipo_usuario'] != os.getenv('ROL_PERMITIDO_USUARIO'):
+    print(response_json['tipo_usuario'])
+    logging.info('Response Json')
+    logging.info(response_json['tipo_usuario'])
+    logging.info('Env')
+    logging.info(os.getenv('ROL_AGENDAR_USUARIO'))
+    if response_json['tipo_usuario'] != os.getenv('ROL_AGENDAR_USUARIO'):
         raise Forbidden
 
 # Función que valida que un usuario tenga el rol necesario para consumir los servicios
 def validar_servicio_valido(servicio, date):
-    if servicio['fecha'] >= date and servicio['estado'] != 'ACT':
+    date_format = '%Y-%m-%d'
+    print('validar_servicio_valido')
+    print(servicio.fecha)
+    logging.info(datetime.strptime( date,date_format))
+    if servicio.fecha >= datetime.strptime(date,date_format) and servicio.estado != 'ACT':
         raise Forbidden
 
 

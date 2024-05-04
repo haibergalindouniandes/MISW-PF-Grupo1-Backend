@@ -10,10 +10,12 @@ class TestResources:
     data = {}
     data_agendar_login_success = {}
     data_update_agendar_success = {}
+    data_agendar_service_not_found = {}
     headers = {}
     response_healthcheck = {}
     response_token = {}
     response_registro_servicio = {}
+    response_agendar_servicio = {}
     
     # Función que genera data inicial
     def set_up(self):
@@ -50,7 +52,7 @@ class TestResources:
         
         self.data_agendar = {
             "id_usuario":f"{id_usuario}",
-            "id_servicio":"d84894cb-583b-4805-9fbe-6c16eb21daf0",
+            "id_servicio":"98f2a2e9-e396-412b-a4ca-0c0cab729c27",
             "email":"prestador2024@uniandes.edu.co",
             "fecha":f"{fecha_futura}",
             "hora":"12:01:01"
@@ -67,7 +69,7 @@ class TestResources:
 
         self.data_agendar_success = {
             "id_usuario":f"{id_usuario}",
-            "id_servicio":"5080dbb9-f442-4275-a7a4-b5c7df33acc8",
+            "id_servicio":"98f2a2e9-e396-412b-a4ca-0c0cab729c27",
             "email":"usuario2024@uniandes.edu.co",
             "fecha":f"{fecha_futura}",
             "hora":"12:01:01"
@@ -79,7 +81,7 @@ class TestResources:
 
         self.data_update_agendar_success= {
             "id_usuario":f"{id_usuario}",
-            "id_servicio":"5080dbb9-f442-4275-a7a4-b5c7df33acc8",
+            "id_servicio":"98f2a2e9-e396-412b-a4ca-0c0cab729c27",
             "email":"usuario2024@uniandes.edu.co",
             "fecha":f"{fecha_futura}",
             "hora":"12:01:01"
@@ -94,6 +96,27 @@ class TestResources:
         print(self.data_agendar_success)
         print(self.headers)
         print(self.response_token)
+
+    # Función que genera data inicial
+    def set_up3(self): 
+        data_agendar_login_success = {"email": "usuario2024@uniandes.edu.co", "password": "Usuario2*24"}           
+        self.ejecucion_generar_token(data_agendar_login_success) 
+        id_usuario='8e8239b0-0762-11ef-89fc-2b0cac54c9b4'
+        fecha_futura = self.generar_fecha_futura(2)
+
+        self.data_agendar_service_not_found = {
+            "id_usuario":f"{id_usuario}",
+            "id_servicio":"98f2a2e9-e396-492b-a4ca-0c0cab729c27",
+            "email":"usuario2024@uniandes.edu.co",
+            "fecha":f"{fecha_futura}",
+            "hora":"12:01:01"
+        }
+
+        self.headers["Authorization"] = f"Bearer {self.response_token['token']}"
+        print(self.data_agendar_service_not_found)
+        print(self.headers)
+        print(self.response_token)
+
 
     # Función que permite generar una fecha futura
     def generar_fecha_futura(self, dias):
@@ -146,15 +169,17 @@ class TestResources:
         assert self.response_agendar_servicio.status_code == 403
 
     # Función que valida el registro exitoso de un servicio
-    def test_validar_agenda_servicio(self):
-        self.set_up2()
-        self.ejecucion_agendar_servicio(self.data_agendar_success, self.headers)
-        assert self.response_agendar_servicio.status_code == 200
-
-
-    # Función que valida el registro exitoso de un servicio
     def test_validar_update_agenda_servicio(self):
         self.set_up2()
         self.ejecucion_agendar_servicio(self.data_agendar_success, self.headers)
         self.ejecucion_agendar_servicio(self.data_update_agendar_success, self.headers)
+        print('################################')
+        print(self.response_agendar_servicio)
         assert self.response_agendar_servicio.status_code == 200
+
+
+    # Función que valida el registro exitoso de un servicio
+    def test_validar_agenda_servicio_not_found(self):
+        self.set_up3()
+        self.ejecucion_agendar_servicio(self.data_agendar_service_not_found, self.headers)
+        assert self.response_agendar_servicio.status_code == 400

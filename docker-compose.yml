@@ -87,11 +87,12 @@ services:
       - PATH_TOPIC_MASIVAS=projects/proyecto1-experimentos/topics/notifications
       - DB_USER=postgres
       - DB_PASSWORD=postgres
-      - DB_HOST=postgres
+      - DB_HOST=34.136.51.44
       - DB_PORT=5432
-      - DB_NAME=sportapp
+      - DB_NAME=postgres
       - APP_PORT=3000
       - ROL_PERMITIDO=PRESTADOR
+      - ROL_AGENDAR_USUARIO=Usuario
     ports:
       - "5002:3000"
     networks:
