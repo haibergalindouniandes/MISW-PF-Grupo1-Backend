@@ -5,10 +5,6 @@ from flask_cors import CORS
 from blueprints.resources import consultas_blueprint
 from errors.errors import ApiError
 from models.models import db
-from sqlalchemy import MetaData
-from sqlalchemy.ext.automap import automap_base
-from sqlalchemy.orm import DeclarativeBase
-
 import logging
 import os
 

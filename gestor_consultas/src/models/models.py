@@ -8,12 +8,8 @@ from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.dialects.postgresql import JSONB, JSON
 from sqlalchemy import UniqueConstraint
 import uuid
-from sqlalchemy import MetaData
-from sqlalchemy.ext.automap import automap_base
-from sqlalchemy.orm import DeclarativeBase
 
 # Creación de variable db
-
 db = SQLAlchemy()
 
 class Alimentacion(db.Model):
@@ -98,6 +94,20 @@ class Servicios(db.Model):
         UniqueConstraint('nombre', 'fecha', 'id_usuario', name='ck_servicio_fecha_usuario'),
     )
 
+class AgendaServicios(db.Model):
+    __tablename__ = "agendas"
+    id = db.Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+    id_usuario = db.Column(db.String, nullable=False)
+    id_servicio = db.Column(db.String, nullable=False)
+    email = db.Column(db.String, nullable=False)
+    fecha = db.Column(db.Date, nullable=False)
+    hora = db.Column(db.String, nullable=False)
+    fecha_creacion = db.Column(db.DateTime, default=datetime.utcnow)
+    fecha_actualizacion = db.Column(db.DateTime, default=datetime.utcnow) 
+    # Llave compuesta
+    __table_args__ = (
+        UniqueConstraint('id', 'id_usuario', 'id_servicio','fecha', name='ck_agenda_servicio_fecha_usuario'),
+    )
 
 ma = Marshmallow()
 class ConsultaPlanAlimentacionPorUsuarioSchema(ma.Schema):
@@ -117,11 +127,17 @@ class ConsultaUsuariosSchema(SQLAlchemyAutoSchema):
 
 class ConsultaServiciosSchema(ma.Schema):
     class Meta:
-        fields = ('id', 'nombre', 'fecha', 'horario', 'costo', 'lugar')
+        fields = ('id', 'nombre', 'costo', 'lugar')
 
 class ConsultaDetalleServicioSchema(SQLAlchemyAutoSchema):
     class Meta:
         model = Servicios
         id = fields.String()
 
+class ConsultaServiciosPorUsuarioSchema(ma.Schema):
+    class Meta:
+        fields = ('id', 'nombre', 'costo', 'lugar', 'fecha', 'horario', 'descripcion', 'nombre_usuario')
 
+class ConsultaServiciosAgendadosSchema(ma.Schema):
+    class Meta:
+        fields = ('id', 'nombre', 'costo', 'lugar', 'fecha', 'horario', 'descripcion', 'nombre_usuario')

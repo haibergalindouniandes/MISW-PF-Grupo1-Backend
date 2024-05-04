@@ -34,7 +34,7 @@ class ConsultarListaServicios(BaseQuery):
             # Logica de negocio
             response = consumir_servicio_usuarios(self.headers)
             validar_permisos_usuario(response)
-            servicios = db.session.query(Servicios.id, Servicios.nombre, Servicios.fecha, Servicios.horario, Servicios.costo, Servicios.lugar).filter((Servicios.fecha > datetime.now()) & (Servicios.estado == 'ACT')).all()
+            servicios = db.session.query(Servicios.id, Servicios.nombre, Servicios.costo, Servicios.lugar).filter((Servicios.fecha > datetime.now()) & (Servicios.estado == 'ACT')).all()
             if servicios == None:
                 raise NoRecordsFound
             return [consulta_servicios_schema.dump(servicio) for servicio in servicios]
