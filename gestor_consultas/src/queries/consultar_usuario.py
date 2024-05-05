@@ -40,5 +40,6 @@ class ConsultarUsuario(BaseQuery):
             return consulta_usuario_schema.dump(usuario)
         except SQLAlchemyError as e:# pragma: no cover
             traceback.print_exc()
+            db.session.rollback()
             raise ApiError(e)
         

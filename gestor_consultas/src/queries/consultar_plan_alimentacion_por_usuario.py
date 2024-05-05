@@ -49,5 +49,6 @@ class ConsultarPlanAlimentacionPorUsuario(BaseQuery):
             return consulta_plan_alimentacion_schema.dump(plan_alimentacion_usuario)
         except SQLAlchemyError as e:# pragma: no cover
             traceback.print_exc()
+            db.session.rollback()
             raise ApiError(e)
         

@@ -40,5 +40,6 @@ class ConsultarListaServicios(BaseQuery):
             return [consulta_servicios_schema.dump(servicio) for servicio in servicios]
         except SQLAlchemyError as e:# pragma: no cover
             traceback.print_exc()
+            db.session.rollback()
             raise ApiError(e)
         

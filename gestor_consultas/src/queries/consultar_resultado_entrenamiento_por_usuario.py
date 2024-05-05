@@ -46,5 +46,6 @@ class ConsultarResultadoEntrenamientoPorUsuario(BaseQuery):
             return [consulta_resultado_entrenamiento_schema.dump(resultado) for resultado in resultado_entrenamiento_usuario]
         except SQLAlchemyError as e:# pragma: no cover
             traceback.print_exc()
+            db.session.rollback()
             raise ApiError(e)
         

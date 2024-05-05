@@ -63,5 +63,6 @@ class ConsultarListaUsuariosAgendadosPorServicio(BaseQuery):
             return [consulta_usuarios_agendamiento.dump(usuario) for usuario in usuarios_agendados]
         except SQLAlchemyError as e:# pragma: no cover
             traceback.print_exc()
+            db.session.rollback()
             raise ApiError(e)
         
