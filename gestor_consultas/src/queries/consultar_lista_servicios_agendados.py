@@ -40,10 +40,10 @@ class ConsultarListaServiciosAgendados(BaseQuery):
                 Servicios.lugar,
                 Servicios.nombre,
                 Servicios.costo,
-                Servicios.fecha,
-                Servicios.horario,
+                AgendaServicios.fecha,
+                AgendaServicios.hora,
                 Servicios.descripcion,
-                func.concat(Usuario.nombres, ' ', Usuario.apellidos).label('nombre_usuario')
+                func.concat(Usuario.nombres, ' ', Usuario.apellidos).label('nombre_proveedor')
             ).join(
                 AgendaServicios, AgendaServicios.id_servicio == func.cast(Servicios.id, String)
             ).join(
