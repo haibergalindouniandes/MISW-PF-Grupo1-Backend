@@ -136,7 +136,7 @@ class ConsultaDetalleServicioSchema(SQLAlchemyAutoSchema):
 
 class ConsultaServiciosPorUsuarioSchema(ma.Schema):
     class Meta:
-        fields = ('id', 'nombre', 'costo', 'lugar', 'fecha', 'nombre_proveedor', 'descripcion', 'nombre_usuario')
+        fields = ('id', 'nombre', 'costo', 'lugar', 'fecha', 'hora', 'descripcion', 'nombre_proveedor')
 
 class ConsultaServiciosAgendadosSchema(ma.Schema):
     class Meta:
