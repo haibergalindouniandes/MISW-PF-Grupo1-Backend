@@ -18,8 +18,8 @@ class TestResources:
     # Función que genera data inicial
     def set_up(self):
         data_login = {"email": "usuario2024@uniandes.edu.co", "password": "Usuario2*24"}
-        self.id_usuario = "8e8239b0-0762-11ef-89fc-2b0cac54c9b4"
-        self.id_servicio = "98f2a2e9-e396-412b-a4ca-0c0cab729c27"
+        self.id_usuario = "5c989690-0bf6-11ef-9c76-557b554997c3"
+        self.id_servicio = "5ebb92bd-eb6a-433d-8719-721de483997b"
         self.ejecucion_generar_token(data_login)
         self.headers["Authorization"] = f"Bearer {self.response_token['token']}"
     

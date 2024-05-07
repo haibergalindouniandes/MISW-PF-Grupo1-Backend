@@ -2,8 +2,10 @@ import traceback
 from validators.validators import validar_permisos_usuario
 from utilities.utilities import consumir_servicio_usuarios
 from queries.base_query import BaseQuery
-from models.models import db, Servicios, ConsultaServiciosSchema
+from queries.consultar_usuario import ConsultarUsuario
+from models.models import db, Servicios, AgendaServicios, ConsultaServiciosSchema
 from sqlalchemy.exc import SQLAlchemyError
+from sqlalchemy import exists, and_, func, String
 from errors.errors import ApiError, BadRequest, TokenNotFound, NoRecordsFound
 from datetime import datetime
 
@@ -34,7 +36,10 @@ class ConsultarListaServicios(BaseQuery):
             # Logica de negocio
             response = consumir_servicio_usuarios(self.headers)
             validar_permisos_usuario(response)
-            servicios = db.session.query(Servicios.id, Servicios.nombre, Servicios.costo, Servicios.lugar).filter((Servicios.fecha > datetime.now()) & (Servicios.estado == 'ACT')).all()
+            usuario = ConsultarUsuario(self.headers).query()
+            servicios = db.session.query(Servicios.id, Servicios.nombre, Servicios.costo, Servicios.lugar) \
+                                  .filter((Servicios.fecha > datetime.now()) & (Servicios.estado == 'ACT')) \
+                                  .filter(~exists().where(and_(func.cast(Servicios.id, String) == func.cast(AgendaServicios.id_servicio, String), func.cast(AgendaServicios.id_usuario, String) == usuario['id']))).all()
             if servicios == None:
                 raise NoRecordsFound
             return [consulta_servicios_schema.dump(servicio) for servicio in servicios]

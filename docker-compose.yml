@@ -125,4 +125,29 @@ services:
       - sportapp
     depends_on:
       postgres:
-        condition: service_healthy        
+        condition: service_healthy
+
+  gestorconsultas:
+    container_name: gconsultas
+    hostname: gconsultas
+    restart: on-failure
+    build:
+      context: ./gestor_consultas
+      dockerfile: Dockerfile
+      target: prod
+    environment:
+      - GESTORUSUARIOS_ADDRESS=https://misw-pf-grupo1-backend-gestor-usuarios-klme3r4qta-uc.a.run.app/usuarios/me
+      - DB_USER=postgres
+      - DB_PASSWORD=postgres
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_NAME=sportapp
+      - APP_PORT=3000
+      - ROL_PERMITIDO=Usuario
+    ports:
+      - "5004:3000"
+    networks:
+      - sportapp
+    depends_on:
+      postgres:
+        condition: service_healthy
