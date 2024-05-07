@@ -2,14 +2,14 @@ import traceback
 from queries.consultar_usuario import ConsultarUsuario
 from validators.validators import validar_permisos_usuario
 from queries.base_query import BaseQuery
-from models.models import AgendaServicios, Usuario, db, Servicios, ConsultaServiciosPorUsuarioSchema
+from models.models import AgendaServicios, Usuario, db, Servicios, ConsultaServiciosAgendadosSchema
 from sqlalchemy.exc import SQLAlchemyError
 from errors.errors import ApiError, BadRequest, TokenNotFound, NoRecordsFound
 from datetime import datetime
 from sqlalchemy import func, String
 
 # Esquemas
-consulta_servicios_schema = ConsultaServiciosPorUsuarioSchema()
+consulta_servicios_schema = ConsultaServiciosAgendadosSchema()
 
 # Clase que contiene la logica de consulta de todos los servicios agendados por usuario
 class ConsultarListaServiciosAgendados(BaseQuery):
