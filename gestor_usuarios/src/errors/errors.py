@@ -7,7 +7,18 @@ class ApiError(Exception):
 class BadRequest(ApiError):
     code = 400
     description = "Párametros de entrada invalidos"
-    
+
+# Clase que contiene la estructura de un error de tipo Bad Request
+class InvalidEmail(ApiError):
+    code = 400
+    description = "Email Invalido"    
+
+
+# Clase que contiene la estructura de un error de tipo Bad Request
+class InvalidContrasena(ApiError):
+    code = 400
+    description = "Contrasena Invalido"    
+
 # Clase que contiene la estructura de un error cuando el login falla
 class LoginFailed(ApiError):
     code = 400

@@ -162,6 +162,7 @@ class TestResources:
         self.ejecucion_registrar_servicio(self.data, self.headers)
         assert self.response_registro_servicio.status_code == 200
 
+
     # Función que valida el registro exitoso de un servicio
     def test_validar_agenda_servicio_fail(self):
         self.set_up()
@@ -183,3 +184,4 @@ class TestResources:
         self.set_up3()
         self.ejecucion_agendar_servicio(self.data_agendar_service_not_found, self.headers)
         assert self.response_agendar_servicio.status_code == 400
+

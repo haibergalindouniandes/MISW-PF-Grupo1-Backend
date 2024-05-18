@@ -5,6 +5,7 @@ from sqlalchemy.exc import SQLAlchemyError
 from errors.errors import ApiError, LoginFailed
 from models.models import Usuario
 import hashlib
+from utilities.utilities import is_valid_email, is_valid_contrasena
 
 # Clase que contiene la logica de inicio de sesión
 class IniciarSesion(BaseQuery):
@@ -15,6 +16,9 @@ class IniciarSesion(BaseQuery):
     def __init__(self, data):
         self.email=data["email"]
         self.password=data["password"]
+        is_valid_email(self.email)
+        is_valid_contrasena(self.password)
+
     
     # Función que realiza el inicio de sesión del usuario
     def query(self):
