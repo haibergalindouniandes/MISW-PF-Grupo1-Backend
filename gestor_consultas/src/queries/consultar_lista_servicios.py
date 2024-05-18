@@ -38,7 +38,7 @@ class ConsultarListaServicios(BaseQuery):
             validar_permisos_usuario(response)
             usuario = ConsultarUsuario(self.headers).query()
             servicios = db.session.query(Servicios.id, Servicios.nombre, Servicios.costo, Servicios.lugar) \
-                                  .filter((Servicios.fecha > datetime.now()) & (Servicios.estado == 'ACT')) \
+                                  .filter((Servicios.fecha > datetime.now()) & (Servicios.estado == 'ACT') & (Servicios.lugar == usuario['ciudad_residencia'])) \
                                   .filter(~exists().where(and_(func.cast(Servicios.id, String) == func.cast(AgendaServicios.id_servicio, String), func.cast(AgendaServicios.id_usuario, String) == usuario['id']))).all()
             if servicios == None:
                 raise NoRecordsFound
