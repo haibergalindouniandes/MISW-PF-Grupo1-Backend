@@ -2,39 +2,38 @@
 import os
 from commands.base_command import BaseCommannd
 from utilities.utilities import consumir_servicio_usuarios
-from validators.validators import validar_esquema, esquema_agendar_servicio, validar_permisos_usuario
+from validators.validators import validar_esquema, esquema_agendar_servicio, validar_headers, validar_permisos_agendar_usuario,validar_servicio_valido
 from sqlalchemy.exc import SQLAlchemyError, IntegrityError
 from errors.errors import ApiError, BadRequest, ServiceAlreadyRegistered, TokenNotFound
-from models.models import db, AgendaServicios
+from models.models import db, AgendaServicios,Servicios
 import traceback
+import logging
 
 # Clase que contiene la logica del registro de un servicio
 class AgendarServicio(BaseCommannd):
     # Constructor
     def __init__(self, data, headers):
-        self.validar_headers(headers)
+        validar_headers(headers)
+        self.headers = headers
         self.validar_request(data)
         self.asignar_datos_agenda_servicio(data)
+        self.validar_servicio()
 
     # Función que valida el request del servicio
     def validar_request(self, json_payload):
         # Validacion del request
         validar_esquema(json_payload, esquema_agendar_servicio)
-        
-    # Función que valida los headers del servicio
-    def validar_headers(self, headers):
-        # Validacion si existe el header Authorization
-        if 'Authorization' in headers:
-            auth_header = headers['Authorization']
-            # Verificar si el encabezado Authorization comienza con "Bearer"
-            if auth_header.startswith('Bearer '):
-                token = auth_header.split(' ')[1]  # Obtener el token Bearer
-                self.token = token
-            else:
-                raise BadRequest
-        else:
-            raise TokenNotFound
 
+    def validar_servicio(self):
+        # Validacion del id_servicio
+        servicio = Servicios.query.filter_by(id=self.id_servicio).first()
+        if servicio != None:
+            logging.info(servicio)
+            logging.info(servicio.fecha)
+            validar_servicio_valido(servicio, self.fecha)
+        else:
+            raise BadRequest
+        
     # Función que valida el request del servicio
     def asignar_datos_agenda_servicio(self, json_payload):
         # Asignacion de variables
@@ -42,35 +41,37 @@ class AgendarServicio(BaseCommannd):
         self.id_servicio = json_payload['id_servicio']
         self.email = json_payload['email']
         self.fecha = json_payload['fecha']
-        self.descripcion = json_payload['descripcion']
-        self.lugar = json_payload['lugar']
-        
+        self.hora = json_payload['hora']
         
     # Función que realiza el registro del usuario en BD
     def agendar_servicio_bd(self):
-        # Registrar en BD
-        servicio = AgendaServicios(
-            id_usuario=self.id_usuario, 
-            id_servicio=self.id_servicio,  
-            email=self.email,
-            fecha=self.fecha,  
-            lugar=self.lugar,
-            descripcion=self.descripcion            
-        )
-        db.session.add(servicio)
-        db.session.commit()
-        return servicio
+        # Validar y eliminar si existe un plan de entrenamiento con el id_usaurio
+        agenda_usuario = AgendaServicios.query.filter_by(id_usuario=self.id_usuario, id_servicio=self.id_servicio).first()
+        if agenda_usuario:
+            db.session.add(agenda_usuario)
+            db.session.commit()
+            return agenda_usuario
+        else:
+            # Registrar en BD
+            servicio = AgendaServicios(
+                id_usuario=self.id_usuario, 
+                id_servicio=self.id_servicio,  
+                email=self.email,
+                fecha=self.fecha,  
+                hora=self.hora        
+            )
+            db.session.add(servicio)
+            db.session.commit()
+            return servicio
 
     # Función que realiza creación del servicio
     def execute(self):
         try:
             # Logica de negocio
-            # data = {
-            #     "email": "preba@gmail.com",
-            #     "password": "preba1223***"
-            # }
-            # response = consumir_servicio_usuarios(data)
-            #validar_permisos_usuario(response)
+            response = consumir_servicio_usuarios(self.headers)
+            print(response['tipo_usuario'])
+            logging.info(response['tipo_usuario'])
+            validar_permisos_agendar_usuario(response)            
             servicio_agendado = self.agendar_servicio_bd()
             return servicio_agendado.to_dict()
         except IntegrityError as e:# pragma: no cover

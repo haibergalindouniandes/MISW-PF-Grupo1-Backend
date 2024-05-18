@@ -1,48 +1,61 @@
 # Importación de dependencias
 import os
 from commands.base_command import BaseCommannd
-from validators.validators import validar_esquema, notificacionSchema
+from validators.validators import validar_esquema, notificacion_esquema, validar_headers, validar_permisos_usuario
 from sqlalchemy.exc import SQLAlchemyError
-from errors.errors import ApiError
-from models.models import db, Notificaciones
+from errors.errors import ApiError, SchedulingResultsNotFound
+from models.models import AgendaServicios, db, Notificaciones
 from flask.json import jsonify
-from utilities.utilities import publicar_pub_sub
+from utilities.utilities import consumir_servicio_usuarios, obtener_tipo_notificacion, publicar_pub_sub
 
 
 import traceback
 
 # Clase que contiene la logica de creción de Notificaicon Masiva
 class CrearNotificaiconMasiva(BaseCommannd): # pragma: no cover
-    def __init__(self, data):
-        self.validateRequest(data)
-        #TODO: Email de prueba para el experimento
-        self.emails = ["shiomarsa_2@hotmail.com",
-                     "jf.guzmanc1@uniandes.edu.co"] 
+    def __init__(self, data, headers):
+        validar_headers(headers)
+        self.headers = headers
+        self.validar_request(data)
+        self.asignar_datos(data)
 
     # Función que valida el request del servicio
-    def validateRequest(self, notificacionJSON):
+    def validar_request(self, notificacion_json):
         # Validacion del request
-        validar_esquema(notificacionJSON, notificacionSchema)
-        # Asignacion de variables
-        self.id_trigger = notificacionJSON['id_trigger']
-        self.latitud = notificacionJSON['latitud']
-        self.longitud = notificacionJSON['longitud']
-        self.descripcion = notificacionJSON['descripcion']
+        validar_esquema(notificacion_json, notificacion_esquema)        
 
+    # Función que valida el request del servicio
+    def asignar_datos(self, json_payload):
+        # Asignacion de variables
+        self.id_servicio = json_payload['id_servicio']
+        self.descripcion = json_payload['descripcion']
+
+    # Función que obtiene un array con los emails de los usuarios que agendaron un servicio
+    def obtener_emails_agendamiento(self, data):
+        # Obtener emails agendamiento
+        return [agendamiento.email for agendamiento in data]
+        
+    # Función que consulta los emails de los usuarios que agendaron
+    def consultar_emails_agendamiento(self, id_servicio):
+        # Consultar por id_servicio
+        agendamientos = db.session.query(AgendaServicios).filter_by(id_servicio = id_servicio).all()        
+        if len(agendamientos) == 0:
+            raise SchedulingResultsNotFound
+        return self.obtener_emails_agendamiento(agendamientos)
+    
     # Función que realiza creación de la Notificacion Masiva
     def execute(self):
         try:
-            #TODO: Consulta de Emails de usuarios a Gestor de Consultasc
-            #TODO: Consulta de Nombre del Servicio a Gestor de Consultas
-            for email in self.emails:
-                notificaciones_msg = {
-                   "tipo": "Noti_Masiva",
-                    "email": email,
-                    "name":  self.id_trigger,
-                    "descripcion": self.descripcion,
-                }
-                publicar_pub_sub(notificaciones_msg)
-            return jsonify({'msg': 'Notificacion Masiva enviada a cola de mensajes'}), 200  
+            response = consumir_servicio_usuarios(self.headers)
+            validar_permisos_usuario(response)
+            notificacion_msg = {
+                "tipo": obtener_tipo_notificacion(),
+                "emails": self.consultar_emails_agendamiento(self.id_servicio),
+                "usuario":  f"{response['nombres']} {response['apellidos']}",
+                "descripcion": self.descripcion,
+            }
+            publicar_pub_sub(notificacion_msg)
+            return notificacion_msg, 200   
         except SQLAlchemyError as e:# pragma: no cover
             traceback.print_exc()
             raise ApiError(e)
