@@ -21,10 +21,10 @@ class TestResources:
     def set_up(self):
         data_login = {"email": "prestador2024@uniandes.edu.co", "password": "Prestador2*24"}    
         lista_frecuencia = ['Diario', 'Semanal', 'Mensual', 'Trimestral','Semestral', 'Anual']    
-        id_usuario = "6da46c66-f5ee-11ee-a0c6-c9ae58811c0e"
+        id_usuario = "e3ade316-124e-11ef-a39e-612ef9f72f01"
         self.ejecucion_generar_token(data_login) 
         
-        lugar = self.data_factory.street_address()
+        lugar = self.data_factory.city()
         fecha_futura = self.generar_fecha_futura(3)
         self.data = {
             "nombre": f"{self.data_factory.name()}",
@@ -52,7 +52,7 @@ class TestResources:
         
         self.data_agendar = {
             "id_usuario":f"{id_usuario}",
-            "id_servicio":"98f2a2e9-e396-412b-a4ca-0c0cab729c27",
+            "id_servicio":"5c9395df-314d-4205-ac8b-ef8e9cece867",
             "email":"prestador2024@uniandes.edu.co",
             "fecha":f"{fecha_futura}",
             "hora":"12:01:01"
@@ -64,12 +64,12 @@ class TestResources:
     def set_up2(self): 
         data_agendar_login_success = {"email": "usuario2024@uniandes.edu.co", "password": "Usuario2*24"}           
         self.ejecucion_generar_token(data_agendar_login_success) 
-        id_usuario='8e8239b0-0762-11ef-89fc-2b0cac54c9b4'
+        id_usuario='fafc3900-124e-11ef-a39e-612ef9f72f01'
         fecha_futura = self.generar_fecha_futura(2)
 
         self.data_agendar_success = {
             "id_usuario":f"{id_usuario}",
-            "id_servicio":"98f2a2e9-e396-412b-a4ca-0c0cab729c27",
+            "id_servicio":"5c9395df-314d-4205-ac8b-ef8e9cece867",
             "email":"usuario2024@uniandes.edu.co",
             "fecha":f"{fecha_futura}",
             "hora":"12:01:01"
@@ -81,7 +81,7 @@ class TestResources:
 
         self.data_update_agendar_success= {
             "id_usuario":f"{id_usuario}",
-            "id_servicio":"98f2a2e9-e396-412b-a4ca-0c0cab729c27",
+            "id_servicio":"5c9395df-314d-4205-ac8b-ef8e9cece867",
             "email":"usuario2024@uniandes.edu.co",
             "fecha":f"{fecha_futura}",
             "hora":"12:01:01"
@@ -101,12 +101,12 @@ class TestResources:
     def set_up3(self): 
         data_agendar_login_success = {"email": "usuario2024@uniandes.edu.co", "password": "Usuario2*24"}           
         self.ejecucion_generar_token(data_agendar_login_success) 
-        id_usuario='8e8239b0-0762-11ef-89fc-2b0cac54c9b4'
+        id_usuario='fafc3900-124e-11ef-a39e-612ef9f72f01'
         fecha_futura = self.generar_fecha_futura(2)
 
         self.data_agendar_service_not_found = {
             "id_usuario":f"{id_usuario}",
-            "id_servicio":"98f2a2e9-e396-492b-a4ca-0c0cab729c27",
+            "id_servicio":"fafc3900-124e-11ef-a39e-612ef9f72f01",
             "email":"usuario2024@uniandes.edu.co",
             "fecha":f"{fecha_futura}",
             "hora":"12:01:01"
