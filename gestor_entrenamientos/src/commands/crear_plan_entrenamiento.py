@@ -1,7 +1,7 @@
 # Importación de dependencias
 import traceback
 from commands.base_command import BaseCommannd
-from validators.validators import validar_permisos_usuario, validar_esquema, crear_plan_entrenamiento_esquema
+from validators.validators import validar_headers, validar_permisos_usuario, validar_esquema, crear_plan_entrenamiento_esquema
 from sqlalchemy.exc import SQLAlchemyError, IntegrityError
 from errors.errors import ApiError, BadRequest, TokenNotFound
 from models.models import db, Entrenamientos, PlanEntrenamiento, EntrenamientoSchema
@@ -13,26 +13,15 @@ entrenamiento_schema = EntrenamientoSchema()
 # Clase que contiene la logica de creción de un plan de entrenamiento       
 class CrearPlanEntrenamiento(BaseCommannd):
     def __init__(self, data, headers):
-        self.validar_headers(headers)        
-        self.validateRequest(data)
+        validar_headers(headers)
+        self.headers = headers    
+        self.validar_request(data)
         self.asignar_datos(data)
 
     # Función que valida el request del servicio
-    def validateRequest(self, request_json):
+    def validar_request(self, request_json):
         # Validacion del request
         validar_esquema(request_json, crear_plan_entrenamiento_esquema)
-
-    # Función que valida los headers del servicio
-    def validar_headers(self, headers):
-        # Validacion si existe el header Authorization
-        if 'Authorization' in headers:
-            auth_header = headers['Authorization']
-            # Verificar si el encabezado Authorization comienza con "Bearer"
-            if not auth_header.startswith('Bearer '):
-                raise BadRequest
-            self.headers = headers
-        else:
-            raise TokenNotFound
 
     # Función que valida el request del servicio
     def asignar_datos(self, json_payload):

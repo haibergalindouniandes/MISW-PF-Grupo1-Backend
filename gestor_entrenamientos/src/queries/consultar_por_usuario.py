@@ -1,5 +1,5 @@
 import traceback
-from validators.validators import validar_permisos_usuario
+from validators.validators import validar_headers, validar_permisos_usuario
 from utilities.utilities import consumir_servicio_usuarios
 from queries.base_query import BaseQuery
 from models.models import EntrenamientoSchema, db
@@ -14,8 +14,9 @@ entrenamiento_schema = EntrenamientoSchema()
 class ConsultarPlanEntrenamientoPorUsuario(BaseQuery):
     # Constructor
     def __init__(self, id_usuario, headers):
+        validar_headers(headers)
+        self.headers = headers
         self.validate_request(id_usuario)
-        self.validar_headers(headers)
         
     # Función que valida los headers del servicio
     def validar_headers(self, headers):

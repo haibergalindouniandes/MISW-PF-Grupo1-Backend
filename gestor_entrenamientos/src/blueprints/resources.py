@@ -14,10 +14,10 @@ def health():
 
 # Recurso que expone la funcionalidad notificacion de Alerta
 @entrenamientos_blueprint.route('/alerta', methods=['POST'])
-def notifiacion_alerta():
-    #TODO: Agregar validacion de Token
+def notificacion_alerta():
+    headers = request.headers
     data = request.get_json()
-    return CrearAlerta(data).execute()
+    return CrearAlerta(data, headers).execute()
 
 # Recurso que expone la creación de plan de entrenamiento
 @entrenamientos_blueprint.route('/plan-entrenamiento', methods=['POST'])

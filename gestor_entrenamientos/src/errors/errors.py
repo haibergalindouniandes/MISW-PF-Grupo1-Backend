@@ -18,6 +18,16 @@ class Unauthorized(ApiError):
     code = 401
     description = "El token proporcionado no es valido o esta vencido, por favor valide e intente nuevamente."
 
+# Clase que contiene la estructura de un error de tipo Bad Dates
+class BadDates(ApiError):
+    code = 400
+    description = "Las fechas ingresadas son invalidas, el formato correto es 'AAAA-MM-DD'."
+
+# Clase que contiene la estructura de un error de tipo Bad Time
+class BadTime(ApiError):
+    code = 400
+    description = "el tiempo ingresado es invalido, el formato correto es 'HH:MM:SS'."
+
 # Clase que contiene la estructura de un error de tipo TokenNotFound
 class TokenNotFound(ApiError):
     code = 401
@@ -33,12 +43,7 @@ class TrainingPlanNotFound(ApiError):
     code = 404
     description = "No se encontro información con los parámetros ingresados, por favor valide e intente nuevamente."  
 
-# Clase que contiene la estructura de un error de tipo Bad Dates
-class BadDates(ApiError):
-    code = 400
-    description = "Las fechas ingresadas son invalidas, el formato correto es 'AAAA-MM-DD'."
-
-# Clase que contiene la estructura de un error de tipo Bad Time
-class BadTime(ApiError):
-    code = 400
-    description = "el tiempo ingresado es invalido, el formato correto es 'HH:MM:SS'."
+# Clase que contiene la estructura de un error cuando el usuario no tiene contactos de emergencia
+class EmergencyContactsNotFound(ApiError):
+    code = 404
+    description = "No se encontro información de contactos de emergencia, por favor valide con el administrador del sistema."  

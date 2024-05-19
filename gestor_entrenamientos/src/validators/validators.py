@@ -1,5 +1,5 @@
 # Importación de dependencias
-from errors.errors import BadRequest, Forbidden, Unauthorized
+from errors.errors import BadRequest, EmergencyContactsNotFound, Forbidden, TokenNotFound, Unauthorized
 from jsonschema import validate
 import traceback
 import jsonschema
@@ -10,15 +10,14 @@ from datetime import date, time
 
 # Esquemas
 # Esquema para las alertas
-alertaSchema = {
+notificacion_alerta_esquema = {
     "type": "object",
     "properties": {
-        "id_trigger": {"type": "string", "minimum": 4, "maximum": 64},
         "latitud": {"type": "string", "minimum": 6, "maximum": 64},
         "longitud": {"type": "string", "minimum": 6, "maximum": 64},
         "descripcion":  {"type": "string", "minimum": 3, "maximum": 64},
     },
-    "required": ["id_trigger", "latitud", "longitud", "descripcion"]
+    "required": ["latitud", "longitud", "descripcion"]
 }
 
 planEntrenamientoEsquema = {
@@ -106,6 +105,21 @@ def validar_resultado_entrenamiento(response_json):
     if response_json['actividad'] == 'Atletismo':
         if 'vo2max' not in response_json:        
             raise BadRequest
+
+# Función que valida los headers del servicio
+def validar_headers(headers):
+    if 'Authorization' in headers:
+        auth_header = headers['Authorization']
+        if not auth_header.startswith('Bearer '):
+            raise BadRequest        
+    else:
+        raise TokenNotFound
+
+# Función que valida si el usuario tiene contactos de emergencia
+def validar_emergency_contacts(request_json):
+    # Validacion contactos de emergencia
+    if 'contactos_emergencia' not in request_json or request_json['contactos_emergencia'] == None or request_json['contactos_emergencia'] == []:
+        raise EmergencyContactsNotFound
 
 # Función que valida los esquemas de las peticiones
 def validar_esquema(jsonData, schema):

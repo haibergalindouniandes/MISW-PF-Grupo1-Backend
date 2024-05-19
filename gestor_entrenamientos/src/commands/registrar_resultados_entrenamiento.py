@@ -1,9 +1,9 @@
 # Importación de dependencias
 import traceback
 from commands.base_command import BaseCommannd
-from validators.validators import validar_permisos_usuario, validar_resultado_entrenamiento, validar_esquema, validar_formato_fecha, validar_formato_hora, resultados_entrenamiento_esquema
+from validators.validators import validar_headers, validar_permisos_usuario, validar_resultado_entrenamiento, validar_esquema, validar_formato_fecha, validar_formato_hora, resultados_entrenamiento_esquema
 from sqlalchemy.exc import SQLAlchemyError, IntegrityError
-from errors.errors import ApiError, BadRequest, TokenNotFound
+from errors.errors import ApiError
 from models.models import db, ResultadosEntrenamiento, ResultadosEntrenamientoSchema
 from utilities.utilities import consumir_servicio_usuarios
 from datetime import date, time
@@ -15,7 +15,8 @@ resultados_entrenamiento_schema = ResultadosEntrenamientoSchema()
 class RegistrarResultadosEntrenamiento(BaseCommannd):
     # Constructor
     def __init__(self, data, headers):
-        self.validar_headers(headers)        
+        validar_headers(headers)
+        self.headers = headers
         self.validateRequest(data)
         self.validar_resultados(data)
         self.asignar_datos(data)
@@ -29,16 +30,6 @@ class RegistrarResultadosEntrenamiento(BaseCommannd):
     # Función que valida el request del servicio
     def validar_resultados(self, request_json):
         validar_resultado_entrenamiento(request_json)
-
-    # Función que valida los headers del servicio
-    def validar_headers(self, headers):
-        if 'Authorization' in headers:
-            auth_header = headers['Authorization']
-            if not auth_header.startswith('Bearer '):
-                raise BadRequest
-            self.headers = headers
-        else:
-            raise TokenNotFound
 
     # Función que valida el request del servicio
     def asignar_datos(self, json_payload):
@@ -56,7 +47,6 @@ class RegistrarResultadosEntrenamiento(BaseCommannd):
         self.fecha = date.fromisoformat(json_payload['fecha'])
         self.id_usuario = json_payload['id_usuario']
        
-
    # Función que realiza el registro en BD
     def registrar_resultados_entrenamiento_bd(self):
         # Validar y eliminar si existe un resultado de entrenamiento con id_usaurio, actividad y fecha dadas
