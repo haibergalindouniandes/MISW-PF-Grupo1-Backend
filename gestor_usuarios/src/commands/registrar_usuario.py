@@ -9,7 +9,6 @@ from errors.errors import ApiError, UserAlreadyRegistered
 import hashlib
 import json
 
-
 class RegistrarUsuario(BaseCommannd):
     # Constructor
     def __init__(self, data):        
@@ -36,6 +35,10 @@ class RegistrarUsuario(BaseCommannd):
         self.antiguedad = int(json_payload['antiguedad'])
         self.tipo_plan = json_payload['tipo_plan']
         self.tipo_usuario = json_payload['tipo_usuario']
+        if 'contactos_emergencia' in json_payload:
+            self.contactos_emergencia = json_payload['contactos_emergencia']
+        else:
+            self.contactos_emergencia = None
 
     # Función que realiza el registro del usuario en BD
     def registrar_usuario_bd(self):
@@ -58,7 +61,8 @@ class RegistrarUsuario(BaseCommannd):
             deportes = self.deportes,
             antiguedad = self.antiguedad,
             tipo_plan = self.tipo_plan,
-            tipo_usuario = self.tipo_usuario            
+            tipo_usuario = self.tipo_usuario,
+            contactos_emergencia = self.contactos_emergencia             
         )
         db.session.add(usuario)
         db.session.commit()

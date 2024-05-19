@@ -35,6 +35,7 @@ class Usuario(db.Model):
     antiguedad = db.Column(db.Integer, nullable=False)
     tipo_plan = db.Column(db.String(32), nullable=False)
     tipo_usuario = db.Column(db.String(32), nullable=False)
+    contactos_emergencia = db.Column(JSONB, nullable=True)
     fecha_creacion = db.Column(db.DateTime, default=datetime.utcnow)
     fecha_actualizacion = db.Column(db.DateTime, default=datetime.utcnow)
 
@@ -59,5 +60,6 @@ class Usuario(db.Model):
             "deportes": self.deportes,
             "antiguedad": int(self.antiguedad),
             "tipo_plan": self.tipo_plan,
-            "tipo_usuario": self.tipo_usuario
+            "tipo_usuario": self.tipo_usuario,
+            "contactos_emergencia": self.contactos_emergencia
         }
